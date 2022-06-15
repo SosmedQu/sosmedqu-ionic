@@ -1,0 +1,45 @@
+#my-video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-box{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.422);
+    /* display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center; */
+    color: white;
+    text-align: center;
+    padding: 130% 50px 0 50px;
+}
+
+.login-box #button {
+    margin-bottom: 16px;
+}
+
+.login-box p{
+    margin-top: 32px;
+}
+.login-box p a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.btn-submit{
+    display: flex;
+    margin-top: 16px;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-center{
+    text-align: center;
+    padding-top: 160px;
+    margin: 0 24px;
+}
