@@ -10,13 +10,13 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { albumsSharp, ellipse, homeSharp, personSharp, square, triangle } from 'ionicons/icons';
+import { albumsSharp, ellipse, homeSharp, newspaperSharp, personSharp, playCircleSharp, square, triangle } from 'ionicons/icons';
 import HomePage from './pages/home-page';
-import Post from './pages/post';
+import {Post, PostText} from './pages/post';
 import Profile from './pages/profile';
-import Login from './pages/auth/login';
-import LoginEmail from './pages/auth/login-email';
-import Register from './pages/auth/register';
+import {Login, LoginEmail, Register, VerifikasiEmail, CreatePassword} from './components/auth';
+import ShortVideo from './pages/short-video';
+import { Chatting, ChattingDetail } from './components/chatting';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -47,12 +47,21 @@ const App: React.FC = () => (
           <Route path="/login" component={Login}/>
           <Route path="/loginEmail" component={LoginEmail}/>
           <Route path="/register" component={Register}/>
-          <Route path="/register/next" component={LoginEmail} exact/>
+          <Route path="/register/verifikasi" component={VerifikasiEmail}/>
+          <Route path="/register/create-password" component={CreatePassword}/>
+          <Route path="/chatting" component={Chatting}/>
+          <Route path="/chatting-detail" component={ChattingDetail}/>
           <Route exact path="/home">
             <HomePage />
           </Route>
           <Route exact path="/post">
             <Post />
+          </Route>
+          <Route exact path="/post-text">
+            <PostText />
+          </Route>
+          <Route exact path="/short-video">
+            <ShortVideo />
           </Route>
           <Route path="/profile">
             <Profile />
@@ -61,10 +70,18 @@ const App: React.FC = () => (
             <Redirect to="/home" />
           </Route>
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
+        <IonTabBar slot="bottom" className="nav-bottom">
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeSharp} />
-            <IonLabel>Home Page</IonLabel>
+            <IonLabel>Home</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="post-text" href="/post-text">
+            <IonIcon icon={newspaperSharp} />
+            <IonLabel>Post</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="short-video" href="/short-video">
+            <IonIcon icon={playCircleSharp} />
+            <IonLabel>Short</IonLabel>
           </IonTabButton>
           <IonTabButton tab="Post" href="/Post">
             <IonIcon icon={albumsSharp} />

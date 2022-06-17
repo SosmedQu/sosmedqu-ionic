@@ -1,10 +1,13 @@
-#my-video{
-    width: 100%;
-    height: 100%;
+#my-video {
     object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
-.login-box{
+.login-box {
     position: absolute;
     top: 0;
     width: 100%;
@@ -16,30 +19,37 @@
     align-items: center; */
     color: white;
     text-align: center;
-    padding: 130% 50px 0 50px;
+}
+
+@media only screen and (max-width: 600px) {
+    .login-box {
+        padding: 100% 50px 0 50px;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .login-box {
+        padding: 50vh 30% 0 30%;
+    }
 }
 
 .login-box #button {
     margin-bottom: 16px;
 }
 
-.login-box p{
+.login-box p {
     margin-top: 32px;
 }
-.login-box p a{
+
+.login-box p a {
     color: inherit;
     text-decoration: none;
 }
 
-.btn-submit{
+.btn-submit {
     display: flex;
+    flex-direction: column;
     margin-top: 16px;
     justify-content: center;
     align-items: center;
-}
-
-.content-center{
-    text-align: center;
-    padding-top: 160px;
-    margin: 0 24px;
 }

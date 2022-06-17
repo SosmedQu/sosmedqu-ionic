@@ -1,0 +1,5 @@
+#nav-top{
+    display: flex;
+    margin: 0 8px;
+    justify-content: space-between;
+}

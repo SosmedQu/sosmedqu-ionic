@@ -1,15 +1,13 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import NeedAuth from '../components/NeedAuth';
+import './main.css'
+import HeaderAndroid from '../components/HeaderAndroid';
 
 
 const Profile: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Profile</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <HeaderAndroid />
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
