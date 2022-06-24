@@ -1,0 +1,22 @@
+#nav-top{
+    display: flex;
+    padding: 16px 8px 8px 8px;
+    justify-content: space-between;
+}
+
+.content {
+    position: inherit;
+}
+
+.alert-success {
+    --background: #62E841;
+}
+
+.alert-failed{
+    --background: #e84141;
+}
+
+:root {
+    --animate-duration: 1s;
+    --animate-delay: 0.9s;
+}
