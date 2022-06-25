@@ -1,7 +1,10 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonLabel, IonPage, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
-import { PostDefault, PostText } from '../components/post/Post';
+import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
+import { PostDefault, PostMedia, PostText } from '../../components/post/Post';
 import { useRef, useState } from 'react';
-import { TopBar, SideBar } from '../components/menu/Menu';
+import { TopBar, SideBar } from '../../components/menu/Menu';
+import { settings, logoVimeo, addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
+import { Link } from 'react-router-dom';
+import FabAdd from '../../components/fab';
 
 
 const PagePost: React.FC = () => {
@@ -56,13 +59,14 @@ const PagePost: React.FC = () => {
               <IonTitle size="large">Postingan</IonTitle>
             </IonToolbar>
           </IonHeader>
+          <FabAdd />
           <IonSlides pager={true} options={slideOpts} onIonSlideDidChange={(e) => handleSlideChange(e)} ref={slider}>
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  <IonCol size="12"><PostDefault /></IonCol>
-                  <IonCol size="12"><PostDefault /></IonCol>
-                  <IonCol size="12"><PostDefault /></IonCol>
+                  <IonCol size="12"><PostMedia /></IonCol>
+                  <IonCol size="12"><PostMedia /></IonCol>
+                  <IonCol size="12"><PostMedia /></IonCol>
                 </IonRow>
               </IonGrid>
             </IonSlide>
@@ -70,6 +74,7 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
+                  <IonCol><PostText /></IonCol>
                   <IonCol><PostText /></IonCol>
                 </IonRow>
               </IonGrid>

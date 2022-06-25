@@ -36,7 +36,7 @@ const Register: React.FC = () => {
                     header: "Berhasil",
                     msg: res.data.msg
                 });
-                
+
             } else {
                 setAlert({
                     type: "failed",
@@ -46,7 +46,6 @@ const Register: React.FC = () => {
                 });
             }
         }, failed => {
-            alert(failed)
             setAlert({
                 type: "failed",
                 show: true,
@@ -84,7 +83,7 @@ const Register: React.FC = () => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol className="flex-center">
-                                    <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1 animate__animated animate__bounce" />
+                                    <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1" />
                                 </IonCol>
                             </IonRow>
                             <IonRow>

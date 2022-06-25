@@ -1,0 +1,91 @@
+h6, p {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-profile {
+    display: flex;
+    align-items: center;
+}
+
+.post-header #post-profile-img {
+    margin-right: 8px;
+    width: 32px;
+}
+
+.post-content {
+    text-align: start;
+}
+
+.short{
+    position: relative;
+    color: #fff;
+    height: 92vh;
+}
+
+.short-video{
+    position: absolute;
+    height: 100%;
+}
+.short-video source{
+    height: 100%;
+}
+
+.short-profile{
+    position:absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.495);
+    padding: 8px 16px;
+    display: grid;
+    grid-template-areas: "profile-img profile-name chat-me"
+                        "description description description";
+    grid-template-columns: 0.1fr 1fr 0.1fr;
+}
+
+.short-profile .profile-img{
+    grid-area: profile-img;
+    width:32px;
+    margin-right: 8px;
+}
+
+.short-profile .profile-name {
+    grid-area: profile-name;
+    display: flex;
+    flex-direction: column;
+}
+
+.short-profile .chat-me {
+    grid-area: chat-me;
+    font-size: 24px;
+}
+
+.short-profile .short-description{
+    grid-area: description;
+    margin-bottom: 8px;
+}
+
+.short-response {
+    position: absolute;
+    bottom: 16vh;
+    right: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+}
+
+.short-response .icon{
+    font-size: 32px;
+}
+.short-response .item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

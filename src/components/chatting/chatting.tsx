@@ -83,7 +83,7 @@ const Chatting: React.FC = () => {
                                     <IonIcon icon={personCircle} style={{ "font-size": "50px" }}></IonIcon>
                                 </IonCol>
                                 <IonCol className="chat-title" size="10">
-                                    <Link to="chatting-detail" className="link-item">
+                                    <Link to="chatting/detail" className="link-item">
                                         <IonRow>
                                             <IonCol style={{ "padding": "0" }} size="9">
                                                 <p><b>Nama pengguna</b></p>

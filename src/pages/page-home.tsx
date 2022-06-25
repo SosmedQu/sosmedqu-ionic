@@ -1,6 +1,8 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
+import FabAdd from '../components/fab';
 import { SideBar, TopBar } from '../components/menu/Menu';
+import { PostMedia, PostText } from '../components/post/Post';
 const HomePage: React.FC = () => {
   return (
     <>
@@ -17,7 +19,11 @@ const HomePage: React.FC = () => {
               <IonTitle size="large">Home Page</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <ExploreContainer name="Home Page" />
+          <FabAdd />
+          <div className="content">
+            <PostMedia />
+            <PostText />
+          </div>
         </IonContent>
       </IonPage>
     </>

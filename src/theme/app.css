@@ -4,6 +4,11 @@
     justify-content: space-between;
 }
 
+a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
 .content {
     position: inherit;
 }
@@ -16,7 +21,17 @@
     --background: #e84141;
 }
 
+.upload-media{
+    height: 100px;
+    width: 100px;
+    background-color: rgb(95, 87, 87)
+}
+
 :root {
     --animate-duration: 1s;
     --animate-delay: 0.9s;
+}
+
+.form-post{
+    padding: 8px 16px;
 }

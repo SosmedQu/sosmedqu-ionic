@@ -1,11 +1,13 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonPage } from '@ionic/react';
+import { PostShort } from '../components/post/Post';
 
 const ShortVideo: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
-                <ExploreContainer name="Short Video" />
+                <PostShort />
+                <PostShort />
+                <PostShort />
             </IonContent>
         </IonPage>
     );

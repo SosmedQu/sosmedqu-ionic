@@ -46,8 +46,6 @@ const VerifyAccount: React.FC = () => {
             header: "Gagal",
             msg: error
         });
-        alert(error);
-        return Promise.reject(error);
     })
     return (
         <IonPage>

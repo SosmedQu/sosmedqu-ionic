@@ -10,7 +10,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import HomePage from './pages/page-home';
-import PagePost from './pages/page-post';
+import PagePost from './pages/post/page-post';
 import PageSearch from './pages/page-search';
 import Profile from './pages/page-profile';
 import Register from './pages/auth/page-register';
@@ -48,6 +48,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './theme/app.css';
 import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
+import PageAddPost from './pages/post/page-add-post';
 
 setupIonicReact();
 
@@ -74,7 +75,7 @@ const App: React.FC = () => (
           <Route exact path="/register/verify-account">
             <VerifyAccount />
           </Route>
-          <Route path="/home">
+          <Route exact path="/home">
             <HomePage />
           </Route>
           <Route exact path="/chatting">
@@ -85,6 +86,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/post">
             <PagePost />
+          </Route>
+          <Route exact path="/add-post">
+            <PageAddPost />
           </Route>
           <Route exact path="/short-video">
             <ShortVideo />

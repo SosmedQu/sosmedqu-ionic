@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { logInSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 import './auth.css';
@@ -17,7 +17,11 @@ const LoginWithEmail: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
-                    <IonImg src={process.env.PUBLIC_URL + "/assets/logo/LogoSosmedQu.svg"} />
+                    <IonRow>
+                        <IonCol className="flex-center">
+                            <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1" />
+                        </IonCol>
+                    </IonRow>
                     <form action="">
                         <IonItem>
                             <IonLabel position="floating">Email Address</IonLabel>
