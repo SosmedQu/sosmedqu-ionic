@@ -15,13 +15,11 @@ const VerifyAccount: React.FC = () => {
     interface IAlert {
         type: string
         show: boolean
-        header: string
         msg: string
     }const [Alert, setAlert] = useState<IAlert>(
         {
             type: "success",
             show: false,
-            header: "",
             msg: ""
         }
     );
@@ -34,7 +32,6 @@ const VerifyAccount: React.FC = () => {
             setAlert({
                 type: "success",
                 show: true,
-                header: "Berhasil",
                 msg: res.data.msg
             });
             redirect("/register/create-password");
@@ -43,7 +40,6 @@ const VerifyAccount: React.FC = () => {
         setAlert({
             type: "gagal",
             show: true,
-            header: "Gagal",
             msg: error
         });
     })
@@ -53,7 +49,6 @@ const VerifyAccount: React.FC = () => {
                 <MyAlert
                     showAlert={Alert?.show}
                     type={Alert?.type}
-                    header={Alert.header}
                     message={Alert.msg}
                 />
             </IonContent>

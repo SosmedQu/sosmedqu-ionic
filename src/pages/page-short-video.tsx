@@ -6,8 +6,6 @@ const ShortVideo: React.FC = () => {
         <IonPage>
             <IonContent fullscreen>
                 <PostShort />
-                <PostShort />
-                <PostShort />
             </IonContent>
         </IonPage>
     );

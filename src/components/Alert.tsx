@@ -3,12 +3,11 @@ import { useState } from 'react';
 
 interface AlertProps {
     showAlert: boolean
-    header: string
     message: string
     type: string
 }
 
-const MyAlert: React.FC<AlertProps> = ({ showAlert, header, message, type }) => {
+const MyAlert: React.FC<AlertProps> = ({ showAlert, message, type }) => {
     const [show, setShow] = useState(showAlert)
     if (type == 'success') {
         return (
@@ -16,7 +15,7 @@ const MyAlert: React.FC<AlertProps> = ({ showAlert, header, message, type }) => 
                 isOpen={showAlert}
                 onDidDismiss={() => setShow(false)}
                 cssClass='text-center alert-success animate__animated animate__bounce'
-                header={header}
+                header={"Berhasil"}
                 message={message}
                 buttons={['OK']}
             />
@@ -27,7 +26,7 @@ const MyAlert: React.FC<AlertProps> = ({ showAlert, header, message, type }) => 
             isOpen={showAlert}
             onDidDismiss={() => setShow(false)}
             cssClass='text-center alert-failed'
-            header={header}
+            header={"Gagal"}
             message={message}
             buttons={['OK']}
         />

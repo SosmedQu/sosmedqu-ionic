@@ -9,7 +9,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import HomePage from './pages/page-home';
+import HomePage from './pages/test';
 import PagePost from './pages/post/page-post';
 import PageSearch from './pages/page-search';
 import Profile from './pages/page-profile';

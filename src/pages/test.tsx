@@ -1,26 +1,44 @@
+import {
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    useIonViewDidEnter,
+    useIonViewDidLeave,
+    useIonViewWillEnter,
+    useIonViewWillLeave,
+} from '@ionic/react';
 import React from 'react';
-import { Virtuoso } from 'react-virtuoso';
-import { IonAvatar, IonContent, IonItem, IonLabel, IonPage } from '@ionic/react';
-const Home: React.FC = () => (
-    <IonPage>
-        <IonContent>
-            <Virtuoso
-                style={{ height: '100%' }}
-                totalCount={100}
-                itemContent={(index) => {
-                    return (
-                        <div style={{ height: '56px' }}>
-                            <IonItem>
-                                <IonAvatar slot="start">
-                                    <img src="https://picsum.photos/seed/picsum/40/40" />
-                                </IonAvatar>
-                                <IonLabel>{index}</IonLabel>
-                            </IonItem>
-                        </div>
-                    );
-                }}
-            />
-        </IonContent>
-    </IonPage>
-);
-export default Home;
+
+const HomePage: React.FC = () => {
+    console.log("coba");
+    useIonViewDidEnter(() => {
+        console.log('ionViewDidEnter event fired');
+    });
+
+    useIonViewDidLeave(() => {
+        console.log('ionViewDidLeave event fired');
+    });
+
+    useIonViewWillEnter(() => {
+        console.log('ionViewWillEnter event fired');
+    });
+
+    useIonViewWillLeave(() => {
+        console.log('ionViewWillLeave event fired');
+    });
+
+    return (
+        <IonPage>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>Home</IonTitle>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent></IonContent>
+        </IonPage>
+    );
+};
+
+export default HomePage;

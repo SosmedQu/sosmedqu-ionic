@@ -4,6 +4,7 @@ import './auth.css';
 import Axios from 'axios';
 import { useState } from 'react';
 import MyAlert from '../../components/Alert';
+import MyApi from '../../helpers/my-api';
 
 
 
@@ -12,47 +13,35 @@ const Register: React.FC = () => {
     interface IAlert {
         type: string
         show: boolean
-        header: string
         msg: string
     }
     const url = "http://localhost:3000/api/auth/register";
     const [email, setEmail] = useState("");
     const [Alert, setAlert] = useState<IAlert>(
         {
-            type: "success",
+            type: "",
             show: false,
-            header: "",
             msg: ""
         }
     );
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        Axios.post(url, { "email": email, "link": "http://localhost:8100/register/verify-account" }).then((res) => {
-            if (res.status == 200) {
-                setAlert({
-                    type: "success",
-                    show: true,
-                    header: "Berhasil",
-                    msg: res.data.msg
-                });
-
-            } else {
-                setAlert({
-                    type: "failed",
-                    show: true,
-                    header: "Gagal",
-                    msg: res.data.sg
-                });
-            }
-        }, failed => {
+        console.log(e);
+        const api = new MyApi();
+        api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then((response) => {
             setAlert({
-                type: "failed",
+                type: "Berhasil",
                 show: true,
-                header: "Gagal",
-                msg: failed
-            });
-        })
+                msg: response.data
+            })
+        }, (err) => {
+            setAlert({
+                type: "Gagal",
+                show: true,
+                msg: err
+            })
+        });
     }
 
     const onTyping = (e: any) => {
@@ -76,7 +65,6 @@ const Register: React.FC = () => {
                     <MyAlert
                         showAlert={Alert?.show}
                         type={Alert?.type}
-                        header={Alert.header}
                         message={Alert.msg}
                     />
                     <form onSubmit={e => onSubmit(e)}>
