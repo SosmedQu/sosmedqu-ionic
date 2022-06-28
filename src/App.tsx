@@ -9,7 +9,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import HomePage from './pages/test';
+import HomePage from './pages/page-home';
 import PagePost from './pages/post/page-post';
 import PageSearch from './pages/page-search';
 import Profile from './pages/page-profile';
@@ -49,6 +49,7 @@ import './theme/app.css';
 import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
 import PageAddPost from './pages/post/page-add-post';
+import PageEbook from './pages/page-ebook';
 
 setupIonicReact();
 
@@ -89,6 +90,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/add-post">
             <PageAddPost />
+          </Route>
+          <Route exact path="/ebook">
+            <PageEbook />
           </Route>
           <Route exact path="/short-video">
             <ShortVideo />

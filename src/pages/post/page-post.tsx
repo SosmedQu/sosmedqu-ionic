@@ -64,9 +64,9 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  <IonCol size="12"><PostMedia /></IonCol>
-                  <IonCol size="12"><PostMedia /></IonCol>
-                  <IonCol size="12"><PostMedia /></IonCol>
+                  <IonCol size="12" style={{ padding: 0 }}><PostMedia /></IonCol>
+                  <IonCol size="12" style={{ padding: 0 }}><PostMedia /></IonCol>
+                  <IonCol size="12" style={{ padding: 0 }}><PostMedia /></IonCol>
                 </IonRow>
               </IonGrid>
             </IonSlide>
@@ -74,8 +74,8 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  <IonCol><PostText /></IonCol>
-                  <IonCol><PostText /></IonCol>
+                  <IonCol size="12" style={{ padding: 0 }}><PostText /></IonCol>
+                  <IonCol size="12" style={{ padding: 0 }}><PostText /></IonCol>
                 </IonRow>
               </IonGrid>
             </IonSlide>

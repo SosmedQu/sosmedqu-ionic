@@ -1,12 +1,12 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonImg, IonRow } from '@ionic/react';
-import { arrowRedoSharp, chatboxEllipsesSharp, chatbubbleEllipsesOutline, chatbubblesSharp, globeSharp, thumbsDownSharp, thumbsUpSharp, warningSharp } from 'ionicons/icons';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonImg, IonRow } from '@ionic/react';
+import { arrowRedoSharp, cameraSharp, chatboxEllipsesSharp, chatbubbleEllipsesOutline, chatbubblesSharp, globeSharp, pencilSharp, thumbsDownSharp, thumbsUpSharp, warningSharp } from 'ionicons/icons';
 import { } from 'react-router-dom';
 import './post.css';
 
 const PostDefault: React.FC = () => {
     return (
         <div className="container">
-            <IonGrid>
+            <IonGrid >
                 <IonCardHeader>
                     <div className="post-header">
                         <div className="post-profile ">
@@ -19,7 +19,6 @@ const PostDefault: React.FC = () => {
                         <p className="small">1 day ago</p>
                     </div>
                 </IonCardHeader>
-
                 <IonCardContent className="post-content">
                     <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
                     Keep close to Nature's heart... and break clear away, once in awhile,
@@ -32,7 +31,7 @@ const PostDefault: React.FC = () => {
 
 const PostText: React.FC = () => {
     return (
-        <IonCard>
+        <IonCard style={{ margin: "4px 0" }}>
             <IonCardHeader>
                 <div className="post-header">
                     <div className="post-profile ">
@@ -55,14 +54,14 @@ const PostText: React.FC = () => {
 }
 const PostMedia: React.FC = () => {
     return (
-        <IonCard>
+        <IonCard style={{ margin: "4px 0" }}>
             <IonCardHeader>
                 <div className="post-header">
                     <div className="post-profile ">
                         <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
                         <div className="name text-start">
                             <h6 className="">Nama Pengguna</h6>
-                            <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
+                            <p className="small"><IonIcon icon={globeSharp} className="" />public</p>
                         </div>
                     </div>
                     <p className="small">1 day ago</p>
@@ -84,6 +83,9 @@ const PostShort: React.FC = () => {
             <video loop muted autoPlay className="short-video">
                 <source src={process.env.PUBLIC_URL + "/assets/video/video.mp4"} type="video/mp4" />
             </video>
+            <div className="short-add">
+                <IonIcon icon={cameraSharp} className="icon" />
+            </div>
             <div className="short-profile">
                 <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle profile-img" />
                 <div className="profile-name text-start">

@@ -7,8 +7,13 @@ export class MyApi {
 
     }
 
-    register = async (data: Object) => {
-        const req = await Axios.post('/auth/register', JSON.stringify(data));
+    register = async (data: any) => {
+        const req = await Axios.post('/auth/register', data);
+        return req;
+    }
+
+    uploadPost = async (data: any) => {
+        const req = await Axios.post('/auth/upload', data)
         return req;
     }
 }

@@ -73,12 +73,21 @@ h6, p {
 
 .short-response {
     position: absolute;
-    bottom: 16vh;
+    bottom: 18vh;
     right: 4%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 240px;
+    min-height: 200px;
+}
+.short-add {
+    position:absolute;
+    top:8px;
+    right: 4%;
+}
+
+.short-add .icon {
+    font-size: 32px;
 }
 
 .short-response .icon{
