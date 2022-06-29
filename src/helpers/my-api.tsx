@@ -30,6 +30,7 @@ export class MyApi {
 
     getProfile = async () => {
         const req = await api.get('/profile');
+        return req;
     }
 
     uploadPost = async (data: any) => {

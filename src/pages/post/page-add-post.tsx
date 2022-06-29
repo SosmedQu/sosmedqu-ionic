@@ -11,6 +11,7 @@ const PageAddPost: React.FC = () => {
     const [text, setText] = useState<string>();
     const [image, setImage] = useState<string>();
     const [privasi, setPrivasi] = useState<string>();
+    const formData = new FormData();
 
     const takePicture = async () => {
         try {
@@ -19,7 +20,6 @@ const PageAddPost: React.FC = () => {
                 resultType: CameraResultType.DataUrl,
             })
             setImage(cameraResult.dataUrl);
-            // console.log(cameraResult);
         } catch (e: any) {
             console.log(e);
         }
@@ -27,7 +27,7 @@ const PageAddPost: React.FC = () => {
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        
+
     }
     return (
         <>
