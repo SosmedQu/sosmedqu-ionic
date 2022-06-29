@@ -27,7 +27,6 @@ const VerifikasiEmail: React.FC = () => {
         const api = new MyApi();
         api.register({email: email, link: "http://localhost:8100/register/create-password"}).then(
             (response) => {
-                console.log(response);
                 setAlert({
                     type: "success",
                     show: true,

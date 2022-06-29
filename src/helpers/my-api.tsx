@@ -12,6 +12,11 @@ export class MyApi {
         return req;
     }
 
+    verifyEmail = async (data: any) => {
+        const req = await api.post('/auth/verifyAc', data);
+        return req;
+    }
+
     uploadPost = async (data: any) => {
         const req = await Axios.post('/auth/upload', data)
         return req;

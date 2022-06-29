@@ -4,8 +4,60 @@ import Axios from 'axios';
 import { useState } from "react";
 import MyAlert from "../../components/Alert";
 import { error } from "console";
+import { MyApi } from "../../helpers/my-api";
+import { useHistory } from "react-router";
 
 const CreatePassword: React.FC = () => {
+    const history = useHistory();
+    interface IAlert {
+        type: string;
+        show: boolean;
+        header: string;
+        msg: string;
+        buttons: any;
+    }
+    const [Alert, setAlert] = useState<IAlert>({
+        type: "",
+        show: false,
+        msg: "",
+        header: "",
+        buttons: undefined,
+    });
+    const urlParams = new URLSearchParams(window.location.search);
+    const api = new MyApi();
+    api.verifyEmail({ "token": urlParams.get("token")?.toString(), "email": urlParams.get("email")?.toString() }).then(
+        (response) => {
+            setAlert({
+                type: "success",
+                show: true,
+                header: "Berhasil",
+                msg: response.data.msg,
+                buttons: [
+                    {
+                        text: "OK",
+                    },
+                ],
+            });
+        },
+        (err) => {
+            setAlert({
+                type: "failed",
+                header: "Gagal",
+                show: true,
+                msg: err.response.data.errors[0].msg,
+                buttons: [
+                    {
+                        text: "OK",
+                        handler: () => {
+                            history.push({
+                                pathname: "/register",
+                            });
+                        },
+                    },
+                ],
+            });
+        }
+    )
     return (
         <IonPage>
             <IonHeader>

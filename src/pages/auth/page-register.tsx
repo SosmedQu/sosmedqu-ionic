@@ -1,11 +1,11 @@
-import {chevronBackCircleOutline, chevronForwardCircleOutline} from "ionicons/icons";
-import {IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar} from "@ionic/react";
+import { chevronBackCircleOutline, chevronForwardCircleOutline } from "ionicons/icons";
+import { IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
 import "./auth.css";
 import Axios from "axios";
-import {useState} from "react";
+import { useState } from "react";
 import MyAlert from "../../components/Alert";
 import MyApi from "../../helpers/my-api";
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 
 const Register: React.FC = () => {
     const history = useHistory();
@@ -24,13 +24,21 @@ const Register: React.FC = () => {
         header: "",
         buttons: undefined,
     });
+    const resetAlert = () => {
+        setAlert({
+            type: "",
+            show: false,
+            msg: "",
+            header: "",
+            buttons: undefined,
+        });
+    };
 
     const onSubmit = (e: any) => {
         e.preventDefault();
         const api = new MyApi();
-        api.register({email: email, link: "http://localhost:8100/register/create-password"}).then(
+        api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then(
             (response) => {
-                console.log(response);
                 setAlert({
                     type: "success",
                     show: true,
@@ -48,10 +56,8 @@ const Register: React.FC = () => {
                         },
                     ],
                 });
-                console.log(Alert);
             },
             (err) => {
-                console.log(err);
                 setAlert({
                     type: "failed",
                     header: "Gagal",
@@ -71,7 +77,6 @@ const Register: React.FC = () => {
     };
 
     const onTyping = (e: any) => {
-        console.log(e.detail.value);
         setEmail(e.detail.value);
     };
     return (
@@ -88,7 +93,7 @@ const Register: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
-                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} />
+                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
                     <form onSubmit={(e) => onSubmit(e)}>
                         <IonGrid>
                             <IonRow>
