@@ -1,11 +1,69 @@
 import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import MyApi from '../../helpers/my-api';
 import './auth.css';
 const LoginWithEmail: React.FC = () => {
+    const history = useHistory();
+    interface IAlert {
+        type: string;
+        show: boolean;
+        header: string;
+        msg: string;
+        buttons: any;
+    }
+    const [Alert, setAlert] = useState<IAlert>({
+        type: "",
+        show: false,
+        msg: "",
+        header: "",
+        buttons: undefined,
+    });
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const onSubmit = (e: any) => {
+        e.preventDefault();
+        const api = new MyApi();
+        api.login({ email: email, password: password }).then(
+            (response) => {
+                setAlert({
+                    type: "success",
+                    show: true,
+                    header: "Berhasil",
+                    msg: response.data.msg,
+                    buttons: [
+                        {
+                            text: "OK",
+                            handler: () => {
+                                history.push({
+                                    pathname: "/profile",
+                                    state: email,
+                                });
+                            },
+                        },
+                    ],
+                });
+            },
+            (err) => {
+                setAlert({
+                    type: "failed",
+                    header: "Gagal",
+                    show: true,
+                    msg: err.response.data.errors[0].msg,
+                    buttons: [
+                        {
+                            text: "OK",
+                            handler: () => {
+                                console.log("Test Success");
+                            },
+                        },
+                    ],
+                });
+            }
+        );
+    }
     return (
         <IonPage>
             <IonHeader>
