@@ -1,10 +1,11 @@
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonGrid, IonRow, IonCol, IonButton, IonLabel, IonAlert} from "@ionic/react";
-import {mailOutline, sendSharp, mailSharp} from "ionicons/icons";
-import {useState} from "react";
-import {useLocation} from "react-router";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonGrid, IonRow, IonCol, IonButton, IonLabel, IonAlert } from "@ionic/react";
+import { mailOutline, sendSharp, mailSharp } from "ionicons/icons";
+import { useState } from "react";
+import { useHistory, useLocation } from "react-router";
 import MyApi from "../../helpers/my-api";
 
 const VerifikasiEmail: React.FC = () => {
+    const history = useHistory();
     interface IAlert {
         type: string;
         show: boolean;
@@ -21,11 +22,11 @@ const VerifikasiEmail: React.FC = () => {
     });
 
     const location = useLocation();
+    const email = location.state ? location.state : null;
     const resendEmail = () => {
-        const email = location.state ? location.state : null;
 
         const api = new MyApi();
-        api.register({email: email, link: "http://localhost:8100/register/create-password"}).then(
+        api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then(
             (response) => {
                 setAlert({
                     type: "success",
@@ -64,6 +65,12 @@ const VerifikasiEmail: React.FC = () => {
         });
     };
 
+    const changeEmail = () => {
+        history.push(
+            '/register', email
+        )
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -79,7 +86,7 @@ const VerifikasiEmail: React.FC = () => {
                 </IonHeader>
                 <div className="container">
                     <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
-                    <IonIcon icon={mailOutline} style={{"font-size": "150px"}}></IonIcon>
+                    <IonIcon icon={mailOutline} style={{ "font-size": "150px" }}></IonIcon>
                     <h1>Verify Your Email</h1>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla
@@ -97,7 +104,7 @@ const VerifikasiEmail: React.FC = () => {
                                 </IonButton>
                             </IonCol>
                             <IonCol size="12">
-                                <IonButton color="light" href="/register">
+                                <IonButton color="light" onClick={() => changeEmail()}>
                                     <IonIcon icon={mailSharp} slot="start"></IonIcon>
                                     <IonLabel>Change Email</IonLabel>
                                 </IonButton>

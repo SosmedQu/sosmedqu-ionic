@@ -1,6 +1,7 @@
 import Axios from 'axios';
 const api = Axios.create({
-    baseURL: `http://localhost:3000/api`
+    baseURL: `http://localhost:3000/api`,
+    withCredentials: true
 })
 export class MyApi {
     constructor() {
@@ -13,7 +14,12 @@ export class MyApi {
     }
 
     verifyEmail = async (data: any) => {
-        const req = await api.post('/auth/verifyAc', data);
+        const req = await api.post('/auth/verifyAccount', data);
+        return req;
+    }
+
+    createPassword = async (data: any) => {
+        const req = await api.post('/auth/createPassword', data);
         return req;
     }
 
@@ -22,8 +28,12 @@ export class MyApi {
         return req;
     }
 
+    getProfile = async () => {
+        const req = await api.get('/profile');
+    }
+
     uploadPost = async (data: any) => {
-        const req = await Axios.post('/auth/upload', data)
+        const req = await Axios.post('/auth/upload')
         return req;
     }
 }

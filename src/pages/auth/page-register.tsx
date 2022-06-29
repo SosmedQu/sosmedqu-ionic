@@ -5,7 +5,7 @@ import Axios from "axios";
 import { useState } from "react";
 import MyAlert from "../../components/Alert";
 import MyApi from "../../helpers/my-api";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 
 const Register: React.FC = () => {
     const history = useHistory();
@@ -16,7 +16,8 @@ const Register: React.FC = () => {
         msg: string;
         buttons: any;
     }
-    const [email, setEmail] = useState("");
+    const location = useLocation();
+    const [email, setEmail] = useState(location.state ? location.state as string : "");
     const [Alert, setAlert] = useState<IAlert>({
         type: "",
         show: false,
@@ -34,7 +35,7 @@ const Register: React.FC = () => {
         });
     };
 
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: any) => { 
         e.preventDefault();
         const api = new MyApi();
         api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then(

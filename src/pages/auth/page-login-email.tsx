@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAlert, IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
@@ -25,9 +25,11 @@ const LoginWithEmail: React.FC = () => {
     const [password, setPassword] = useState("");
     const onSubmit = (e: any) => {
         e.preventDefault();
+        console.log("submit")
         const api = new MyApi();
         api.login({ email: email, password: password }).then(
             (response) => {
+                console.log(response);
                 setAlert({
                     type: "success",
                     show: true,
@@ -38,8 +40,7 @@ const LoginWithEmail: React.FC = () => {
                             text: "OK",
                             handler: () => {
                                 history.push({
-                                    pathname: "/profile",
-                                    state: email,
+                                    pathname: "/profile"
                                 });
                             },
                         },
@@ -47,6 +48,7 @@ const LoginWithEmail: React.FC = () => {
                 });
             },
             (err) => {
+                console.log(err.response)
                 setAlert({
                     type: "failed",
                     header: "Gagal",
@@ -64,6 +66,15 @@ const LoginWithEmail: React.FC = () => {
             }
         );
     }
+    const resetAlert = () => {
+        setAlert({
+            type: "",
+            show: false,
+            msg: "",
+            header: "",
+            buttons: undefined,
+        });
+    };
     return (
         <IonPage>
             <IonHeader>
@@ -78,12 +89,13 @@ const LoginWithEmail: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
+                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
                     <IonRow>
                         <IonCol className="flex-center">
                             <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1" />
                         </IonCol>
                     </IonRow>
-                    <form action="">
+                    <form onSubmit={(e) => onSubmit(e)}>
                         <IonItem>
                             <IonLabel position="floating">Email Address</IonLabel>
                             <IonInput type="email" name="email" onIonChange={(e) => setEmail(e.detail.value!)}></IonInput>

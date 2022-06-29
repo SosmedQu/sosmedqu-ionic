@@ -1,14 +1,14 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonItem, IonLabel, IonInput, IonButton } from "@ionic/react"
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonItem, IonLabel, IonInput, IonButton, IonAlert, useIonViewDidEnter } from "@ionic/react"
 import { keySharp, saveSharp } from "ionicons/icons"
-import Axios from 'axios';
 import { useState } from "react";
-import MyAlert from "../../components/Alert";
-import { error } from "console";
 import { MyApi } from "../../helpers/my-api";
 import { useHistory } from "react-router";
 
 const CreatePassword: React.FC = () => {
     const history = useHistory();
+    const [name, setName] = useState<string>();
+    const [password, setPassword] = useState<string>();
+    const [confirmPassword, setConfirmPassword] = useState<string>();
     interface IAlert {
         type: string;
         show: boolean;
@@ -25,8 +25,76 @@ const CreatePassword: React.FC = () => {
     });
     const urlParams = new URLSearchParams(window.location.search);
     const api = new MyApi();
-    api.verifyEmail({ "token": urlParams.get("token")?.toString(), "email": urlParams.get("email")?.toString() }).then(
-        (response) => {
+    useIonViewDidEnter(() => {
+        api.verifyEmail({ token: urlParams.get("token"), email: urlParams.get("email") }).then(
+            (response) => {
+                console.log(response);
+                setAlert({
+                    type: "success",
+                    show: true,
+                    header: "Berhasil",
+                    msg: response.data.msg,
+                    buttons: [
+                        {
+                            text: "OK",
+                        },
+                    ],
+                });
+            },
+            (err) => {
+                setAlert({
+                    type: "failed",
+                    header: "Gagal",
+                    show: true,
+                    msg: err.response.data.errors[0].msg,
+                    buttons: [
+                        {
+                            text: "OK",
+                            handler: () => {
+                                history.push({
+                                    pathname: "/register",
+                                });
+                            },
+                        },
+                    ],
+                });
+            }).catch(err => {
+                setAlert({
+                    type: "failed",
+                    header: "Gagal",
+                    show: true,
+                    msg: err,
+                    buttons: [
+                        {
+                            text: "OK",
+                            handler: () => {
+                                history.push({
+                                    pathname: "/register",
+                                });
+                            },
+                        },
+                    ],
+                });
+            })
+    });
+    const resetAlert = () => {
+        setAlert({
+            type: "",
+            show: false,
+            msg: "",
+            header: "",
+            buttons: undefined,
+        });
+    };
+
+    const onSubmit = (e: any) => {
+        e.preventDefault();
+        const data = new FormData(e.target);
+        data.append("email", urlParams.get("email")?.toString()!)
+        console.log(data);
+        console.log(Object.fromEntries(data));
+        api.createPassword(Object.fromEntries(data)).then((response) => {
+            console.log(response);
             setAlert({
                 type: "success",
                 show: true,
@@ -35,16 +103,35 @@ const CreatePassword: React.FC = () => {
                 buttons: [
                     {
                         text: "OK",
+                        handler: () => {
+                            api.login(Object.fromEntries(data)).then((response) => {
+                                console.log(response);
+                                history.push("/profile");
+                            }, err => {
+                                console.log(err);
+                            })
+                        },
                     },
                 ],
             });
-        },
-        (err) => {
+        }, (err) => {
             setAlert({
                 type: "failed",
                 header: "Gagal",
                 show: true,
                 msg: err.response.data.errors[0].msg,
+                buttons: [
+                    {
+                        text: "OK",
+                    },
+                ],
+            });
+        }).catch(err => {
+            setAlert({
+                type: "failed",
+                header: "Gagal",
+                show: true,
+                msg: err,
                 buttons: [
                     {
                         text: "OK",
@@ -56,8 +143,8 @@ const CreatePassword: React.FC = () => {
                     },
                 ],
             });
-        }
-    )
+        })
+    }
     return (
         <IonPage>
             <IonHeader>
@@ -72,19 +159,20 @@ const CreatePassword: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
+                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
                     <IonIcon icon={keySharp} style={{ "font-size": "150px" }}></IonIcon>
-                    <form action="/profile">
+                    <form onSubmit={(e) => onSubmit(e)}>
                         <IonItem>
                             <IonLabel position="floating">Your Name</IonLabel>
-                            <IonInput type="text" name="name"></IonInput>
+                            <IonInput type="text" value={name} name="username" onIonChange={(e) => setName(e.detail.value!)}></IonInput>
                         </IonItem>
                         <IonItem>
                             <IonLabel position="floating">New Password</IonLabel>
-                            <IonInput type="password" name="password"></IonInput>
+                            <IonInput type="password" value={password} name="password" onIonChange={(e) => setPassword(e.detail.value!)}></IonInput>
                         </IonItem>
                         <IonItem>
                             <IonLabel position="floating">Confirm Password</IonLabel>
-                            <IonInput type="password" name="confirm-password"></IonInput>
+                            <IonInput type="password" value={confirmPassword} name="confirmPassword" onIonChange={(e) => setConfirmPassword(e.detail.value!)}></IonInput>
                         </IonItem>
                         <div className="btn-submit">
                             <IonButton type="submit" color="light">
