@@ -57,9 +57,6 @@ const LoginWithEmail: React.FC = () => {
                     buttons: [
                         {
                             text: "OK",
-                            handler: () => {
-                                console.log("Test Success");
-                            },
                         },
                     ],
                 });
