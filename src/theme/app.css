@@ -4,6 +4,10 @@
     justify-content: space-between;
 }
 
+.nav-bottom {
+    background-color: #37B5FF;
+}
+
 a {
     text-decoration: none !important;
     color: inherit;
@@ -34,4 +38,20 @@ a {
 
 .form-post{
     padding: 8px 16px;
+}
+
+.btn-circle .button-native{
+    padding: 0 !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+
+.border-test {
+    border: 1px solid red
+}
+
+.comment-ebook{
+    height: 50vh;
+    overflow: scroll;
 }

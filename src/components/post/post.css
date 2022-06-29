@@ -26,11 +26,12 @@ h6, p {
 .short{
     position: relative;
     color: #fff;
+    width: 100vw;
     height: 92vh;
 }
 
 .short-video{
-    position: absolute;
+    position: relative;
     height: 100%;
 }
 .short-video source{
@@ -69,6 +70,7 @@ h6, p {
 .short-profile .short-description{
     grid-area: description;
     margin-bottom: 8px;
+    text-align: start;
 }
 
 .short-response {

@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import FabAdd from '../components/fab';
+import { FabAdd } from '../components/fab';
+import DefaultHeader from '../components/header';
 import { SideBar, TopBar } from '../components/menu/Menu';
 import { PostMedia, PostText } from '../components/post/Post';
 const HomePage: React.FC = () => {
@@ -8,11 +8,7 @@ const HomePage: React.FC = () => {
     <>
       <SideBar />
       <IonPage id="main">
-        <IonHeader>
-          <IonToolbar>
-            <TopBar />
-          </IonToolbar>
-        </IonHeader>
+        <DefaultHeader />
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>
@@ -21,8 +17,7 @@ const HomePage: React.FC = () => {
           </IonHeader>
           <FabAdd />
           <div className="content">
-            <PostMedia />
-            <PostText />
+
           </div>
         </IonContent>
       </IonPage>

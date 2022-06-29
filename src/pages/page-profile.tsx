@@ -1,6 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import NeedAuth from '../components/NeedAuth';
 import { SideBar, TopBar } from '../components/menu/Menu';
+import DefaultHeader from '../components/header';
 
 
 const Profile: React.FC = () => {
@@ -9,9 +10,7 @@ const Profile: React.FC = () => {
       <SideBar />
       <IonPage>
         <IonHeader>
-          <IonToolbar>
-            <TopBar/>
-          </IonToolbar>
+          <DefaultHeader />
         </IonHeader>
         <IonContent fullscreen>
           <IonHeader collapse="condense">

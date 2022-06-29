@@ -1,4 +1,4 @@
-import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
+import { IonButton, IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import { addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 
@@ -20,4 +20,14 @@ const FabAdd: React.FC = () => {
     )
 }
 
-export default FabAdd;
+const FabAddEbook: React.FC = () => {
+    return (
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+            <IonButton className="btn-circle">
+                <IonIcon icon={addSharp} />
+            </IonButton>
+        </IonFab >
+    )
+}
+
+export { FabAdd, FabAddEbook };

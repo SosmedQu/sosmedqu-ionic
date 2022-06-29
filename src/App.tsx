@@ -49,7 +49,8 @@ import './theme/app.css';
 import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
 import PageAddPost from './pages/post/page-add-post';
-import PageEbook from './pages/page-ebook';
+import PageEbook from './pages/ebook/page-ebook';
+import PageEbookDetail from './pages/ebook/page-ebook-detail';
 
 setupIonicReact();
 
@@ -94,6 +95,9 @@ const App: React.FC = () => (
           <Route exact path="/ebook">
             <PageEbook />
           </Route>
+          <Route exact path="/ebook/detail">
+            <PageEbookDetail />
+          </Route>
           <Route exact path="/short-video">
             <ShortVideo />
           </Route>
@@ -107,7 +111,7 @@ const App: React.FC = () => (
             <Redirect to="/home" />
           </Route>
         </IonRouterOutlet>
-        <IonTabBar slot="bottom" className="nav-bottom">
+        <IonTabBar slot="bottom" className="nav-bottom" color={'primary'}>
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeSharp} />
           </IonTabButton>

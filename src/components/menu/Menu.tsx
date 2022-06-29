@@ -14,7 +14,7 @@ const TopBar: React.FC = () => {
                     <IonIcon icon={chatbubbleEllipsesOutline} style={{ "font-size": "24px", "margin-right": "8px" }}></IonIcon>
                 </Link>
                 <Link to="/rank">
-                    <IonIcon icon={trophyOutline} style={{ "font-size": "24px", "margin-right": "8px" }}></IonIcon>
+                    <IonIcon icon={trophyOutline} style={{ "font-size": "24px", "margin-right": "8px", "font-weight": "900" }}></IonIcon>
                 </Link>
                 <Link to="/notif">
                     <IonIcon icon={notificationsOutline} style={{ "font-size": "24px" }}></IonIcon>
@@ -38,7 +38,7 @@ const SideBar: React.FC = () => {
                         <IonIcon icon={calendarSharp} className="me-2"></IonIcon>
                         <IonLabel>JadwalQu</IonLabel>
                     </IonItem>
-                    <IonItem href='/home'>
+                    <IonItem href='/ebook'>
                         <IonIcon icon={bookSharp} className="me-2"></IonIcon>
                         <IonLabel>EbookQu</IonLabel>
                     </IonItem>

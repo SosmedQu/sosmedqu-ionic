@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { TopBar, SideBar } from '../../components/menu/Menu';
 import { settings, logoVimeo, addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
-import FabAdd from '../../components/fab';
+import { FabAdd } from '../../components/fab';
 
 
 const PagePost: React.FC = () => {
