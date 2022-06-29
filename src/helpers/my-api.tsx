@@ -1,6 +1,6 @@
 import Axios from 'axios';
 const api = Axios.create({
-    baseURL: `http://localhost:3000/api/`
+    baseURL: `http://localhost:3000/api`
 })
 export class MyApi {
     constructor() {
@@ -8,7 +8,7 @@ export class MyApi {
     }
 
     register = async (data: any) => {
-        const req = await Axios.post('/auth/register', data);
+        const req = await api.post('/auth/register', data);
         return req;
     }
 

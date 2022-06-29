@@ -13,7 +13,9 @@ const Register: React.FC = () => {
     interface IAlert {
         type: string
         show: boolean
+        header: string
         msg: string
+        buttons: any
     }
     const url = "http://localhost:3000/api/auth/register";
     const [email, setEmail] = useState("");
@@ -21,25 +23,46 @@ const Register: React.FC = () => {
         {
             type: "",
             show: false,
-            msg: ""
+            msg: "",
+            header: "",
+            buttons: undefined
         }
     );
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        console.log(e);
         const api = new MyApi();
         api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then((response) => {
+            console.log(response);
             setAlert({
-                type: "Berhasil",
+                type: "success",
                 show: true,
-                msg: response.data
+                header: "Berhasil",
+                msg: response.data.msg,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log("Test Success")
+                        }
+                    }
+                ]
             })
+            console.log(Alert);
         }, (err) => {
             setAlert({
-                type: "Gagal",
+                type: "failed",
+                header: "Gagal",
                 show: true,
-                msg: err
+                msg: err,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log("Test Success")
+                        }
+                    }
+                ]
             })
         });
     }
@@ -62,10 +85,12 @@ const Register: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
-                    <MyAlert
-                        showAlert={Alert?.show}
-                        type={Alert?.type}
-                        message={Alert.msg}
+                    <IonAlert 
+                    isOpen={Alert.show}
+                    header={Alert.header}
+                    cssClass={'text-center alert-' + Alert.type}
+                    message={Alert.msg}
+                    buttons={Alert.buttons}
                     />
                     <form onSubmit={e => onSubmit(e)}>
                         <IonGrid>
