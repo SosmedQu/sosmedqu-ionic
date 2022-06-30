@@ -3,7 +3,7 @@ import { arrowRedoOutline, arrowRedoSharp, cameraOutline, cameraSharp, chatboxEl
 import { } from 'react-router-dom';
 import './post.css';
 
-const PostDefault: React.FC = () => {
+const PostDefault: React.FC<{ data: any }> = (props) => {
     return (
         <div className="container">
             <IonGrid >
@@ -89,7 +89,8 @@ const PostMultipleMedia: React.FC = () => {
         </IonCard>
     );
 }
-const PostMedia: React.FC = () => {
+const PostMedia: React.FC<{ data: any }> = (props) => {
+    console.log(props.data.PostFiles.length);
     return (
         <IonCard style={{ margin: "4px 0" }}>
             <IonCardHeader>
@@ -97,7 +98,7 @@ const PostMedia: React.FC = () => {
                     <div className="post-profile ">
                         <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
                         <div className="name text-start">
-                            <h6 className="">Nama Pengguna</h6>
+                            <h6 className="">{props.data.User ? props.data.User.username : "kosong"}</h6>
                             <p className="small"><IonIcon icon={globeSharp} className="" />public</p>
                         </div>
                     </div>
@@ -106,9 +107,11 @@ const PostMedia: React.FC = () => {
             </IonCardHeader>
 
             <IonCardContent className="post-content">
-                <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                Keep close to Nature's heart... and break clear away, once in awhile,
-                and climb a mountain or spend a week in the woods. Wash your spirit clean.
+                {props.data.PostFiles.length > 0
+                    && (
+                        <IonImg src={"http://localhost:3000/posts/" + props.data.PostFiles[0].fileName} className="" />
+                    )}
+                {props.data.caption}
             </IonCardContent>
         </IonCard>
     );

@@ -1,10 +1,11 @@
 import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
 import { PostDefault, PostMedia, PostText } from '../../components/post/Post';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TopBar, SideBar } from '../../components/menu/Menu';
 import { settings, logoVimeo, addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 import { FabAdd } from '../../components/fab';
+import MyApi from '../../helpers/my-api';
 
 
 const PagePost: React.FC = () => {
@@ -35,6 +36,23 @@ const PagePost: React.FC = () => {
     await event.target.getActiveIndex().then((value: any) => (index = value));
     setValue('' + index)
   }
+
+  const [postMedia, setPostMedia] = useState<any>([]);
+  useEffect(() => {
+    const api = new MyApi();
+    const loadData = async () => {
+      await api.getAllPost().then((response) => {
+        setPostMedia(response.data.posts);
+      }, err => {
+        console.log(err);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+    loadData();
+  }, [])
+
+
   return (
     <>
       <SideBar />
@@ -64,9 +82,9 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  <IonCol size="12" style={{ padding: 0 }}><PostMedia /></IonCol>
-                  <IonCol size="12" style={{ padding: 0 }}><PostMedia /></IonCol>
-                  <IonCol size="12" style={{ padding: 0 }}><PostMedia /></IonCol>
+                  {postMedia.map((dataPost: any) => (
+                    <IonCol size="12" style={{ padding: 0 }}><PostMedia data={dataPost} /></IonCol>
+                  ))}
                 </IonRow>
               </IonGrid>
             </IonSlide>
