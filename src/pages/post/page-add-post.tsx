@@ -5,12 +5,15 @@ import { SideBar } from '../../components/menu/Menu';
 import { arrowBackSharp, cloudUploadSharp, imageSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { dataURItoBlob, dataURLtoFile } from '../../helpers/converter'
+import MyApi from '../../helpers/my-api';
 
 
 const PageAddPost: React.FC = () => {
     const [text, setText] = useState<string>();
-    const [image, setImage] = useState<string>();
+    const [image, setImage] = useState<Blob[]>([]);
     const [privasi, setPrivasi] = useState<string>();
+    const [categoryId, setCategoryId] = useState<number>();
 
     const takePicture = async () => {
         try {
@@ -18,8 +21,14 @@ const PageAddPost: React.FC = () => {
                 quality: 90,
                 resultType: CameraResultType.DataUrl,
             })
-            setImage(cameraResult.dataUrl);
-            // console.log(cameraResult);
+            const convert = dataURItoBlob(cameraResult.dataUrl);
+            console.log(convert);
+            const objectUrl = URL.createObjectURL(convert);
+            const formData = new FormData();
+            let myimage = new Image();
+            myimage.src = objectUrl;
+            document.getElementById('myimage')?.appendChild(myimage);
+            setImage([...image, convert]);
         } catch (e: any) {
             console.log(e);
         }
@@ -27,7 +36,14 @@ const PageAddPost: React.FC = () => {
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        
+        console.log(e.target);
+        const formData = new FormData(e.target);
+        const api = new MyApi();
+        api.uploadPost(formData).then((res) => {
+            console.log(res);
+        }, err => {
+            console.log(err.response);
+        })
     }
     return (
         <>
@@ -47,21 +63,30 @@ const PageAddPost: React.FC = () => {
                             <IonTitle size="large">Postingan</IonTitle>
                         </IonToolbar>
                     </IonHeader>
-                    <form className='form-post' onSubmit={e => onSubmit(e)}>
+                    <form className='form-post' id="form-post" onSubmit={e => onSubmit(e)} encType="multipart/form-data">
                         <IonRow className="my-2" onClick={takePicture}>
-                            <IonImg src={image ? image : process.env.PUBLIC_URL + "/assets/img/no-picture.svg"} style={{ height: "120px" }}></IonImg>
+                            <IonImg src={process.env.PUBLIC_URL + "/assets/img/no-picture.svg"} style={{ height: "120px" }}></IonImg>
                         </IonRow>
+                        <div id="myimage">
+
+                        </div>
+                        <input type="file" name="postFiles" multiple id='files_coba' />
                         <IonItem>
                             <IonLabel position="floating">Caption</IonLabel>
-                            <IonTextarea rows={3} value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+                            <IonTextarea rows={3} value={text} onIonChange={e => setText(e.detail.value!)} name="caption"></IonTextarea>
                         </IonItem>
-                        <IonItem>
-                            <IonSelect placeholder="Pilih privasi" onIonChange={e => setPrivasi(e.detail.value!)}>
-                                <IonSelectOption value="personal">Personal</IonSelectOption>
-                                <IonSelectOption value="only-friend">Only Friend</IonSelectOption>
-                                <IonSelectOption value="public">Public</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
+
+                        <IonSelect placeholder="Pilih privasi" value={privasi} onIonChange={e => setPrivasi(e.detail.value!)} name="privacy">
+                            <IonSelectOption value="personal">Personal</IonSelectOption>
+                            <IonSelectOption value="only-friend">Only Friend</IonSelectOption>
+                            <IonSelectOption value="public">Public</IonSelectOption>
+                        </IonSelect>
+
+                        <IonSelect placeholder="Pilih category" value={categoryId} onIonChange={e => setCategoryId(e.detail.value!)} name="categoryId">
+                            <IonSelectOption value="1">Tekhnologi</IonSelectOption>
+                            <IonSelectOption value="2">Ekonomi</IonSelectOption>
+                            <IonSelectOption value="3">Management</IonSelectOption>
+                        </IonSelect>
                         <IonRow className="justify-content-center my-4">
                             <IonButton type='submit' color='success'>
                                 <IonIcon slot="start" icon={cloudUploadSharp} />

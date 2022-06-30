@@ -30,10 +30,16 @@ export class MyApi {
 
     getProfile = async () => {
         const req = await api.get('/profile');
+        return req;
     }
 
     uploadPost = async (data: any) => {
-        const req = await Axios.post('/auth/upload')
+        const req = await api.post('/posts', data, { headers: { "Content-Type": "multipart/form-data" } });
+        return req;
+    }
+
+    getAllPost = async () => {
+        const req = await api.get('/posts')
         return req;
     }
 }

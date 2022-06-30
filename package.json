@@ -37,6 +37,7 @@
     "react-scripts": "^5.0.0",
     "react-virtuoso": "^2.14.0",
     "typescript": "^4.1.3",
+    "typescript-cookie": "^1.0.3",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
