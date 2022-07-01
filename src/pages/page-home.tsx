@@ -2,7 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import { FabAdd } from '../components/fab';
 import DefaultHeader from '../components/header';
 import { SideBar, TopBar } from '../components/menu/Menu';
-import { PostMedia, PostText } from '../components/post/Post';
+import { } from '../components/post/Post';
 const HomePage: React.FC = () => {
   return (
     <>
@@ -12,7 +12,6 @@ const HomePage: React.FC = () => {
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>
-              <IonTitle size="large">Home Page</IonTitle>
             </IonToolbar>
           </IonHeader>
           <FabAdd />

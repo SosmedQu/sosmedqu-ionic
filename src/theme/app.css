@@ -1,6 +1,8 @@
 @import './variables.css';
 
-
+.alert-button-group .alert-button span {
+    color: var( --ion-color-dark) !important;
+}
 .bg-primary {
     background-color: var(--ion-color-primary);
     padding: 20vh 0 0 0;
@@ -12,7 +14,10 @@
 
 #nav-top{
     display: flex;
-    padding: 16px 8px 8px 8px;
+    background-color: var(--ion-color-primary);
+    padding: 16px;
+    width: 100vw;
+    color: var(--ion-color-light);
     justify-content: space-between;
 }
 
@@ -103,4 +108,19 @@ a {
     justify-content:center;
     align-items:center;
     border: 1px solid red;
+}
+
+/* class icon navigation */
+.box-navigation {
+    margin: 0 16px;
+}
+
+.icon-navigation {
+    font-size: 32px;
+}
+
+/* Utils */
+
+.radius-circle{
+    border-radius: 50% !important;
 }

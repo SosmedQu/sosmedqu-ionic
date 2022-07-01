@@ -26,10 +26,8 @@ const Profile: React.FC = () => {
   return (
     <>
       <SideBar />
-      <IonPage>
-        <IonHeader>
-          <DefaultHeader />
-        </IonHeader>
+      <IonPage id="main">
+        <DefaultHeader />
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>

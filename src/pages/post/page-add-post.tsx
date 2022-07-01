@@ -3,7 +3,7 @@ import { } from '../../components/post/Post';
 import { useState } from 'react';
 import { SideBar } from '../../components/menu/Menu';
 import { arrowBackSharp, cloudUploadSharp, imageSharp } from 'ionicons/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { dataURItoBlob, dataURLtoFile } from '../../helpers/converter'
 import MyApi from '../../helpers/my-api';
@@ -14,6 +14,7 @@ const PageAddPost: React.FC = () => {
     const [image, setImage] = useState<Blob[]>([]);
     const [privasi, setPrivasi] = useState<string>();
     const [categoryId, setCategoryId] = useState<number>();
+    const history = useHistory();
 
     const takePicture = async () => {
         try {
@@ -22,9 +23,9 @@ const PageAddPost: React.FC = () => {
                 resultType: CameraResultType.DataUrl,
             })
             const convert = dataURItoBlob(cameraResult.dataUrl);
-            console.log(convert);
             const objectUrl = URL.createObjectURL(convert);
-            const formData = new FormData();
+            const inputFile = document.getElementById("postFiles");
+
             let myimage = new Image();
             myimage.src = objectUrl;
             document.getElementById('myimage')?.appendChild(myimage);
@@ -38,6 +39,9 @@ const PageAddPost: React.FC = () => {
         e.preventDefault();
         console.log(e.target);
         const formData = new FormData(e.target);
+        image.forEach((value) => {
+            formData.append("postFiles", value);
+        })
         const api = new MyApi();
         api.uploadPost(formData).then((res) => {
             console.log(res);
@@ -52,9 +56,9 @@ const PageAddPost: React.FC = () => {
                 {/* <HeaderPost /> */}
                 <IonHeader>
                     <IonToolbar className="px-3">
-                        <Link to="/home">
-                            <IonIcon icon={arrowBackSharp} style={{ "font-size": "24px" }}></IonIcon>
-                        </Link>
+                        <div className="ion-margin">
+                            <IonIcon icon={arrowBackSharp} className="border-test icon-navigation" style={{ "font-size": "24px" }}></IonIcon>
+                        </div>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent fullscreen>
@@ -70,7 +74,6 @@ const PageAddPost: React.FC = () => {
                         <div id="myimage">
 
                         </div>
-                        <input type="file" name="postFiles" multiple id='files_coba' />
                         <IonItem>
                             <IonLabel position="floating">Caption</IonLabel>
                             <IonTextarea rows={3} value={text} onIonChange={e => setText(e.detail.value!)} name="caption"></IonTextarea>

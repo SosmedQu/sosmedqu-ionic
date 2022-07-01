@@ -1,5 +1,5 @@
 import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
-import { PostDefault, PostMedia, PostText } from '../../components/post/Post';
+import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
 import { TopBar, SideBar } from '../../components/menu/Menu';
 import { settings, logoVimeo, addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
@@ -78,13 +78,15 @@ const PagePost: React.FC = () => {
             </IonToolbar>
           </IonHeader>
           <FabAdd />
-          <IonSlides pager={true} options={slideOpts} onIonSlideDidChange={(e) => handleSlideChange(e)} ref={slider}>
+          <IonSlides options={slideOpts} onIonSlideDidChange={(e) => handleSlideChange(e)} ref={slider}>
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  {postMedia.map((dataPost: any) => (
-                    <IonCol size="12" style={{ padding: 0 }}><PostMedia data={dataPost} /></IonCol>
-                  ))}
+                  {postMedia.map((dataPost: any) =>
+                    dataPost.PostFiles.length > 0 &&
+                    (
+                      <IonCol size="12" style={{ padding: 0 }}><Post data={dataPost} /></IonCol>
+                    ))}
                 </IonRow>
               </IonGrid>
             </IonSlide>
@@ -92,8 +94,11 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  <IonCol size="12" style={{ padding: 0 }}><PostText /></IonCol>
-                  <IonCol size="12" style={{ padding: 0 }}><PostText /></IonCol>
+                  {postMedia.map((dataPost: any) =>
+                    dataPost.PostFiles.length == 0 &&
+                    (
+                      <IonCol size="12" style={{ padding: 0 }}><Post data={dataPost} /></IonCol>
+                    ))}
                 </IonRow>
               </IonGrid>
             </IonSlide>

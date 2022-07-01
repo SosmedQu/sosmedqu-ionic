@@ -1,7 +1,7 @@
 import { IonAlert, IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import MyApi from '../../helpers/my-api';
 import './auth.css';
 const LoginWithEmail: React.FC = () => {
@@ -25,7 +25,6 @@ const LoginWithEmail: React.FC = () => {
     const [password, setPassword] = useState("");
     const onSubmit = (e: any) => {
         e.preventDefault();
-        console.log("submit")
         const api = new MyApi();
         api.login({ email: email, password: password }).then(
             (response) => {
@@ -39,9 +38,7 @@ const LoginWithEmail: React.FC = () => {
                         {
                             text: "OK",
                             handler: () => {
-                                history.push({
-                                    pathname: "/profile"
-                                });
+                                history.push("/profile")
                             },
                         },
                     ],

@@ -3,94 +3,7 @@ import { arrowRedoOutline, arrowRedoSharp, cameraOutline, cameraSharp, chatboxEl
 import { } from 'react-router-dom';
 import './post.css';
 
-const PostDefault: React.FC<{ data: any }> = (props) => {
-    return (
-        <div className="container">
-            <IonGrid >
-                <IonCardHeader>
-                    <div className="post-header">
-                        <div className="post-profile ">
-                            <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                            <div className="name text-start">
-                                <h6 className="">Nama Pengguna</h6>
-                                <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
-                            </div>
-                        </div>
-                        <p className="small">1 day ago</p>
-                    </div>
-                </IonCardHeader>
-                <IonCardContent className="post-content">
-                    <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    Keep close to Nature's heart... and break clear away, once in awhile,
-                    and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                </IonCardContent>
-            </IonGrid>
-        </div>
-    );
-}
-
-const PostText: React.FC = () => {
-    return (
-        <IonCard style={{ margin: "4px 0" }}>
-            <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">Nama Pengguna</h6>
-                            <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
-                        </div>
-                    </div>
-                    <p className="small">1 day ago</p>
-                </div>
-            </IonCardHeader>
-
-            <IonCardContent className="post-content">
-                Keep close to Nature's heart... and break clear away, once in awhile,
-                and climb a mountain or spend a week in the woods. Wash your spirit clean.
-            </IonCardContent>
-        </IonCard>
-    );
-}
-const PostMultipleMedia: React.FC = () => {
-    const slideImageOpts = {
-        initialSlide: 0,
-        speed: 400
-    };
-    return (
-        <IonCard style={{ margin: "4px 0" }}>
-            <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">Nama Pengguna</h6>
-                            <p className="small"><IonIcon icon={globeSharp} className="" />public</p>
-                        </div>
-                    </div>
-                    <p className="small">1 day ago</p>
-                </div>
-            </IonCardHeader>
-            <IonCardContent className="post-content">
-                <IonSlides options={slideImageOpts}>
-                    <IonSlide>
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    </IonSlide>
-                    <IonSlide>
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    </IonSlide>
-                    <IonSlide>
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    </IonSlide>
-                </IonSlides>
-                Keep close to Nature's heart... and break clear away, once in awhile,
-                and climb a mountain or spend a week in the woods. Wash your spirit clean.
-            </IonCardContent>
-        </IonCard>
-    );
-}
-const PostMedia: React.FC<{ data: any }> = (props) => {
-    console.log(props.data.PostFiles.length);
+const Post: React.FC<{ data: any }> = (props) => {
     return (
         <IonCard style={{ margin: "4px 0" }}>
             <IonCardHeader>
@@ -128,8 +41,8 @@ const PostShort: React.FC = () => {
                 <IonIcon icon={cameraOutline} className="icon" color={'secondary'} />
             </div>
             <div className="short-profile">
-                <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle profile-img" />
-                <div className="profile-name text-start">
+                <IonImg src={process.env.PUBLIC_URL + "/assets/img/no-picture.svg"} style={{ "border-radius": "50%" }} className="profile-img" />
+                <div className="profile-name ion-text-start">
                     <h6 className="">Nama Pengguna</h6>
                     <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
                 </div>
@@ -151,4 +64,4 @@ const PostShort: React.FC = () => {
     )
 }
 
-export { PostDefault, PostText, PostMedia, PostMultipleMedia, PostShort };
+export { Post, PostShort };

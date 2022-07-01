@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { useHistory } from 'react-router';
 const api = Axios.create({
     baseURL: `http://localhost:3000/api`,
     withCredentials: true
@@ -25,6 +26,11 @@ export class MyApi {
 
     login = async (data: any) => {
         const req = await api.post('/auth/login', data);
+        return req;
+    }
+
+    logout = async () => {
+        const req = await api.post("/auth/logout")
         return req;
     }
 

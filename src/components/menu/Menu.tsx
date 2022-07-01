@@ -1,7 +1,10 @@
 import { IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle, IonTitle, IonToolbar } from '@ionic/react';
-import { bookSharp, calendarSharp, chatbubbleEllipsesOutline, menuSharp, notificationsOutline, trophyOutline } from 'ionicons/icons';
-import { Link } from 'react-router-dom';
+import { bookSharp, calendarSharp, chatbubbleEllipsesOutline, logOutOutline, logOutSharp, menuSharp, notificationsOutline, trophyOutline } from 'ionicons/icons';
+import { Link, useHistory } from 'react-router-dom';
+import MyApi from '../../helpers/my-api';
 import '../component.css'
+
+const api = new MyApi();
 
 const TopBar: React.FC = () => {
     return (
@@ -41,6 +44,10 @@ const SideBar: React.FC = () => {
                     <IonItem href='/ebook'>
                         <IonIcon icon={bookSharp} className="me-2"></IonIcon>
                         <IonLabel>EbookQu</IonLabel>
+                    </IonItem>
+                    <IonItem href="/logout">
+                        <IonIcon icon={logOutOutline} className="me-2"></IonIcon>
+                        <IonLabel>Logout</IonLabel>
                     </IonItem>
                 </IonList>
             </IonContent>

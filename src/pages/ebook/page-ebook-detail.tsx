@@ -3,7 +3,6 @@ import { readerSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 import { FabAddEbook } from '../../components/fab';
 import { SideBar, TopBar } from '../../components/menu/Menu';
-import { PostMedia, PostText } from '../../components/post/Post';
 
 
 const PageEbookDetail: React.FC = () => {
