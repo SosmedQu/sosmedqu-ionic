@@ -1,8 +1,7 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonImg, IonRow, IonSlide, IonSlides } from '@ionic/react';
-import { arrowRedoOutline, arrowRedoSharp, cameraOutline, cameraSharp, chatboxEllipsesSharp, chatbubbleEllipsesOutline, chatbubblesOutline, chatbubblesSharp, globeSharp, pencilSharp, thumbsDownSharp, thumbsUpOutline, thumbsUpSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import {  IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonSlide, IonSlides } from '@ionic/react';
+import { arrowRedoOutline,  cameraOutline,  chatbubbleEllipsesOutline, chatbubblesOutline,  globeSharp,  thumbsUpOutline,  warningOutline } from 'ionicons/icons';
 import { } from 'react-router-dom';
 import './post.css';
-import SliderPost from './slider-post';
 
 const Post: React.FC<{ data: any }> = (props) => {
     const slideOpts = {

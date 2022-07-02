@@ -110,6 +110,13 @@ a {
     border: 1px solid red;
 }
 
+
+/* Utils */
+
+.radius-circle{
+    border-radius: 50% !important;
+}
+
 /* class icon navigation */
 .box-navigation {
     margin: 0 16px;
@@ -117,10 +124,5 @@ a {
 
 .icon-navigation {
     font-size: 32px;
-}
-
-/* Utils */
-
-.radius-circle{
-    border-radius: 50% !important;
+    color: white;
 }

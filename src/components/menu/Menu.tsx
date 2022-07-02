@@ -10,17 +10,17 @@ const TopBar: React.FC = () => {
     return (
         <div id="nav-top">
             <IonMenuToggle>
-                <IonIcon icon={menuSharp} style={{ "font-size": "24px" }}></IonIcon>
+                <IonIcon icon={menuSharp} className="icon-navigation"></IonIcon>
             </IonMenuToggle>
             <div>
                 <Link to="/chatting">
-                    <IonIcon icon={chatbubbleEllipsesOutline} style={{ "font-size": "24px", "margin-right": "8px" }}></IonIcon>
+                    <IonIcon icon={chatbubbleEllipsesOutline} className="me-2 icon-navigation"></IonIcon>
                 </Link>
                 <Link to="/rank">
-                    <IonIcon icon={trophyOutline} style={{ "font-size": "24px", "margin-right": "8px", "font-weight": "900" }}></IonIcon>
+                    <IonIcon icon={trophyOutline} className="me-2 icon-navigation"></IonIcon>
                 </Link>
                 <Link to="/notif">
-                    <IonIcon icon={notificationsOutline} style={{ "font-size": "24px" }}></IonIcon>
+                    <IonIcon icon={notificationsOutline} className="me-2 icon-navigation"></IonIcon>
                 </Link>
             </div>
         </div>
@@ -38,15 +38,15 @@ const SideBar: React.FC = () => {
             <IonContent>
                 <IonList>
                     <IonItem href='/home'>
-                        <IonIcon icon={calendarSharp} className="me-2"></IonIcon>
+                        <IonIcon icon={calendarSharp} className="me-2 icon-navigation"></IonIcon>
                         <IonLabel>JadwalQu</IonLabel>
                     </IonItem>
                     <IonItem href='/ebook'>
-                        <IonIcon icon={bookSharp} className="me-2"></IonIcon>
+                        <IonIcon icon={bookSharp} className="me-2 icon-navigation"></IonIcon>
                         <IonLabel>EbookQu</IonLabel>
                     </IonItem>
                     <IonItem href="/logout">
-                        <IonIcon icon={logOutOutline} className="me-2"></IonIcon>
+                        <IonIcon icon={logOutOutline} className="me-2 icon-navigation"></IonIcon>
                         <IonLabel>Logout</IonLabel>
                     </IonItem>
                 </IonList>

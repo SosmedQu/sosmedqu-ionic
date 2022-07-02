@@ -99,7 +99,7 @@ const LoginWithEmail: React.FC = () => {
                             <IonInput type='password' name="password" onIonChange={(e) => setPassword(e.detail.value!)} ></IonInput>
                         </IonItem>
                         <div className="btn-submit">
-                            <IonButton type="submit" color="light" style={{ "margin-bottom": "16px" }}>
+                            <IonButton type="submit" color="light" style={{ marginBottom : "16px" }}>
                                 <IonIcon icon={logInSharp} slot="start"></IonIcon>
                                 <IonLabel>Login</IonLabel>
                             </IonButton>

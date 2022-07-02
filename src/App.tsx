@@ -40,6 +40,10 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+// Bootstrap 5
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.bundle.min.js"
+
 // CSS SosmedQu
 import './theme/app.css';
 import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp } from 'ionicons/icons';
