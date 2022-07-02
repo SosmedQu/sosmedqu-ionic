@@ -7,7 +7,7 @@ const Login: React.FC = () => {
         <IonPage>
             <IonContent fullscreen>
                 <video loop muted autoPlay id="my-video">
-                    <source src={process.env.PUBLIC_URL + "/assets/video/video.mp4"} type="video/mp4" />
+                    <source src={process.env.PUBLIC_URL + "/assets/video/video2.mp4"} type="video/mp4" />
                 </video>
                 <div className="login-box">
                     <IonButton expand="block" color="light" id='button' href="/profile">

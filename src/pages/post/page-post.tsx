@@ -28,13 +28,6 @@ const PagePost: React.FC = () => {
     slider.current!.slideTo(e.detail.value);
   };
 
-  // a function to handle the slider changes
-  const handleSlideChange = async (event: any) => {
-    let index: number = 0;
-    await event.target.getActiveIndex().then((value: any) => (index = value));
-    setValue('' + index)
-  }
-
   const [postMedia, setPostMedia] = useState<any>([]);
   useEffect(() => {
     const api = new MyApi();

@@ -25,16 +25,19 @@ const Post: React.FC<{ data: any }> = (props) => {
 
             <IonCardContent className="post-content">
                 {props.data.PostFiles.length > 0
-                    && (
-                        <IonSlides pager={true} options={slideOpts} style={{ width: "90vw" }}>
-                            {props.data.PostFiles.map((file: any) => (
-                                <IonSlide>
-                                    <IonImg src={"http://localhost:3000/posts/" + file.fileName} className="" />
-                                </IonSlide>
-                            ))
-                            }
-                        </IonSlides>
-                    )}
+                    && props.data.PostFiles.length == 1 ?
+                        props.data.PostFiles.map((file: any) => (
+                        <IonImg src={"http://localhost:3000/images/posts/" + file.fileName} className="" />
+                        ))
+                    : <IonSlides pager={true} options={slideOpts} style={{ width: "90vw" }}>
+                    {props.data.PostFiles.map((file: any) => (
+                        <IonSlide>
+                            <IonImg src={"http://localhost:3000/images/posts/" + file.fileName} className="" />
+                        </IonSlide>
+                    ))
+                    }
+                </IonSlides>
+                }
                 {props.data.caption}
             </IonCardContent>
         </IonCard>
