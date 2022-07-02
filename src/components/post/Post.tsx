@@ -2,8 +2,12 @@ import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, Ion
 import { arrowRedoOutline, arrowRedoSharp, cameraOutline, cameraSharp, chatboxEllipsesSharp, chatbubbleEllipsesOutline, chatbubblesOutline, chatbubblesSharp, globeSharp, pencilSharp, thumbsDownSharp, thumbsUpOutline, thumbsUpSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import { } from 'react-router-dom';
 import './post.css';
+import SliderPost from './slider-post';
 
 const Post: React.FC<{ data: any }> = (props) => {
+    const slideOpts = {
+        speed: 500
+    }
     return (
         <IonCard style={{ margin: "4px 0" }}>
             <IonCardHeader>
@@ -22,7 +26,14 @@ const Post: React.FC<{ data: any }> = (props) => {
             <IonCardContent className="post-content">
                 {props.data.PostFiles.length > 0
                     && (
-                        <IonImg src={"http://localhost:3000/posts/" + props.data.PostFiles[0].fileName} className="" />
+                        <IonSlides pager={true} options={slideOpts} style={{ width: "90vw" }}>
+                            {props.data.PostFiles.map((file: any) => (
+                                <IonSlide>
+                                    <IonImg src={"http://localhost:3000/posts/" + file.fileName} className="" />
+                                </IonSlide>
+                            ))
+                            }
+                        </IonSlides>
                     )}
                 {props.data.caption}
             </IonCardContent>

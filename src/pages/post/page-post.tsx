@@ -2,8 +2,6 @@ import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeade
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
 import { TopBar, SideBar } from '../../components/menu/Menu';
-import { settings, logoVimeo, addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
-import { Link } from 'react-router-dom';
 import { FabAdd } from '../../components/fab';
 import MyApi from '../../helpers/my-api';
 
@@ -78,7 +76,7 @@ const PagePost: React.FC = () => {
             </IonToolbar>
           </IonHeader>
           <FabAdd />
-          <IonSlides options={slideOpts} onIonSlideDidChange={(e) => handleSlideChange(e)} ref={slider}>
+          <IonSlides options={slideOpts} ref={slider}>
             <IonSlide>
               <IonGrid>
                 <IonRow>

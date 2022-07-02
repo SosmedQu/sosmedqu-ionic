@@ -57,7 +57,7 @@ const PageAddPost: React.FC = () => {
                 <IonHeader>
                     <IonToolbar className="px-3">
                         <div className="ion-margin">
-                            <IonIcon icon={arrowBackSharp} className="border-test icon-navigation" style={{ "font-size": "24px" }}></IonIcon>
+                            <IonIcon onClick={() => history.goBack} icon={arrowBackSharp} className="border-test icon-navigation" style={{ "font-size": "24px" }}></IonIcon>
                         </div>
                     </IonToolbar>
                 </IonHeader>
