@@ -55,7 +55,11 @@ export class MyApi {
 
 
     getOnePost = async (id: any) => {
-        const req = await api.get(`/posts/edit/${id}`);
+        const req = await api.get(`/posts/${id}`);
+        return req;
+    }
+    updatePost = async (data: any) => {
+        const req = await api.put(`/posts`, data);
         return req;
     }
 

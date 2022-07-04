@@ -1,10 +1,9 @@
 
 
-interface IPost {
+interface ICUPost {
     caption?: string;
     privacy?: string;
-    kategori?: string;
-    files?: any[];
+    categoryId?: string;
 }
 
-export type { IPost };
+export type { ICUPost };

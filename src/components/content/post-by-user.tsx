@@ -1,13 +1,10 @@
-import { IonCol, IonGrid, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, useIonViewDidEnter } from "@ionic/react";
-import { airplane, logoVimeo, newspaperOutline, pieChartSharp, ribbonSharp, text } from "ionicons/icons";
+import { IonCol, IonGrid, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides } from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
 import MyApi from "../../helpers/my-api";
 import IAlert from "../../interface/IAlert";
 import { AlertOk } from "../Alert";
 import { MyPostComponent, MyPostTextComponent, Post } from "../post/Post";
 import { BoxError } from "../Utils/element/box-error";
-import { IconSM } from "../Utils/element/icon";
-import { Segment } from "../Utils/element/segment";
 
 interface IPostByUser {
     id: number;

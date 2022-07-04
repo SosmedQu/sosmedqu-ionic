@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { } from 'react-router-dom';
 import styled from 'styled-components';
 import Env from '../../helpers/env';
-import { ActionSheet } from '../Menu';
+import { ActionSheet, ActionSheetPublic } from '../Menu';
 import Color from '../Utils/style/color';
 import './post.css';
 
@@ -31,7 +31,7 @@ const Post: React.FC<{ data: any }> = (props) => {
     const [actionSheet, setActionSheet] = useState(false);
     return (
         <IonCard style={{ margin: "4px 0" }}>
-            <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} id={props.data.id} />
+            <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={props.data.id} />
             <IonCardHeader>
                 <div className="post-header">
                     <div className="post-profile ">
@@ -112,7 +112,7 @@ const MyPostTextComponent: React.FC<{ data: any }> = (props) => {
     const [actionSheet, setActionSheet] = useState(false);
     return (
         <IonCard style={{ margin: "4px 0" }}>
-            <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} id={props.data.id} />
+            <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={props.data.id} />
             <IonCardHeader>
                 <div className="post-header">
                     <div className="post-profile ">

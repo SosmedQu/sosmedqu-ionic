@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonLoading, IonPage, IonRow, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar, NavContext, useIonViewWillEnter } from '@ionic/react';
+import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonLoading, IonPage, IonRow, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar, NavContext, useIonViewWillEnter } from '@ionic/react';
 import { } from '../../components/post/Post';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SideBar } from '../../components/Menu';
@@ -10,38 +10,28 @@ import MyApi from '../../helpers/my-api';
 import { SliderImage } from '../../components/image-slider';
 import { AlertOk } from '../../components/Alert';
 import IAlert from '../../interface/IAlert';
-import { IPost } from '../../interface/post';
-import { Console } from 'console';
+import { ICUPost } from '../../interface/post';
+import { navigate } from '../../helpers/navigation_helper';
 
 
 const api = new MyApi();
 const EditPost: React.FC = () => {
-    const [data, setData] = useState<IPost>();
-    // const { id }: { id: any } = useParams();
-    const location = useLocation();
-    const response: any = location.state;
+    const [data, setData] = useState<ICUPost>();
+    const [image, setImage] = useState<Blob[]>([])
+    const { id }: { id: any } = useParams();
     useEffect(() => {
-        console.log(location.state);
-    })
-    useIonViewWillEnter(() => {
-        setData({
-            caption: response.post.caption,
-            // kategori: response.data.post.categoryId,
-            // privacy: response.data.post.privacy,
-            // files: response.data.postFiles
+        api.getOnePost(id).then((response) => {
+            console.log(response);
+            setData(response.data.post);
+            setShowLoading(false);
+        }, err => {
+            console.log(err);
         })
-    })
-    const [showLoading, setShowLoading] = useState(false);
+    }, [])
+    const [showLoading, setShowLoading] = useState(true);
     const [imgPrev, setImgPrev] = useState<any>([]);
     const history = useHistory();
     const [alert, setAlert] = useState<IAlert>({ showAlert: false });
-    const { navigate } = useContext(NavContext);
-
-    // Call this function when required to redirect with the back animation
-    const redirect = useCallback(
-        (url: string) => navigate(url, 'back'),
-        [navigate]
-    );
 
     const takePicture = async () => {
         try {
@@ -50,6 +40,7 @@ const EditPost: React.FC = () => {
                 resultType: CameraResultType.DataUrl,
             })
             const convert = dataURLtoFile(cameraResult.dataUrl);
+            setImage([...image, convert]);
             setImgPrev([...imgPrev, cameraResult.dataUrl]);
         } catch (e: any) {
             console.log(e);
@@ -70,7 +61,10 @@ const EditPost: React.FC = () => {
     const onSubmit = (e: any) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        api.uploadPost(formData).then((res) => {
+        image.forEach((value) => {
+            formData.append("postFiles", value);
+        })
+        api.updatePost(formData).then((res) => {
             setAlert({
                 showAlert: true,
                 header: "Berhasil",
@@ -78,7 +72,7 @@ const EditPost: React.FC = () => {
                 type: "success",
                 message: res.data.msg,
                 okClick: () => {
-                    redirect("/post")
+                    navigate("/post")
                 }
             })
         }, err => {
@@ -117,6 +111,7 @@ const EditPost: React.FC = () => {
                     </IonHeader>
                     <AlertOk data={alert} />
                     <form className='form-post' id="form-post" onSubmit={e => onSubmit(e)} encType="multipart/form-data">
+                        <IonInput value={id} name="id" hidden></IonInput>
                         <IonRow className="my-2">
                             <IonButton onClick={takePicture}>
                                 <IonIcon icon={camera} slot="start"></IonIcon>
@@ -132,16 +127,16 @@ const EditPost: React.FC = () => {
                         </div>
                         <IonItem>
                             <IonLabel position="floating">Caption</IonLabel>
-                            <IonTextarea rows={3} value={data?.caption} onIonChange={e => setData({ caption: e.detail.value! })} name="caption"></IonTextarea>
+                            <IonTextarea rows={3} value={data?.caption} name="caption"></IonTextarea>
                         </IonItem>
 
-                        <IonSelect className='mt-3' placeholder="Pilih privasi" value={data?.privacy} onIonChange={e => setData({ privacy: e.detail.value! })} name="privacy">
+                        <IonSelect className='mt-3' placeholder="Pilih privasi" value={data?.privacy} name="privacy">
                             <IonSelectOption value="personal">Personal</IonSelectOption>
                             <IonSelectOption value="only-friend">Only Friend</IonSelectOption>
                             <IonSelectOption value="public">Public</IonSelectOption>
                         </IonSelect>
 
-                        <IonSelect className='mt-3' placeholder="Pilih category" value={data?.kategori} onIonChange={e => setData({ kategori: e.detail.value! })} name="categoryId">
+                        <IonSelect className='mt-3' placeholder="Pilih category" value={`${data?.categoryId}`} name="categoryId">
                             <IonSelectOption value="1">Tekhnologi</IonSelectOption>
                             <IonSelectOption value="2">Ekonomi</IonSelectOption>
                             <IonSelectOption value="3">Management</IonSelectOption>
@@ -149,7 +144,7 @@ const EditPost: React.FC = () => {
                         <IonRow className="justify-content-center mt-4">
                             <IonButton type='submit'>
                                 <IonIcon slot="end" icon={sendOutline} />
-                                <IonLabel>Upload Post</IonLabel>
+                                <IonLabel>Edit Post</IonLabel>
                             </IonButton>
                         </IonRow>
                     </form>

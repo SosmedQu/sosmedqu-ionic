@@ -1,9 +1,11 @@
 import { IonActionSheet, IonAvatar, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonMenuToggle, IonToolbar } from '@ionic/react';
 import { bookSharp, calendarSharp, closeSharp, heart, mailSharp, menuSharp, notifications, pencil, powerSharp, searchOutline, settingsSharp, share, trash, trophySharp } from 'ionicons/icons';
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import Env from '../helpers/env';
 import MyApi from '../helpers/my-api';
+import { navigate } from '../helpers/navigation_helper';
 import IAlert from '../interface/IAlert';
 import { AlertOk } from './Alert';
 import './component.css'
@@ -156,7 +158,7 @@ const SideBar: React.FC = () => {
     )
 }
 
-const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, id?: any }> = (params) => {
+const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
     const [alertOk, setAlertOk] = useState<IAlert>({
         showAlert: false
     });
@@ -173,12 +175,9 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, id?: any 
                         text: 'Edit Post',
                         icon: pencil,
                         data: 'Data value',
-                        handler: () => {
-                            api.getOnePost(params.id).then((res) => {
-                                console.log(res);
-                                history.replace(`/edite-post/${params.id}`, res.data);
-                            })
-                        }
+                        handler: () => (
+                            navigate(`/edite-post/${params.idPost}`)
+                        )
                     }, {
                         text: 'Delete',
                         role: 'destructive',
@@ -188,7 +187,7 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, id?: any 
                             type: 'delete'
                         },
                         handler: () => {
-                            api.deletePost(params.id).then((res) => {
+                            api.deletePost(params.idPost).then((res) => {
                                 setAlertOk({
                                     showAlert: true,
                                     header: "Berhasil",
@@ -243,5 +242,44 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, id?: any 
         </IonContent>
     )
 }
+const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
+    const [alertOk, setAlertOk] = useState<IAlert>({
+        showAlert: false
+    });
+    const history = useHistory();
+    return (
+        <IonContent>
+            <AlertOk data={alertOk} />
+            <IonActionSheet
+                isOpen={params.show}
+                onDidDismiss={params.onDidDismiss}
+                cssClass='my-custom-class'
+                buttons={[
+                    {
+                        text: 'Share',
+                        icon: share,
+                        data: 10,
+                        handler: () => {
+                            console.log('Share clicked');
+                        }
+                    }, {
+                        text: 'Favorite',
+                        icon: heart,
+                        handler: () => {
+                            console.log('Favorite clicked');
+                        }
+                    }, {
+                        text: 'Cancel',
+                        icon: closeSharp,
+                        role: 'cancel',
+                        handler: () => {
+                            console.log('Cancel clicked');
+                        }
+                    }]}
+            >
+            </IonActionSheet>
+        </IonContent>
+    )
+}
 
-export { TopBar, SideBar, ActionSheet };
+export { TopBar, SideBar, ActionSheet, ActionSheetPublic };
