@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
+  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -46,7 +47,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // CSS SosmedQu
 import './theme/app.css';
-import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp } from 'ionicons/icons';
+import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp, logoVimeo } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
 import PageAddPost from './pages/post/page-add-post';
 import PageEbook from './pages/ebook/page-ebook';
@@ -55,10 +56,14 @@ import { getCookie } from 'typescript-cookie'
 import ProtectedRoute from './ProtectedRoute';
 import MyApi from './helpers/my-api';
 import Logout from './pages/auth/page-logout';
+import EditePost from './pages/post/page-edite-post';
+import UpgradeStudent from './pages/student/upgrade-student';
+import FollowerRanking from './pages/student/follower-ranking';
 
 setupIonicReact();
 
 const api = new MyApi()
+
 const App: React.FC = () => {
   return (
     <IonApp>
@@ -71,7 +76,7 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/logout" >
               <Logout />
             </ProtectedRoute>
-            <Route exact path="/loginEmail">
+            <Route exact path="/login-email">
               <LoginWithEmail />
             </Route>
             <Route exact path="/register">
@@ -101,6 +106,9 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/add-post">
               <PageAddPost />
             </ProtectedRoute>
+            <ProtectedRoute exact path="/edite-post/:id">
+              <EditePost />
+            </ProtectedRoute>
             <Route exact path="/ebook">
               <PageEbook />
             </Route>
@@ -116,28 +124,31 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/profile">
               <Profile />
             </ProtectedRoute>
+            <ProtectedRoute exact path="/upgrade-student">
+              <UpgradeStudent />
+            </ProtectedRoute>
+            <Route exact path="/follower-ranking">
+              <FollowerRanking />
+            </Route>
             <Route exact path="/">
-              <Redirect to="/home" />
+              <Redirect to="/post" />
             </Route>
             <Route exact path="">
-              <Redirect to="/home" />
+              <Redirect to="/post" />
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom" className="nav-bottom" color={'primary'}>
-            <IonTabButton tab="home" href="/home">
-              <IonIcon icon={homeSharp} />
-            </IonTabButton>
-            <IonTabButton tab="Post" href="/post">
-              <IonIcon icon={newspaperSharp} />
-            </IonTabButton>
             <IonTabButton tab="short-video" href="/short-video">
-              <IonIcon icon={playCircleSharp} />
+              <IonIcon icon={logoVimeo} />
+              <IonLabel>VidQu</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="search" href="/search">
-              <IonIcon icon={searchSharp} />
+            <IonTabButton tab="post" href="/post">
+              <IonIcon icon={newspaperSharp} />
+              <IonLabel>PostQu</IonLabel>
             </IonTabButton>
             <IonTabButton tab="profile" href="/profile">
               <IonIcon icon={personSharp} />
+              <IonLabel>profile</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

@@ -1,7 +1,8 @@
 import Axios from 'axios';
 import { useHistory } from 'react-router';
+import Env from './env';
 const api = Axios.create({
-    baseURL: `http://localhost:3000/api`,
+    baseURL: `http://${Env.HOST}:${Env.PORT}/api`,
     withCredentials: true
 })
 export class MyApi {
@@ -39,15 +40,30 @@ export class MyApi {
         return req;
     }
 
+    getAllPostByUser = async (id: any) => {
+        return await api.get(`/profile/posts/${id}`)
+    }
+
     uploadPost = async (data: any) => {
         const req = await api.post('/posts', data, { headers: { "Content-Type": "multipart/form-data" } });
         return req;
     }
 
     getAllPost = async () => {
-        const req = await api.get('/posts')
+        return await api.get('/posts');
+    }
+
+
+    getOnePost = async (id: any) => {
+        const req = await api.get(`/posts/edit/${id}`);
         return req;
     }
+
+    deletePost = async (id: any) => {
+        const req = await api.delete(`/posts/${id}`);
+        return req;
+    }
+
 }
 
 export default MyApi;

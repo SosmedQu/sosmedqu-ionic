@@ -2,7 +2,7 @@ import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSu
 import { readerSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 import { FabAddEbook } from '../../components/fab';
-import { SideBar, TopBar } from '../../components/menu/Menu';
+import { SideBar, TopBar } from '../../components/Menu';
 
 
 const PageEbookDetail: React.FC = () => {

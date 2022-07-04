@@ -1,8 +1,9 @@
 @import './variables.css';
 
 .alert-button-group .alert-button span {
-    color: var( --ion-color-dark) !important;
+    color: var(--ion-color-dark) !important;
 }
+
 .bg-primary {
     background-color: var(--ion-color-primary);
     padding: 20vh 0 0 0;
@@ -12,7 +13,7 @@
     background-color: var(--ion-color-primary-contrast);
 }
 
-#nav-top{
+#nav-top {
     display: flex;
     background-color: var(--ion-color-primary);
     padding: 16px;
@@ -23,6 +24,44 @@
 
 .nav-bottom {
     background-color: var(--ion-color-primary);
+}
+
+/* Sidebar menu */
+
+.profile-sidebar {
+    display: grid;
+    grid-template-areas: "foto nama"
+        "foto study-at"
+        "footer footer";
+    padding: 32px;
+}
+
+.profile-sidebar .foto {
+    grid-area: foto;
+}
+
+.profile-sidebar .nama {
+    grid-area: nama;
+    font-family: inter;
+    font-weight: 700;
+    font-size: 32px;
+    word-wrap: break-word;
+}
+
+.profile-sidebar .study-at {
+    grid-area: study-at;
+}
+
+.profile-sidebar-footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 8px;
+    font-size: 16px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.profile-sidebar-footer span {
+    font-size: 24px;
 }
 
 a {
@@ -43,15 +82,17 @@ a {
     color: var(--ion-color-primary-contrast);
 }
 
-.alert-wrapper .alert-message,.alert-wrapper .alert-button span, .alert-wrapper .alert-head h2 {
+.alert-wrapper .alert-message,
+.alert-wrapper .alert-button span,
+.alert-wrapper .alert-head h2 {
     color: var(--ion-color-primary-contrast);
 }
 
-.alert-failed{
+.alert-failed {
     --background: #e84141;
 }
 
-.upload-media{
+.upload-media {
     height: 100px;
     width: 100px;
     background-color: rgb(95, 87, 87)
@@ -62,11 +103,11 @@ a {
     --animate-delay: 0.9s;
 }
 
-.form-post{
+.form-post {
     padding: 8px 16px;
 }
 
-.btn-circle .button-native{
+.btn-circle .button-native {
     padding: 0 !important;
     border-radius: 50% !important;
     width: 48px !important;
@@ -77,43 +118,15 @@ a {
     border: 1px solid red
 }
 
-.comment-ebook{
+.comment-ebook {
     height: 50vh;
     overflow: scroll;
-}
-
-/* Profile */
-
-.myprofile {
-    position: relative;
-}
-
-.myprofile .box{
-    height: 30vh;
-    background-color: var(--ion-color-primary);
-    border-radius: 0 0 30% 30%;
-}
-
-.myprofile .profile-header{
-    position: absolute;
-    top: 60%;
-    left: 5%;
-    right: 5%;
-    border: 1px solid red;
-    border-radius: 20px;
-}
-
-.myprofile .foto{
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    border: 1px solid red;
 }
 
 
 /* Utils */
 
-.radius-circle{
+.radius-circle {
     border-radius: 50% !important;
 }
 

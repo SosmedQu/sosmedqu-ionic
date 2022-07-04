@@ -1,22 +1,37 @@
-import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar, NavContext } from '@ionic/react';
+import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonLoading, IonPage, IonRow, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar, NavContext, useIonViewWillEnter } from '@ionic/react';
 import { } from '../../components/post/Post';
-import { useCallback, useContext, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SideBar } from '../../components/Menu';
-import { arrowBackSharp, camera, cloudUploadSharp, sendOutline } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { arrowBackSharp, camera, sendOutline } from 'ionicons/icons';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { dataURItoBlob } from '../../helpers/converter'
+import { dataURLtoFile } from '../../helpers/converter'
 import MyApi from '../../helpers/my-api';
 import { SliderImage } from '../../components/image-slider';
 import { AlertOk } from '../../components/Alert';
 import IAlert from '../../interface/IAlert';
+import { IPost } from '../../interface/post';
+import { Console } from 'console';
 
 
-const PageAddPost: React.FC = () => {
-    const [text, setText] = useState<string>();
-    const [image, setImage] = useState<Blob[]>([]);
-    const [privasi, setPrivasi] = useState<string>();
-    const [categoryId, setCategoryId] = useState<number>();
+const api = new MyApi();
+const EditPost: React.FC = () => {
+    const [data, setData] = useState<IPost>();
+    // const { id }: { id: any } = useParams();
+    const location = useLocation();
+    const response: any = location.state;
+    useEffect(() => {
+        console.log(location.state);
+    })
+    useIonViewWillEnter(() => {
+        setData({
+            caption: response.post.caption,
+            // kategori: response.data.post.categoryId,
+            // privacy: response.data.post.privacy,
+            // files: response.data.postFiles
+        })
+    })
+    const [showLoading, setShowLoading] = useState(false);
     const [imgPrev, setImgPrev] = useState<any>([]);
     const history = useHistory();
     const [alert, setAlert] = useState<IAlert>({ showAlert: false });
@@ -34,34 +49,28 @@ const PageAddPost: React.FC = () => {
                 quality: 90,
                 resultType: CameraResultType.DataUrl,
             })
-            const convert = dataURItoBlob(cameraResult.dataUrl);
+            const convert = dataURLtoFile(cameraResult.dataUrl);
             setImgPrev([...imgPrev, cameraResult.dataUrl]);
-            setImage([...image, convert]);
         } catch (e: any) {
             console.log(e);
         }
     }
-    // const uploadVideo = useRef<HTMLInputElement>(null);
-    // const takeVideo = () => {
-    //     uploadVideo.current?.click();
-    //     const fileUp = uploadVideo.current?.files![0];
-    //     const reader = new FileReader()
-    //     if (fileUp?.name) {
-    //         console.log(fileUp)
-    //         setImgPrev([...imgPrev, reader.readAsDataURL(fileUp)]);
-    //         console.log(reader.readAsDataURL(fileUp))
-    //     }
-    // }
+    const uploadVideo = useRef<HTMLInputElement>(null);
+    const takeVideo = () => {
+        uploadVideo.current?.click();
+        const fileUp = uploadVideo.current?.files![0];
+        const reader = new FileReader()
+        if (fileUp?.name) {
+            console.log(fileUp)
+            setImgPrev([...imgPrev, reader.readAsDataURL(fileUp)]);
+            console.log(reader.readAsDataURL(fileUp))
+        }
+    }
 
     const onSubmit = (e: any) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        image.forEach((value) => {
-            formData.append("postFiles", value);
-        })
-        const api = new MyApi();
         api.uploadPost(formData).then((res) => {
-            console.log(res.data);
             setAlert({
                 showAlert: true,
                 header: "Berhasil",
@@ -94,6 +103,13 @@ const PageAddPost: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent fullscreen>
+                    <IonLoading
+                        cssClass='my-custom-class'
+                        isOpen={showLoading}
+                        onDidDismiss={() => setShowLoading(false)}
+                        message={'Please wait...'}
+                        duration={5000}
+                    />
                     <IonHeader collapse="condense">
                         <IonToolbar>
                             <IonTitle size="large">Postingan</IonTitle>
@@ -102,30 +118,30 @@ const PageAddPost: React.FC = () => {
                     <AlertOk data={alert} />
                     <form className='form-post' id="form-post" onSubmit={e => onSubmit(e)} encType="multipart/form-data">
                         <IonRow className="my-2">
+                            <IonButton onClick={takePicture}>
+                                <IonIcon icon={camera} slot="start"></IonIcon>
+                                <IonLabel>Take Photo</IonLabel>
+                            </IonButton>
                             {/* <IonButton onClick={takeVideo}>
                                 <IonLabel>Take Video</IonLabel>
                             </IonButton> */}
                             {/* <input type="file" style={{ display: "none" }} id="video" accept='video/*' ref={uploadVideo} /> */}
                         </IonRow>
-                        <div className='d-flex justify-content-center align-items-center'>
-                            <IonButton onClick={takePicture}>
-                                <IonIcon icon={camera} slot="start"></IonIcon>
-                                <IonLabel>Take Photo</IonLabel>
-                            </IonButton>
+                        <div id="myimage">
                             <SliderImage data={imgPrev} />
                         </div>
                         <IonItem>
                             <IonLabel position="floating">Caption</IonLabel>
-                            <IonTextarea rows={3} value={text} onIonChange={e => setText(e.detail.value!)} name="caption"></IonTextarea>
+                            <IonTextarea rows={3} value={data?.caption} onIonChange={e => setData({ caption: e.detail.value! })} name="caption"></IonTextarea>
                         </IonItem>
 
-                        <IonSelect className='mt-3' placeholder="Pilih privasi" value={privasi} onIonChange={e => setPrivasi(e.detail.value!)} name="privacy">
+                        <IonSelect className='mt-3' placeholder="Pilih privasi" value={data?.privacy} onIonChange={e => setData({ privacy: e.detail.value! })} name="privacy">
                             <IonSelectOption value="personal">Personal</IonSelectOption>
                             <IonSelectOption value="only-friend">Only Friend</IonSelectOption>
                             <IonSelectOption value="public">Public</IonSelectOption>
                         </IonSelect>
 
-                        <IonSelect className='mt-3' placeholder="Pilih category" value={categoryId} onIonChange={e => setCategoryId(e.detail.value!)} name="categoryId">
+                        <IonSelect className='mt-3' placeholder="Pilih category" value={data?.kategori} onIonChange={e => setData({ kategori: e.detail.value! })} name="categoryId">
                             <IonSelectOption value="1">Tekhnologi</IonSelectOption>
                             <IonSelectOption value="2">Ekonomi</IonSelectOption>
                             <IonSelectOption value="3">Management</IonSelectOption>
@@ -145,4 +161,4 @@ const PageAddPost: React.FC = () => {
 
 
 
-export default PageAddPost;
+export default EditPost;

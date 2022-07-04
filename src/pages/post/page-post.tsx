@@ -1,7 +1,7 @@
-import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
+import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
-import { TopBar, SideBar } from '../../components/menu/Menu';
+import { TopBar, SideBar } from '../../components/Menu';
 import { FabAdd } from '../../components/fab';
 import MyApi from '../../helpers/my-api';
 
@@ -21,7 +21,6 @@ const PagePost: React.FC = () => {
     },
 
   };
-
   // a function to handle the segment changes
   const handleSegmentChange = (e: any) => {
     setValue(e.detail.value);
@@ -33,6 +32,7 @@ const PagePost: React.FC = () => {
     const api = new MyApi();
     const loadData = async () => {
       await api.getAllPost().then((response) => {
+        console.log(response.data);
         setPostMedia(response.data.posts);
       }, err => {
         console.log(err);
@@ -42,6 +42,11 @@ const PagePost: React.FC = () => {
     }
     loadData();
   }, [])
+  function doRefresh(event: CustomEvent<RefresherEventDetail>) {
+    console.log('Begin async operation');
+    window.location.reload();
+    event.detail.complete();
+  }
 
 
   return (
@@ -69,6 +74,9 @@ const PagePost: React.FC = () => {
             </IonToolbar>
           </IonHeader>
           <FabAdd />
+          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+            <IonRefresherContent></IonRefresherContent>
+          </IonRefresher>
           <IonSlides options={slideOpts} ref={slider}>
             <IonSlide>
               <IonGrid>

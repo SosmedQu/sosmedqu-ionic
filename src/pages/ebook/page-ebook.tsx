@@ -2,8 +2,8 @@ import { IonAvatar, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, Ion
 import { } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 import { FabAddEbook } from '../../components/fab';
-import DefaultHeader from '../../components/header';
-import { SideBar } from '../../components/menu/Menu';
+import { DefaultHeader } from '../../components/header';
+import { SideBar } from '../../components/Menu';
 
 const PageEbook: React.FC = () => {
     return (

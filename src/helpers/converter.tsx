@@ -12,14 +12,14 @@ function dataURItoBlob(dataURI: any) {
     return new Blob([ab], { type: mimeString });
 }
 
-const dataURLtoFile = (dataUrl: any, fileName: string) => {
+const dataURLtoFile = (dataUrl: any) => {
     var arr = dataUrl.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], fileName, { type: mime });
+    return new File([u8arr], mime.split("/")[1], { type: mime });
 }
 
 export { dataURItoBlob, dataURLtoFile }

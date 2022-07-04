@@ -3,7 +3,6 @@ import { IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, I
 import "./auth.css";
 import Axios from "axios";
 import { useState } from "react";
-import MyAlert from "../../components/Alert";
 import MyApi from "../../helpers/my-api";
 import { useHistory, useLocation } from "react-router";
 
@@ -35,7 +34,7 @@ const Register: React.FC = () => {
         });
     };
 
-    const onSubmit = (e: any) => { 
+    const onSubmit = (e: any) => {
         e.preventDefault();
         const api = new MyApi();
         api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then(

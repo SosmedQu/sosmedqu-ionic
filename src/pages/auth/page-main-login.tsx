@@ -14,7 +14,7 @@ const Login: React.FC = () => {
                         <IonIcon slot="start" icon={logoGoogle} />
                         <IonLabel>Login With Google</IonLabel>
                     </IonButton>
-                    <IonButton expand="block" color="light" id='button' href="/loginEmail">
+                    <IonButton expand="block" color="light" id='button' href="/login-email">
                         <IonIcon slot="start" icon={mailSharp} />
                         <IonLabel>Login With Email</IonLabel>
                     </IonButton>

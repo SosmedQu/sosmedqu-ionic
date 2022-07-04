@@ -1,8 +1,10 @@
-interface PostMedia {
-    id: number;
-    caption: string;
-    privacy: string;
-    fileName: string;
+
+
+interface IPost {
+    caption?: string;
+    privacy?: string;
+    kategori?: string;
+    files?: any[];
 }
 
-export type { PostMedia };
+export type { IPost };

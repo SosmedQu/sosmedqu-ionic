@@ -1,5 +1,13 @@
 import { IonCard, IonImg, IonSlide, IonSlides } from '@ionic/react';
 import { } from 'react-router-dom';
+import styled from 'styled-components';
+
+
+const Image = styled(IonImg)`
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+`;
 
 const SliderImage: React.FC<{ data: any }> = (props) => {
     const slideOpts = {
@@ -11,13 +19,13 @@ const SliderImage: React.FC<{ data: any }> = (props) => {
                 props.data.length == 1
                     ?
                     props.data.map((file: any) => (
-                        <IonImg src={file} className="" />
+                        <Image src={file} />
                     ))
                     :
-                    <IonSlides pager={true} options={slideOpts} style={{ width: "90vw" }}>
+                    <IonSlides pager={true} options={slideOpts}>
                         {props.data.map((file: any) => (
                             <IonSlide>
-                                <IonImg src={file} className="" />
+                                <Image src={file} />
                             </IonSlide>
                         ))}
                     </IonSlides>
