@@ -1,7 +1,7 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonItem, IonLabel, IonInput, IonButton, IonAlert, useIonViewDidEnter } from "@ionic/react"
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonItem, IonLabel, IonInput, IonButton, IonAlert, useIonViewDidEnter, IonLoading } from "@ionic/react"
 import { keySharp, saveSharp } from "ionicons/icons"
 import { useState } from "react";
-import { MyApi } from "../../helpers/my-api";
+import { MyApi } from "../../helpers/my-api_helper";
 import { useHistory } from "react-router";
 
 const CreatePassword: React.FC = () => {
@@ -9,6 +9,8 @@ const CreatePassword: React.FC = () => {
     const [name, setName] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [confirmPassword, setConfirmPassword] = useState<string>();
+
+    const [showLoading, setShowLoading] = useState(true);
     interface IAlert {
         type: string;
         show: boolean;
@@ -75,6 +77,8 @@ const CreatePassword: React.FC = () => {
                         },
                     ],
                 });
+            }).finally(() => {
+                setShowLoading(false);
             })
     });
     const resetAlert = () => {
@@ -153,6 +157,12 @@ const CreatePassword: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
+                <IonLoading
+                    cssClass='my-custom-class'
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    message={'Please wait...'}
+                />
                 <IonHeader collapse="condense">
                     <IonToolbar>
                         <IonTitle size="large">Registration Account</IonTitle>

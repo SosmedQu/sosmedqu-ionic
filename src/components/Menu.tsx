@@ -3,8 +3,8 @@ import { bookSharp, calendarSharp, closeSharp, heart, mailSharp, menuSharp, noti
 import { useState } from 'react';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import Env from '../helpers/env';
-import MyApi from '../helpers/my-api';
+import Env from '../helpers/env_helper';
+import MyApi from '../helpers/my-api_helper';
 import { navigate } from '../helpers/navigation_helper';
 import IAlert from '../interface/IAlert';
 import { AlertOk } from './Alert';
@@ -158,7 +158,7 @@ const SideBar: React.FC = () => {
     )
 }
 
-const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
+const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data?: any }> = (params) => {
     const [alertOk, setAlertOk] = useState<IAlert>({
         showAlert: false
     });
@@ -176,7 +176,7 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: 
                         icon: pencil,
                         data: 'Data value',
                         handler: () => (
-                            navigate(`/edite-post/${params.idPost}`)
+                            history.push(`/edite-post`, params.data)
                         )
                     }, {
                         text: 'Delete',
@@ -187,7 +187,7 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: 
                             type: 'delete'
                         },
                         handler: () => {
-                            api.deletePost(params.idPost).then((res) => {
+                            api.deletePost(params.data.id).then((res) => {
                                 setAlertOk({
                                     showAlert: true,
                                     header: "Berhasil",

@@ -1,16 +1,18 @@
-import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
+import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
-import { TopBar, SideBar } from '../../components/Menu';
+import { TopBar, SideBar, ActionSheetPublic } from '../../components/Menu';
 import { FabAdd } from '../../components/fab';
-import MyApi from '../../helpers/my-api';
+import MyApi from '../../helpers/my-api_helper';
 
 
 const PagePost: React.FC = () => {
   // const [searchText, setSearchText] = useState('');
 
+  const [showLoading, setShowLoading] = useState(true);
   const slider = useRef<HTMLIonSlidesElement>(null);
   const [value, setValue] = useState("0");
+  const [actionSheet, setActionSheet] = useState(false);
 
   const slideOpts = {
     initialSlide: 0,
@@ -28,16 +30,18 @@ const PagePost: React.FC = () => {
   };
 
   const [postMedia, setPostMedia] = useState<any>([]);
+  const [whenError, setWhenError] = useState("");
   useEffect(() => {
     const api = new MyApi();
     const loadData = async () => {
       await api.getAllPost().then((response) => {
-        console.log(response.data);
         setPostMedia(response.data.posts);
       }, err => {
-        console.log(err);
+        console.log(err.message);
       }).catch((err) => {
-        console.log(err);
+        console.log(err.response);
+      }).finally(() => {
+        setShowLoading(false);
       });
     }
     loadData();
@@ -68,6 +72,12 @@ const PagePost: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
+          <IonLoading
+            cssClass='my-custom-class'
+            isOpen={showLoading}
+            onDidDismiss={() => setShowLoading(false)}
+            message={'Please wait...'}
+          />
           <IonHeader collapse="condense">
             <IonToolbar>
               <IonTitle size="large">Postingan</IonTitle>
@@ -81,10 +91,14 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  {postMedia.map((dataPost: any) =>
+                  {postMedia.map((dataPost: any, i: any) =>
                     dataPost.PostFiles.length > 0 &&
                     (
-                      <IonCol size="12" style={{ padding: 0 }}><Post data={dataPost} /></IonCol>
+                      <IonCol key={i} size="12" sizeLg='3' style={{ padding: 0 }}>
+                        <Post data={dataPost} actionClick={() => setActionSheet(true)}>
+                          <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={dataPost.id} />
+                        </Post>
+                      </IonCol>
                     ))}
                 </IonRow>
               </IonGrid>
@@ -93,10 +107,14 @@ const PagePost: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  {postMedia.map((dataPost: any) =>
+                  {postMedia.map((dataPost: any, i: any) =>
                     dataPost.PostFiles.length == 0 &&
                     (
-                      <IonCol size="12" style={{ padding: 0 }}><Post data={dataPost} /></IonCol>
+                      <IonCol key={i} size="12" style={{ padding: 0 }}>
+                        <Post data={dataPost} actionClick={() => setActionSheet(true)}>
+                          <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={dataPost.id} />
+                        </Post>
+                      </IonCol>
                     ))}
                 </IonRow>
               </IonGrid>

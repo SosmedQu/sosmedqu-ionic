@@ -19,7 +19,7 @@ const dataURLtoFile = (dataUrl: any) => {
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], mime.split("/")[1], { type: mime });
+    return new File([u8arr], '.' + mime.split("/")[1], { type: mime });
 }
 
 export { dataURItoBlob, dataURLtoFile }

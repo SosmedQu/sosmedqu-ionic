@@ -1,15 +1,12 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonLabel, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail } from '@ionic/react';
 import NeedAuth from '../components/NeedAuth';
 import { SideBar } from '../components/Menu';
 import { ProfileHeader } from '../components/header';
-import MyApi from '../helpers/my-api';
+import MyApi from '../helpers/my-api_helper';
 import { useEffect, useRef, useState } from 'react';
 import MyProfile from '../components/myprofile';
-import styled from 'styled-components';
-import Color from '../components/Utils/style/color';
-import { bookSharp, logoVimeo, medalSharp, newspaperOutline, ribbonSharp } from 'ionicons/icons';
-import { Post } from '../components/post/Post';
-import PostByUser from '../components/content/post-by-user';
+import { logoVimeo, newspaperOutline, ribbonSharp } from 'ionicons/icons';
+import PostByUser from '../components/post/post-by-user';
 import { Segment } from '../components/Utils/element/segment';
 import { IconSM } from '../components/Utils/element/icon';
 

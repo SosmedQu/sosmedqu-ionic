@@ -2,7 +2,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonGrid,
 import { mailOutline, sendSharp, mailSharp } from "ionicons/icons";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
-import MyApi from "../../helpers/my-api";
+import MyApi from "../../helpers/my-api_helper";
 
 const VerifikasiEmail: React.FC = () => {
     const history = useHistory();

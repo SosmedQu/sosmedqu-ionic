@@ -47,22 +47,24 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // CSS SosmedQu
 import './theme/app.css';
-import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp, logoVimeo } from 'ionicons/icons';
+import { newspaperSharp, personSharp, logoVimeo } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
-import PageAddPost from './pages/post/page-add-post';
 import PageEbook from './pages/ebook/page-ebook';
 import PageEbookDetail from './pages/ebook/page-ebook-detail';
 import { getCookie } from 'typescript-cookie'
 import ProtectedRoute from './ProtectedRoute';
-import MyApi from './helpers/my-api';
+import MyApi from './helpers/my-api_helper';
 import Logout from './pages/auth/page-logout';
-import EditePost from './pages/post/page-edite-post';
 import UpgradeStudent from './pages/student/upgrade-student';
 import FollowerRanking from './pages/student/follower-ranking';
+import PageShowPost from './pages/post/page-show-post';
+import PageCreatePost from './pages/post/page-create-post';
+import PageUpdatePost from './pages/post/page-update-post';
 
 setupIonicReact();
 
 const api = new MyApi()
+let token = getCookie("accessToken") ? true : false;
 
 const App: React.FC = () => {
   return (
@@ -103,11 +105,14 @@ const App: React.FC = () => {
             <Route exact path="/post">
               <PagePost />
             </Route>
+            <Route exact path="/show-post">
+              <PageShowPost />
+            </Route>
             <ProtectedRoute exact path="/add-post">
-              <PageAddPost />
+              <PageCreatePost />
             </ProtectedRoute>
-            <ProtectedRoute exact path="/edite-post/:id">
-              <EditePost />
+            <ProtectedRoute exact path="/edite-post">
+              <PageUpdatePost />
             </ProtectedRoute>
             <Route exact path="/ebook">
               <PageEbook />

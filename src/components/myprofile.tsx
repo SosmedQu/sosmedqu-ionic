@@ -1,8 +1,10 @@
 import { IonAvatar, IonButton, IonCard, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonLabel, IonRow, IonTitle } from '@ionic/react';
 import { schoolSharp } from 'ionicons/icons';
-import { } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { MyInput } from './input';
+import AssetsApi from '../helpers/assets-api_helper';
+import Env from '../helpers/env_helper';
+import IProfile from '../interface/IProfile';
 import { IconMD } from './Utils/element/icon';
 import Color from './Utils/style/color';
 import { FontFamily, FontSize } from './Utils/style/font';
@@ -80,7 +82,13 @@ const TopStudent = styled.div`
     }
 `;
 
-const MyProfile: React.FC<{ data: any }> = (props) => {
+const MyProfile: React.FC<{ data: IProfile }> = (props) => {
+    console.log(props.data)
+    console.log(props.data.roleId === 2)
+    const history = useHistory();
+    const handleUpgrade = () => {
+        history.push("/upgrade-student", props.data)
+    }
     return (
         <ProfileHeader>
             <div className="box" />
@@ -90,14 +98,16 @@ const MyProfile: React.FC<{ data: any }> = (props) => {
                 </TopStudent> */}
                 <ProfileCard>
                     <IonAvatar class='foto'>
-                        <IonImg src={process.env.PUBLIC_URL + "assets/img/avatar.png"}></IonImg>
+                        <IonImg src={`${AssetsApi.URLImgProfile}/${props.data.image}`}></IonImg>
                     </IonAvatar>
                     <p className="px-0 nama">{props.data.username}</p>
-                    <IonButton className="followers" color={'warning'} href="/upgrade-student">
-                        <IconMD icon={schoolSharp} color={'light'} slot="start" ></IconMD>
-                        <IonLabel color={'light'}>Menjadi Student</IonLabel>
-                    </IonButton>
-                    {/* <IonTitle className="px-0 followers">Followers <span>99.9k</span></IonTitle> */}
+                    {props.data.roleId == 2
+                        ? (<IonTitle className="px-0 followers">Followers <span>99.9k</span></IonTitle>)
+                        : <IonButton className="followers" color={'warning'} onClick={() => handleUpgrade()}>
+                            <IconMD icon={schoolSharp} color={'light'} slot="start" ></IconMD>
+                            <IonLabel color={'light'}>Menjadi Student</IonLabel>
+                        </IonButton>
+                    }
                 </ProfileCard>
             </div>
         </ProfileHeader>

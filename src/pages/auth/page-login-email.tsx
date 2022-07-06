@@ -3,7 +3,7 @@ import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { AlertOk } from '../../components/Alert';
-import MyApi from '../../helpers/my-api';
+import MyApi from '../../helpers/my-api_helper';
 import IAlert from '../../interface/IAlert';
 import './auth.css';
 const LoginWithEmail: React.FC = () => {

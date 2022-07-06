@@ -1,8 +1,8 @@
 import Axios from 'axios';
 import { useHistory } from 'react-router';
-import Env from './env';
+import Env from './env_helper';
 const api = Axios.create({
-    baseURL: `http://${Env.HOST}:${Env.PORT}/api`,
+    baseURL: `http://${Env.URLAPI}/api`,
     withCredentials: true
 })
 export class MyApi {
@@ -38,6 +38,15 @@ export class MyApi {
     getProfile = async () => {
         const req = await api.get('/profile');
         return req;
+    }
+
+    upgradeStudent = async (data: any) => {
+        const req = await api.post("/profile/validateStudent", data, { headers: { "Content-Type": "multipart/form-data" } })
+        return req;
+    }
+
+    getAllpostCategory = async () => {
+        return await api.get("/postCategory");
     }
 
     getAllPostByUser = async (id: any) => {

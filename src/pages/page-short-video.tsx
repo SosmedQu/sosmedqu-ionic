@@ -10,7 +10,7 @@ const slideOpts = {
 const ShortVideo: React.FC = () => {
     return (
         <IonPage>
-            <IonContent fullscreen>
+            <IonContent fullscreen className='fixed-top'>
                 <IonSlides options={slideOpts}>
                     <IonSlide style={{ height: '100%' }}>
                         <PostShort />

@@ -1,18 +1,17 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonItem, IonLabel, IonSlide, IonSlides } from '@ionic/react';
-import { arrowRedoOutline, cameraOutline, chatbox, chatbubbleEllipsesOutline, chatbubblesOutline, chatbubblesSharp, ellipsisVerticalSharp, globeSharp, thumbsUpOutline, thumbsUpSharp, warningOutline } from 'ionicons/icons';
+import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonLabel, IonSlide, IonSlides, IonText } from '@ionic/react';
+import { arrowRedoOutline, cameraOutline, chatbubbleEllipsesOutline, chatbubblesOutline, chatbubblesSharp, ellipsisVerticalSharp, globeSharp, thumbsUpOutline, thumbsUpSharp, warningOutline } from 'ionicons/icons';
 import { useState } from 'react';
-import { } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Env from '../../helpers/env';
+import AssetsApi from '../../helpers/assets-api_helper';
 import { ActionSheet, ActionSheetPublic } from '../Menu';
+import { IconSM } from '../Utils/element/icon';
+import Item from '../Utils/element/item';
 import Color from '../Utils/style/color';
+import { PostContent } from './micro/post-content';
+import { PostHeader } from './micro/post-header';
 import './post.css';
 
-const CardFooter = styled.div`
-    display: flex;
-    margin: 16px;
-    justify-content: space-between;
-`;
 
 const Icon = styled(IonIcon)`
     font-size: 24px;
@@ -24,125 +23,39 @@ const Label = styled(IonLabel)`
     font-size: 14px;
 `;
 
-const Post: React.FC<{ data: any }> = (props) => {
-    const slideOpts = {
-        speed: 500
-    }
-    const [actionSheet, setActionSheet] = useState(false);
+
+const Post: React.FC<{ data: any, actionClick: () => void }> = (props) => {
     return (
         <IonCard style={{ margin: "4px 0" }}>
-            <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={props.data.id} />
+            {props.children}
             <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">{props.data.User ? props.data.User.username : "kosong"}</h6>
-                            <p className="small">{props.data.privacy}</p>
-                        </div>
-                    </div>
-                    <IonIcon style={{ fontSize: "24px" }} icon={ellipsisVerticalSharp} onClick={() => { setActionSheet(true) }}></IonIcon>
-                </div>
+                <PostHeader
+                    image={props.data.User.image}
+                    username={props.data.User.username}
+                    privacy={props.data.privacy}
+                    onClickMore={props.actionClick}
+                />
             </IonCardHeader>
-
             <IonCardContent className="post-content">
-                {props.data.PostFiles.length > 0
-                    && props.data.PostFiles.length == 1 ?
-                    props.data.PostFiles.map((file: any) => (
-                        <IonImg src={`http://${Env.HOST}:${Env.PORT}/images/posts/` + file.fileName} className="" />
-                    ))
-                    : <IonSlides pager={true} options={slideOpts} style={{ width: "90vw" }}>
-                        {props.data.PostFiles.map((file: any) => (
-                            <IonSlide>
-                                <IonImg src={`http://${Env.HOST}:${Env.PORT}/images/posts/` + file.fileName} className="" />
-                            </IonSlide>
-                        ))
-                        }
-                    </IonSlides>
-                }
-                {props.data.caption}
-                <CardFooter>
-                    <IonButton color={'light'}>
-                        <Icon slot='start' icon={thumbsUpSharp}></Icon>
-                        <Label>10k</Label>
-                    </IonButton>
-                    <IonButton color={'light'}>
-                        <Icon slot='start' icon={chatbubblesSharp}></Icon>
-                        <Label>10k</Label>
-                    </IonButton>
-                </CardFooter>
+                <PostContent
+                    PostCategory={props.data.PostCategory}
+                    PostFiles={props.data.PostFiles}
+                    caption={props.data.caption}
+                />
             </IonCardContent>
+            <Item className='mt-3'>
+                <IonButton slot='start' color={'light'}>
+                    <IconSM color='primary' slot='start' icon={thumbsUpSharp}></IconSM>
+                    <Label>10k</Label>
+                </IonButton>
+                <IonButton slot="end" color={'light'}>
+                    <Icon color='primary' slot='start' icon={chatbubblesSharp}></Icon>
+                    <Label>10k</Label>
+                </IonButton>
+            </Item>
         </IonCard>
     );
 }
-
-const MyPostBox = styled.div`
-    display: flex;
-`;
-const MyPostImage = styled(IonImg)`
-    height: 120px;
-    width: 120px;
-    object-fit: cover;
-`;
-const MyPostComponent: React.FC<{ data: any }> = (props) => {
-    const slideOpts = {
-        speed: 500
-    }
-    return (
-        <MyPostBox>
-            {/* <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} id={props.data.id} /> */}
-            {props.data.PostFiles.length > 0
-                && props.data.PostFiles.length == 1 ?
-                props.data.PostFiles.map((file: any) => (
-                    <MyPostImage src={`http://${Env.HOST}:${Env.PORT}/images/posts/` + file.fileName} className="" />
-                ))
-                : <IonSlides options={slideOpts} style={{ width: "90vw" }}>
-                    {props.data.PostFiles.map((file: any) => (
-                        <IonSlide>
-                            <MyPostImage src={`http://${Env.HOST}:${Env.PORT}/images/posts/` + file.fileName} className="" />
-                        </IonSlide>
-                    ))
-                    }
-                </IonSlides>
-            }
-        </MyPostBox>
-    );
-}
-const MyPostTextComponent: React.FC<{ data: any }> = (props) => {
-    const [actionSheet, setActionSheet] = useState(false);
-    return (
-        <IonCard style={{ margin: "4px 0" }}>
-            <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={props.data.id} />
-            <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">{props.data.User ? props.data.User.username : "kosong"}</h6>
-                            <p className="small">{props.data.privacy}</p>
-                        </div>
-                    </div>
-                    <IonIcon style={{ fontSize: "24px" }} icon={ellipsisVerticalSharp} onClick={() => { setActionSheet(true) }}></IonIcon>
-                </div>
-            </IonCardHeader>
-
-            <IonCardContent className="post-content">
-                <p> {props.data.caption}</p>
-            </IonCardContent>
-            <CardFooter>
-                <IonButton color={'light'}>
-                    <Icon slot='start' icon={thumbsUpSharp}></Icon>
-                    <Label>10k</Label>
-                </IonButton>
-                <IonButton color={'light'}>
-                    <Icon slot='start' icon={chatbubblesSharp}></Icon>
-                    <Label>10k</Label>
-                </IonButton>
-            </CardFooter>
-        </IonCard >
-    );
-}
-
 
 const PostShort: React.FC = () => {
     return (
@@ -177,4 +90,4 @@ const PostShort: React.FC = () => {
     )
 }
 
-export { Post, PostShort, MyPostComponent, MyPostTextComponent };
+export { Post, PostShort };

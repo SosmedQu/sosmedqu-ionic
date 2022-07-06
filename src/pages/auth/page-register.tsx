@@ -1,13 +1,15 @@
 import { chevronBackCircleOutline, chevronForwardCircleOutline } from "ionicons/icons";
-import { IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
+import { IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonLoading, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
 import "./auth.css";
 import Axios from "axios";
 import { useState } from "react";
-import MyApi from "../../helpers/my-api";
+import MyApi from "../../helpers/my-api_helper";
 import { useHistory, useLocation } from "react-router";
+import Env from "../../helpers/env_helper";
 
 const Register: React.FC = () => {
     const history = useHistory();
+    const [showLoading, setShowLoading] = useState(false);
     interface IAlert {
         type: string;
         show: boolean;
@@ -35,9 +37,10 @@ const Register: React.FC = () => {
     };
 
     const onSubmit = (e: any) => {
+        setShowLoading(true)
         e.preventDefault();
         const api = new MyApi();
-        api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then(
+        api.register({ email: email, link: `http://${Env.URLWEB}/register/create-password` }).then(
             (response) => {
                 setAlert({
                     type: "success",
@@ -73,7 +76,9 @@ const Register: React.FC = () => {
                     ],
                 });
             }
-        );
+        ).finally(() => {
+            setShowLoading(false);
+        });
     };
 
     const onTyping = (e: any) => {
@@ -87,6 +92,12 @@ const Register: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
+                <IonLoading
+                    cssClass='my-custom-class'
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    message={'Please wait...'}
+                />
                 <IonHeader collapse="condense">
                     <IonToolbar>
                         <IonTitle size="large">Registration Account</IonTitle>
