@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Color from "../style/color";
+import Color from "./color";
 
 const BoxError = styled.div`
     height: 320px;

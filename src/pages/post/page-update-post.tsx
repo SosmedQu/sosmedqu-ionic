@@ -1,20 +1,20 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonInput } from "@ionic/react";
 import styled from "styled-components";
-import { ItemInput, Select, TextArea } from "../../components/Utils/element/Input";
-import ToolBarWithGoBack from "../../components/Utils/element/toolbar";
+import { ItemInput, Select, TextArea } from "../../components/Utils/style/Input";
+import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useHistory, useLocation } from "react-router";
-import Item from "../../components/Utils/element/item";
-import Label from "../../components/Utils/element/label";
-import { IconMD } from "../../components/Utils/element/icon";
+import Item from "../../components/Utils/style/item";
+import Label from "../../components/Utils/style/label";
+import { IconMD } from "../../components/Utils/style/icon";
 import { camera, sendSharp } from "ionicons/icons";
 import { navigate } from '../../helpers/navigation_helper'
 import MyApi from "../../helpers/my-api_helper";
 import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";
-import Content from "../../components/Utils/element/content";
+import Content from "../../components/Utils/style/content";
 import { SliderImage } from "../../components/image-slider";
 import { Camera, CameraResultType } from "@capacitor/camera";
 import { dataURItoBlob } from "../../helpers/converter_helper";
@@ -100,7 +100,7 @@ const PageUpdatePost: React.FC = () => {
                 type: "success",
                 message: res.data.msg,
                 okClick: () => {
-                    navigate("/profile");
+                    history.replace("/show-post", post);
                 }
             })
         }, err => {
@@ -158,7 +158,7 @@ const PageUpdatePost: React.FC = () => {
                                         placeholder={post.PostCategory.category ?? "Select One"}
                                         value={field.value}
                                         className="my-3"
-                                        onIonChange={e => setValue('categoryId', e.detail.value)}>
+                                        onIonChange={(e: any) => setValue('categoryId', e.detail.value)}>
                                         {listCategory.map((val, i) => (
                                             <IonSelectOption key={i} value={`${val.id}`}>{val.category}</IonSelectOption>
                                         ))}
@@ -182,7 +182,7 @@ const PageUpdatePost: React.FC = () => {
                                         placeholder="Select One"
                                         value={field.value}
                                         className="my-3"
-                                        onIonChange={e => setValue('privacy', e.detail.value)}>\
+                                        onIonChange={(e: any) => setValue('privacy', e.detail.value)}>
                                         <IonSelectOption value="public">public</IonSelectOption>
                                         <IonSelectOption value="only-friends">only friends</IonSelectOption>
                                         <IonSelectOption value="private">private</IonSelectOption>

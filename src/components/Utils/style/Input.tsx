@@ -1,6 +1,6 @@
 import { IonInput, IonItem, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react"
 import styled from "styled-components"
-import Color from "../style/color";
+import Color from "./color";
 
 const Input = styled(IonInput)`
     // --placeholder-font-weight: lighter;

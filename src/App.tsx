@@ -61,6 +61,7 @@ import PageShowPost from './pages/post/page-show-post';
 import PageCreatePost from './pages/post/page-create-post';
 import PageUpdatePost from './pages/post/page-update-post';
 
+
 setupIonicReact();
 
 const api = new MyApi()
@@ -123,7 +124,7 @@ const App: React.FC = () => {
             <Route exact path="/short-video">
               <ShortVideo />
             </Route>
-            <Route exact path="/search">
+            <Route exact path="/search/:data">
               <PageSearch />
             </Route>
             <ProtectedRoute exact path="/profile">

@@ -30,7 +30,14 @@ export const PostContent: React.FC<IPostContent> = (props) => {
         <div>
             {props.PostFiles.length > 0
                 ? props.PostFiles.length == 1
-                    ? (<IonImg src={`${AssetsApi.URLImgPost}/${props.PostFiles[0].fileName}`} className="" />)
+                    ? (
+                        <div>
+                            <IonImg src={`${AssetsApi.URLImgPost}/${props.PostFiles[0].fileName}`} className="" />
+                            <div className="my-3">
+                                <IonText>{props.caption}</IonText>
+                            </div>
+                        </div>
+                    )
                     : <div>
                         <IonSlides pager={true} options={slideOpts} ref={slides} onIonSlideDidChange={(e) => e.target.stopAutoplay()} style={{ width: "90vw" }}>
                             {props.PostFiles.map((file: any, i: any) => (
@@ -40,7 +47,9 @@ export const PostContent: React.FC<IPostContent> = (props) => {
                             ))
                             }
                         </IonSlides>
-                        <IonText>{props.caption}</IonText>
+                        <div className="my-3">
+                            <IonText>{props.caption}</IonText>
+                        </div>
                     </div>
                 : <IonText>{props.caption}</IonText>
             }

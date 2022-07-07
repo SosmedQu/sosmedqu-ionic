@@ -1,15 +1,10 @@
-import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonLabel, IonSlide, IonSlides, IonText } from '@ionic/react';
-import { arrowRedoOutline, cameraOutline, chatbubbleEllipsesOutline, chatbubblesOutline, chatbubblesSharp, ellipsisVerticalSharp, globeSharp, thumbsUpOutline, thumbsUpSharp, warningOutline } from 'ionicons/icons';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonLabel } from '@ionic/react';
+import { arrowRedoOutline, cameraOutline, chatbubbleEllipsesOutline, chatbubblesOutline, globeSharp, thumbsUpOutline, warningOutline } from 'ionicons/icons';
 import styled from 'styled-components';
-import AssetsApi from '../../helpers/assets-api_helper';
-import { ActionSheet, ActionSheetPublic } from '../Menu';
-import { IconSM } from '../Utils/element/icon';
-import Item from '../Utils/element/item';
 import Color from '../Utils/style/color';
 import { PostContent } from './micro/post-content';
 import { PostHeader } from './micro/post-header';
+import { ResponsePost } from './micro/post-response';
 import './post.css';
 
 
@@ -36,23 +31,14 @@ const Post: React.FC<{ data: any, actionClick: () => void }> = (props) => {
                     onClickMore={props.actionClick}
                 />
             </IonCardHeader>
-            <IonCardContent className="post-content">
+            <IonCardContent className="post-content text-start">
                 <PostContent
                     PostCategory={props.data.PostCategory}
                     PostFiles={props.data.PostFiles}
                     caption={props.data.caption}
                 />
+                <ResponsePost />
             </IonCardContent>
-            <Item className='mt-3'>
-                <IonButton slot='start' color={'light'}>
-                    <IconSM color='primary' slot='start' icon={thumbsUpSharp}></IconSM>
-                    <Label>10k</Label>
-                </IonButton>
-                <IonButton slot="end" color={'light'}>
-                    <Icon color='primary' slot='start' icon={chatbubblesSharp}></Icon>
-                    <Label>10k</Label>
-                </IonButton>
-            </Item>
         </IonCard>
     );
 }

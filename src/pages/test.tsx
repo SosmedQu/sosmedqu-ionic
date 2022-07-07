@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React from "react";
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import ToolBarWithGoBack from "../components/Utils/element/toolbar";
+import { ToolBarWithGoBack } from "../components/Utils/element/toolbar";
 import { useHistory } from "react-router";
 
 const BoxInput = styled.div`

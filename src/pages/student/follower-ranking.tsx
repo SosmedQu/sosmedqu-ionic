@@ -3,7 +3,7 @@ import { person } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RankingHeader } from "../../components/header";
-import { IconMD } from "../../components/Utils/element/icon";
+import { IconMD } from "../../components/Utils/style/icon";
 import Color from "../../components/Utils/style/color";
 
 const BoxHeader = styled.div`

@@ -1,25 +1,25 @@
-import { IonPage, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonSelect, IonSelectOption, IonLoading, IonIcon, IonLabel } from "@ionic/react";
+import { IonPage, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonSelect, IonSelectOption, IonLoading, IonIcon, IonLabel, IonCol, IonImg } from "@ionic/react";
 import styled from "styled-components";
-import { Input, Select } from "../../components/Utils/element/Input";
-import ToolBarWithGoBack from "../../components/Utils/element/toolbar";
+import { Input, Select } from "../../components/Utils/style/Input";
+import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useHistory, useLocation } from "react-router";
-import Item from "../../components/Utils/element/item";
-import Label from "../../components/Utils/element/label";
+import Item from "../../components/Utils/style/item";
+import Label from "../../components/Utils/style/label";
 import { FDUpgradeStudent } from "../../formData/FD_upgrade-student";
-import { IconMD } from "../../components/Utils/element/icon";
+import { IconMD } from "../../components/Utils/style/icon";
 import { camera, sendSharp } from "ionicons/icons";
 import { navigate } from '../../helpers/navigation_helper'
 import MyApi from "../../helpers/my-api_helper";
 import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";
-import Content from "../../components/Utils/element/content";
+import Content from "../../components/Utils/style/content";
 import { Camera, CameraResultType } from "@capacitor/camera";
 import { dataURItoBlob } from "../../helpers/converter_helper";
 import { SliderImage } from "../../components/image-slider";
-
+import { TakePictures, UserPhoto } from '../../helpers/camera_helper';
 const BoxInput = styled.div`
     margin: 64px 16px 16px;
 `;
@@ -31,13 +31,13 @@ const ButtonSubmit = styled(IonButton)`
 
 
 const UpgradeStudent: React.FC = () => {
+    document.title = "Upgrade Student";
     const [notvalid, setNotValid] = useState<any>()
     const [showLoading, setShowLoading] = useState(false);
-    const [alert, setAlert] = useState<IAlert>({ showAlert: false });
-    const [file, setFile] = useState<any>();
-    const [filePrev, setFilePrev] = useState<any[]>([]);
+    const [dataAlert, setDataAlert] = useState<IAlert>({ showAlert: false });
     const history = useHistory();
     const location = useLocation();
+    const { photo, takePhoto } = TakePictures();
     const profile: any = location.state;
     let date = new Date(profile.birthDay)
     const btnSubmit = useRef<HTMLIonButtonElement>(null);
@@ -61,41 +61,36 @@ const UpgradeStudent: React.FC = () => {
             nisn: profile.nisn,
             studyAt: profile.studyAt,
             province: profile.province,
+            studentCard: photo,
         }
     });
-    const takePicture = async () => {
+    const form = useRef<HTMLFormElement>(null)
+    const takePicture = () => {
         try {
-            const cameraResult = await Camera.getPhoto({
-                quality: 90,
-                resultType: CameraResultType.DataUrl,
-            })
-            const convert = dataURItoBlob(cameraResult.dataUrl);
-            setFile(convert);
-            setFilePrev([cameraResult.dataUrl]);
+            takePhoto();
+            setValue("studentCard", photo)
         } catch (e: any) {
-            // console.log(e);
+            console.log(e);
         }
     }
 
-    const form = useRef<HTMLFormElement>(null)
     /**
      *
      * @param data
      */
     const onSubmit = (data: any) => {
+        console.log(data);
         setShowLoading(true);
-        const formData = new FormData(form.current as any);
-        console.log(file);
-        formData.append("studentCard", file);
         if (profile.roleId == 2) {
             history.replace("/profile", profile)
         }
         const api = new MyApi();
         api.upgradeStudent(data).then((res) => {
-            setAlert({
+            console.log(res)
+            setDataAlert({
                 showAlert: true,
                 header: "Berhasil",
-                onDidDismiss: () => { setAlert({ showAlert: false }) },
+                onDidDismiss: () => { setDataAlert({ showAlert: false }) },
                 type: "success",
                 message: res.data.msg,
                 okClick: () => {
@@ -104,33 +99,34 @@ const UpgradeStudent: React.FC = () => {
             })
         }, err => {
             // console.log(err.response.data.errors);
-            setNotValid(err.response.data.errors)
-            setAlert({
+            console.log(err)
+            setDataAlert({
                 showAlert: true,
-                onDidDismiss: () => { setAlert({ showAlert: false }) },
+                onDidDismiss: () => { setDataAlert({ showAlert: false }) },
                 header: "Gagal",
                 type: "failed",
                 message: err.response.data.errors.msg,
-                okClick: () => { setAlert({ showAlert: false }) }
+                okClick: () => { setDataAlert({ showAlert: false }) }
             })
         }).finally(() => {
             setShowLoading(false);
         })
 
     };
-    console.log(notvalid);
     const triggerSubmit = () => {
         btnSubmit.current?.click();
     }
+
+
     return (
         <IonPage>
             <IonHeader className="fixed-top">
-                <ToolBarWithGoBack backTo={() => history.goBack()} title="Upgrade To Student" >
+                <ToolBarWithGoBack backTo={() => history.replace("/profile")} title="Upgrade To Student" >
                     <IconMD icon={sendSharp} slot="end" onClick={triggerSubmit} />
                 </ToolBarWithGoBack>
             </IonHeader>
             <Content fullscreen>
-                <AlertOk data={alert} />
+                <AlertOk data={dataAlert} />
                 <IonLoading
                     cssClass='my-custom-class'
                     isOpen={showLoading}
@@ -145,7 +141,9 @@ const UpgradeStudent: React.FC = () => {
                 <BoxInput>
                     <form onSubmit={handleSubmit(onSubmit)} ref={form}>
                         <div className='d-flex flex-column align-items-center mb-2'>
-                            <SliderImage data={filePrev} />
+                            <IonCol size="6">
+                                <IonImg src={photo?.webviewPath} />
+                            </IonCol>
                             <IonButton onClick={takePicture}>
                                 <IonIcon icon={camera} slot="start"></IonIcon>
                                 <IonLabel>Kartu Pelajar</IonLabel>

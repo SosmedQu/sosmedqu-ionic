@@ -1,11 +1,11 @@
 import { IonAvatar, IonButton, IonCard, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonLabel, IonRow, IonTitle } from '@ionic/react';
-import { schoolSharp } from 'ionicons/icons';
+import { male, schoolSharp } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import AssetsApi from '../helpers/assets-api_helper';
 import Env from '../helpers/env_helper';
 import IProfile from '../interface/IProfile';
-import { IconMD } from './Utils/element/icon';
+import { IconMD, IconSM } from './Utils/style/icon';
 import Color from './Utils/style/color';
 import { FontFamily, FontSize } from './Utils/style/font';
 
@@ -37,6 +37,7 @@ const ProfileCard = styled(IonCard)`
     
     .foto{
         grid-area: foto;
+        position: relative;
         height: 100px;
         width: 100px;
     }
@@ -55,7 +56,6 @@ const ProfileCard = styled(IonCard)`
 
     .followers{
         grid-area:followers;
-        margin: 24px 0 0;
         span{
             font-weight: bolder;
             font-size: 24px
@@ -82,6 +82,17 @@ const TopStudent = styled.div`
     }
 `;
 
+const Gender = styled(IonIcon)`
+    position: absolute;
+    right:0;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ion-color-light);
+    background-color: var(--ion-color-primary);
+    border-radius: 50%;
+    padding: 8px;
+`;
+
 const MyProfile: React.FC<{ data: IProfile }> = (props) => {
     console.log(props.data)
     console.log(props.data.roleId === 2)
@@ -98,12 +109,19 @@ const MyProfile: React.FC<{ data: IProfile }> = (props) => {
                 </TopStudent> */}
                 <ProfileCard>
                     <IonAvatar class='foto'>
+                        <Gender icon={male}></Gender>
                         <IonImg src={`${AssetsApi.URLImgProfile}/${props.data.image}`}></IonImg>
                     </IonAvatar>
                     <p className="px-0 nama">{props.data.username}</p>
                     {props.data.roleId == 2
-                        ? (<IonTitle className="px-0 followers">Followers <span>99.9k</span></IonTitle>)
-                        : <IonButton className="followers" color={'warning'} onClick={() => handleUpgrade()}>
+                        ? (
+                            <div>
+                                <p>{props.data.studyAt}</p>
+                                <IonTitle className="px-0 followers">Followers <span>99.9k</span></IonTitle>
+                            </div>
+                        )
+                        :
+                        <IonButton className="followers" color={'secondary'} onClick={() => handleUpgrade()}>
                             <IconMD icon={schoolSharp} color={'light'} slot="start" ></IconMD>
                             <IonLabel color={'light'}>Menjadi Student</IonLabel>
                         </IonButton>

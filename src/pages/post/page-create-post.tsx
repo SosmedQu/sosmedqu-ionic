@@ -1,20 +1,20 @@
 import { IonPage, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonInput, IonHeader } from "@ionic/react";
 import styled from "styled-components";
-import { ItemInput, Select, TextArea } from "../../components/Utils/element/Input";
-import ToolBarWithGoBack from "../../components/Utils/element/toolbar";
+import { ItemInput, Select, TextArea } from "../../components/Utils/style/Input";
+import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useHistory } from "react-router";
-import Item from "../../components/Utils/element/item";
-import Label from "../../components/Utils/element/label";
-import { IconMD } from "../../components/Utils/element/icon";
+import Item from "../../components/Utils/style/item";
+import Label from "../../components/Utils/style/label";
+import { IconMD } from "../../components/Utils/style/icon";
 import { camera, sendSharp } from "ionicons/icons";
 import { navigate } from '../../helpers/navigation_helper'
 import MyApi from "../../helpers/my-api_helper";
 import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";
-import Content from "../../components/Utils/element/content";
+import Content from "../../components/Utils/style/content";
 import { SliderImage } from "../../components/image-slider";
 import { Camera, CameraResultType } from "@capacitor/camera";
 import { dataURItoBlob } from "../../helpers/converter_helper";

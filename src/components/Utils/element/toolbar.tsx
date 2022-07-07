@@ -1,9 +1,13 @@
-import { IonToolbar, IonIcon, IonTitle } from "@ionic/react";
-import { arrowBackSharp } from "ionicons/icons";
+import { IonToolbar, IonIcon, IonTitle, IonMenuToggle } from "@ionic/react";
+import { addCircleSharp, addOutline, addSharp, arrowBackSharp, menuSharp, searchOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { FibPost } from "../../fab";
+import { IconMD, IconSM, IconToolbar } from "../style/icon";
+import { Toolbar } from "../style/toolbar";
 
-const ToolBarWithGoBack: React.FC<{ title: string, backTo: () => void }> = (props) => {
+const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (props) => {
     const Box = styled.div`
         // border: 1px solid red;
         text-align: center;
@@ -20,4 +24,18 @@ const ToolBarWithGoBack: React.FC<{ title: string, backTo: () => void }> = (prop
     )
 }
 
-export default ToolBarWithGoBack;
+const ToolBarWithSideBar: React.FC = (props) => {
+    return (
+        <Toolbar color={'primary'} >
+            <IonMenuToggle slot="start">
+                <IconMD icon={menuSharp} className="icon-navigation"></IconMD>
+            </IonMenuToggle>
+            <IconToolbar slot="end" icon={addSharp} />
+            {props.children}
+        </Toolbar>
+    )
+}
+
+
+
+export { ToolBarWithGoBack, ToolBarWithSideBar };

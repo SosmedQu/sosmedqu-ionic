@@ -5,7 +5,7 @@ import MyApi from "../../helpers/my-api_helper";
 import IAlert from "../../interface/IAlert";
 import { AlertOk } from "../Alert";
 import { Post } from "./Post";
-import { BoxError } from "../Utils/element/box-error";
+import { BoxError } from "../Utils/style/box-error";
 import { MyPostBox, MyPostImage, WhenClick } from "../Utils/custom/profile-post";
 import AssetsApi from "../../helpers/assets-api_helper";
 import PageShowPost from "../../pages/post/page-show-post";

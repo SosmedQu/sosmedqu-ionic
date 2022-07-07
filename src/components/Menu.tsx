@@ -1,4 +1,4 @@
-import { IonActionSheet, IonAvatar, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonMenuToggle, IonToolbar } from '@ionic/react';
+import { IonActionSheet, IonAvatar, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonMenuToggle, IonText, IonToolbar } from '@ionic/react';
 import { bookSharp, calendarSharp, closeSharp, heart, mailSharp, menuSharp, notifications, pencil, powerSharp, searchOutline, settingsSharp, share, trash, trophySharp } from 'ionicons/icons';
 import { useState } from 'react';
 import { Link, useHistory, Redirect } from 'react-router-dom';
@@ -7,63 +7,52 @@ import Env from '../helpers/env_helper';
 import MyApi from '../helpers/my-api_helper';
 import { navigate } from '../helpers/navigation_helper';
 import IAlert from '../interface/IAlert';
+import { getdataToken } from '../interface/IdataToken';
 import { AlertOk } from './Alert';
 import './component.css'
+import { FibPost } from './fab';
 import { SosmedQuTitle } from './typography';
+import Avatar from './Utils/style/avatar';
 import Color from './Utils/style/color';
 
 const api = new MyApi();
 
-const TopBar: React.FC = () => {
-    return (
-        <div id="nav-top">
-            <IonMenuToggle>
-                <IonIcon icon={menuSharp} className="icon-navigation"></IonIcon>
-            </IonMenuToggle>
-            <div>
-                <Link to="/notif">
-                    <IonIcon icon={searchOutline} className="me-2 icon-navigation"></IonIcon>
-                </Link>
-            </div>
-        </div>
-    )
-}
-
 const ProfileSidebar = styled(IonToolbar)`
 
     .toolbar-content{
-        margin: 24px 16px;
         display: grid;
         grid-template-areas: "foto title"
                             "footer footer";
 
         .foto{
+            margin-left: 16px;
             grid-area: foto;
         }
         .title {
+            margin-right: 16px;
             margin: 0 0 0 16px;
             grid-area: title;  
             .nama{
-                font-size: 24px;
-                line-height: 24px;
+                font-size: 18px;
+                line-height: 18px;
                 font-weight: 700;
-                font-family: Inter;
                 overflow: hidden;
                 display: -webkit-box; /* fallback */
                 -webkit-line-clamp: 2; /* number of lines to show */
                 -webkit-box-orient: vertical;
             }
-            .study-at{
-                padding: 16px 0 0 0;
-                font-size: 18px;
-                font-family: Inter;
+            .status{
+
             }
         }
         .footer{
             grid-area: footer;
+            background-color: var(--ion-color-secondary);
+            color: var(--ion-color-primary-contras);
+            font-weight: bold;
+            padding: 8px 16px;
             display: flex;
             justify-content: space-between;
-            margin: 32px 8px 0;
             span{
                 font-size: 20px;
             }
@@ -84,22 +73,34 @@ const Item = styled(IonItem)`
 `;
 
 const SideBar: React.FC = () => {
+    const dataToken = getdataToken();
     return (
         <IonMenu side="start" menuId="first" contentId="main">
             <IonHeader>
                 <ProfileSidebar color={'primary'}>
                     <SosmedQuTitle>SosmedQu</SosmedQuTitle>
                     <div className="toolbar-content">
-                        <IonAvatar className='foto'>
+                        <Avatar className='foto'>
                             <IonImg src={process.env.PUBLIC_URL + "assets/img/no-picture.svg"}></IonImg>
-                        </IonAvatar>
+                        </Avatar>
                         <div className="title">
-                            <p className='nama'>Nama Pengguna Lorem ipsum dolor</p>
+                            <p className='nama'>{dataToken.username}</p>
+                            <p className='role'>{dataToken.role}</p>
                             <p className='study-at'>Universitas BSI</p>
                         </div>
                         <div className="footer">
-                            <IonLabel className='followers'>Followers <span>300</span></IonLabel>
-                            <IonLabel className='disukai'>disukai <span>300</span></IonLabel>
+                            <div className='text-center'>
+                                <IonText className='d-block'>123</IonText>
+                                <IonText className='d-block'>Folowers</IonText>
+                            </div>
+                            <div className='text-center'>
+                                <IonText className='d-block'>123</IonText>
+                                <IonText className='d-block'>Postingan</IonText>
+                            </div>
+                            <div className='text-center'>
+                                <IonText className='d-block'>123</IonText>
+                                <IonText className='d-block'>Disukai</IonText>
+                            </div>
                         </div>
                     </div>
                 </ProfileSidebar>
@@ -110,11 +111,6 @@ const SideBar: React.FC = () => {
                         <IonItemDivider>
                             <Label>social</Label>
                         </IonItemDivider>
-
-                        <Item href='/chatting'>
-                            <IconSidebar icon={mailSharp} className="me-2 icon-navigation"></IconSidebar>
-                            <Label>PesanQu</Label>
-                        </Item>
                         <Item href='/chatting'>
                             <IconSidebar icon={notifications} className="me-2 icon-navigation"></IconSidebar>
                             <Label>NotifQu</Label>
@@ -197,7 +193,7 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data?: an
                                     },
                                     type: 'success',
                                     okClick: () => {
-                                        window.location.reload();
+                                        history.goBack();
                                     }
 
                                 })
@@ -282,4 +278,4 @@ const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idP
     )
 }
 
-export { TopBar, SideBar, ActionSheet, ActionSheetPublic };
+export { SideBar, ActionSheet, ActionSheetPublic };

@@ -1,35 +1,20 @@
-import { IonHeader, IonIcon, IonTitle, IonToolbar } from '@ionic/react';
+import { IonHeader, IonTitle, IonToolbar } from '@ionic/react';
 import { arrowBackSharp, arrowRedoSharp, pencilSharp } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { TopBar } from './Menu';
-import { IconSM } from './Utils/element/icon';
+import { IconSM } from './Utils/style/icon';
 
-
-const DefaultHeader: React.FC = () => {
-    return (
-        <IonHeader>
-            <IonToolbar color={'primary'}>
-                <TopBar />
-            </IonToolbar>
-        </IonHeader>
-    )
-}
-
-const Icon = styled(IonIcon)`
-font-size: 32px;
-`;
 const ProfileHeader: React.FC = () => {
     const history = useHistory();
     return (
         <IonHeader>
             <IonToolbar color={'primary'} className="ion-padding" style={{ padding: 0 }}>
-                <Icon slot='start' icon={arrowBackSharp} onClick={() => {
+                <IconSM slot='start' icon={arrowBackSharp} onClick={() => {
                     history.goBack();
-                }}></Icon>
-                <Icon slot='end' icon={pencilSharp} onClick={() => {
+                }}></IconSM>
+                <IconSM slot='end' icon={pencilSharp} onClick={() => {
                     history.push("/edit-profile");
-                }}></Icon>
+                }}></IconSM>
             </IonToolbar>
         </IonHeader>
     )
@@ -55,4 +40,4 @@ const RankingHeader: React.FC = () => {
     )
 }
 
-export { DefaultHeader, ProfileHeader, RankingHeader };
+export { ProfileHeader, RankingHeader };

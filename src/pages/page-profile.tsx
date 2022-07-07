@@ -5,10 +5,12 @@ import { ProfileHeader } from '../components/header';
 import MyApi from '../helpers/my-api_helper';
 import { useEffect, useRef, useState } from 'react';
 import MyProfile from '../components/myprofile';
-import { logoVimeo, newspaperOutline, ribbonSharp } from 'ionicons/icons';
+import { logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
 import PostByUser from '../components/post/post-by-user';
-import { Segment } from '../components/Utils/element/segment';
-import { IconSM } from '../components/Utils/element/icon';
+import { Segment } from '../components/Utils/style/segment';
+import { IconSM } from '../components/Utils/style/icon';
+import { ToolBarWithSideBar } from '../components/Utils/element/toolbar';
+import { Header } from '../components/Utils/style/header';
 
 interface IProfile {
   id?: number;
@@ -56,15 +58,20 @@ const Profile: React.FC = () => {
     window.location.reload();
     event.detail.complete();
   }
+  console.log(myProfile)
   return (
     <>
       <SideBar />
       <IonPage id="main">
-        <ProfileHeader />
+        <Header>
+          <ToolBarWithSideBar>
+            <IconSM slot='end' icon={pencil} />
+          </ToolBarWithSideBar>
+        </Header>
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>
-              <IonTitle size="large">Profile</IonTitle>
+              <IonTitle>Profile</IonTitle>
             </IonToolbar>
           </IonHeader>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
@@ -75,7 +82,7 @@ const Profile: React.FC = () => {
               <MyProfile data={myProfile} />
             )
             : <NeedAuth name='Profile' />}
-          <Segment color="secondary" value={value} onIonChange={(e) => handleSegmentChange(e)}>
+          <Segment color="secondary" value={value} onIonChange={(e: any) => handleSegmentChange(e)}>
             <IonSegmentButton value="0">
               <IconSM icon={newspaperOutline} />
             </IonSegmentButton>

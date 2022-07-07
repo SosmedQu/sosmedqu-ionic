@@ -1,4 +1,4 @@
-h6, p {
+/* h6, p {
     margin: 0 !important;
     padding: 0;
 }
@@ -17,10 +17,6 @@ h6, p {
 .post-header #post-profile-img {
     margin-right: 8px;
     width: 32px;
-}
-
-.post-content {
-    text-align: start;
 }
 
 .short{
@@ -99,4 +95,4 @@ h6, p {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */

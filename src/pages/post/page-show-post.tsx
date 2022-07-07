@@ -1,9 +1,10 @@
-import { IonPage, IonHeader, IonToolbar, IonContent, IonLoading, IonTitle, useIonViewWillEnter, IonCard, IonCardHeader } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonContent, IonLoading, IonTitle, useIonViewWillEnter, IonCard, IonCardHeader, IonCardContent } from "@ionic/react";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import { ActionSheet } from "../../components/Menu";
+import { PostContent } from "../../components/post/micro/post-content";
 import { PostHeader } from "../../components/post/micro/post-header"
-import ToolBarWithGoBack from "../../components/Utils/element/toolbar";
+import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
 
 const PageShowPost: React.FC = () => {
     // const api = new MyApi()
@@ -27,7 +28,7 @@ const PageShowPost: React.FC = () => {
     //     })
     // }, [])
     useIonViewWillEnter(() => {
-        console.log(post);
+        console.log(post.caption);
         setShowLoading(false)
     })
     return (
@@ -57,6 +58,13 @@ const PageShowPost: React.FC = () => {
                             onClickMore={() => setActionSheet(true)}
                         />
                     </IonCardHeader>
+                    <IonCardContent>
+                        <PostContent
+                            PostCategory={post.PostCategory}
+                            PostFiles={post.PostFiles}
+                            caption={post.caption}
+                        />
+                    </IonCardContent>
                 </IonCard>
             </IonContent>
         </IonPage>

@@ -5,8 +5,8 @@ import AssetsApi from '../helpers/assets-api_helper';
 
 
 const Image = styled(IonImg)`
-    width: 200px;
-    height: 200px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
 `;
 

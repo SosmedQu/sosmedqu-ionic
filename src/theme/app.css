@@ -1,5 +1,9 @@
 @import './variables.css';
 
+* {
+    font-family: inter sans-serif !important;
+}
+
 .alert-button-group .alert-button span {
     color: var(--ion-color-dark) !important;
 }
@@ -74,22 +78,21 @@ a {
 }
 
 .alert-success {
-    --background: #62E841;
+    --background: var(--ion-color-success);
 }
 
 .alert-wrapper .alert-head {
     text-align: center;
-    color: var(--ion-color-primary-contrast);
 }
 
-.alert-wrapper .alert-message,
-.alert-wrapper .alert-button span,
-.alert-wrapper .alert-head h2 {
-    color: var(--ion-color-primary-contrast);
+.custom-alert .alert-wrapper .alert-message,
+.custom-alert .alert-wrapper .alert-button span.alert-button-inner,
+.custom-alert .alert-wrapper .alert-head h2 {
+    color: var(--ion-color-light) !important;
 }
 
 .alert-failed {
-    --background: #e84141;
+    --background: var(--ion-color-danger);
 }
 
 .upload-media {

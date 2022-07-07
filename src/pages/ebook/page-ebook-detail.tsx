@@ -1,20 +1,22 @@
-import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonLabel, IonNote, IonPage, IonRow, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { readerSharp } from 'ionicons/icons';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FabAddEbook } from '../../components/fab';
-import { SideBar, TopBar } from '../../components/Menu';
+import { SideBar } from '../../components/Menu';
+import { ToolBarWithGoBack } from '../../components/Utils/element/toolbar';
+import { Header } from '../../components/Utils/style/header';
 
 
 const PageEbookDetail: React.FC = () => {
+    const history = useHistory();
     return (
         <>
             <SideBar />
             <IonPage id="main">
-                <IonHeader>
-                    <IonToolbar>
-                        <TopBar />
-                    </IonToolbar>
-                </IonHeader>
+                <Header>
+                    <ToolBarWithGoBack backTo={() => history.goBack()} title='E-BookQu'>
+                    </ToolBarWithGoBack>
+                </Header>
                 <IonContent fullscreen>
                     <IonHeader collapse="condense">
                         <IonToolbar>

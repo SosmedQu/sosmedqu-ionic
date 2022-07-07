@@ -2,8 +2,8 @@ import { IonAvatar, IonImg, IonText, IonIcon } from "@ionic/react"
 import { ellipsisVerticalSharp } from "ionicons/icons"
 import styled from "styled-components"
 import AssetsApi from "../../../helpers/assets-api_helper"
-import Item from "../../Utils/element/item"
-import Label from "../../Utils/element/label"
+import Item from "../../Utils/style/item"
+import Label from "../../Utils/style/label"
 const TitlePost = styled.div`
     .privacy{
         font-size: 12px;
