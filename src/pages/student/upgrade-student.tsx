@@ -1,8 +1,8 @@
-import { IonPage, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonSelect, IonSelectOption, IonLoading, IonIcon, IonLabel, IonCol, IonImg } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, IonCol, IonImg } from "@ionic/react";
 import styled from "styled-components";
 import { Input, Select } from "../../components/Utils/style/Input";
 import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useHistory, useLocation } from "react-router";
@@ -16,23 +16,16 @@ import MyApi from "../../helpers/my-api_helper";
 import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";
 import Content from "../../components/Utils/style/content";
-import { Camera, CameraResultType } from "@capacitor/camera";
-import { dataURItoBlob } from "../../helpers/converter_helper";
-import { SliderImage } from "../../components/image-slider";
-import { TakePictures, UserPhoto } from '../../helpers/camera_helper';
+import { TakePictures } from '../../helpers/camera_helper';
 const BoxInput = styled.div`
     margin: 64px 16px 16px;
-`;
-
-const ButtonSubmit = styled(IonButton)`
-   
 `;
 
 
 
 const UpgradeStudent: React.FC = () => {
     document.title = "Upgrade Student";
-    const [notvalid, setNotValid] = useState<any>()
+    // const [notvalid, setNotValid] = useState<any>()
     const [showLoading, setShowLoading] = useState(false);
     const [dataAlert, setDataAlert] = useState<IAlert>({ showAlert: false });
     const history = useHistory();
@@ -41,7 +34,6 @@ const UpgradeStudent: React.FC = () => {
     const profile: any = location.state;
     let date = new Date(profile.birthDay)
     const btnSubmit = useRef<HTMLIonButtonElement>(null);
-
 
     const {
         handleSubmit,
@@ -61,25 +53,30 @@ const UpgradeStudent: React.FC = () => {
             nisn: profile.nisn,
             studyAt: profile.studyAt,
             province: profile.province,
-            studentCard: photo,
+            studentCard: '',
         }
     });
+
     const form = useRef<HTMLFormElement>(null)
     const takePicture = () => {
         try {
             takePhoto();
-            setValue("studentCard", photo)
+            console.log(photo);
+
         } catch (e: any) {
             console.log(e);
         }
     }
+    useEffect(() => {
+        setValue("studentCard", photo ?? '');
+    }, [takePicture])
 
     /**
      *
      * @param data
      */
     const onSubmit = (data: any) => {
-        console.log(data);
+        alert(JSON.stringify(data));
         setShowLoading(true);
         if (profile.roleId == 2) {
             history.replace("/profile", profile)
@@ -98,8 +95,7 @@ const UpgradeStudent: React.FC = () => {
                 }
             })
         }, err => {
-            // console.log(err.response.data.errors);
-            console.log(err)
+            console.log(err.response.data.errors);
             setDataAlert({
                 showAlert: true,
                 onDidDismiss: () => { setDataAlert({ showAlert: false }) },
@@ -142,7 +138,9 @@ const UpgradeStudent: React.FC = () => {
                     <form onSubmit={handleSubmit(onSubmit)} ref={form}>
                         <div className='d-flex flex-column align-items-center mb-2'>
                             <IonCol size="6">
-                                <IonImg src={photo?.webviewPath} />
+                                {photo != undefined && (
+                                    <IonImg src={photo} />
+                                )}
                             </IonCol>
                             <IonButton onClick={takePicture}>
                                 <IonIcon icon={camera} slot="start"></IonIcon>
@@ -260,7 +258,7 @@ const UpgradeStudent: React.FC = () => {
                                 as={<div style={{ color: 'red' }} />}
                             />
                         </Item>
-                        <ButtonSubmit type="submit" ref={btnSubmit} hidden />
+                        <IonButton type="submit" ref={btnSubmit} hidden />
                     </form>
                 </BoxInput>
             </Content>

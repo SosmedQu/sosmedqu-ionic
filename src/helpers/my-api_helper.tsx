@@ -41,7 +41,7 @@ export class MyApi {
     }
 
     upgradeStudent = async (data: any) => {
-        const req = await api.post("/profile/validateStudent", data, { headers: { "Content-Type": "multipart/form-data" } })
+        const req = await api.post("/profile/validateStudent", data)
         return req;
     }
 

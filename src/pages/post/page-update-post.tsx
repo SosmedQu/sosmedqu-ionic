@@ -10,7 +10,6 @@ import Item from "../../components/Utils/style/item";
 import Label from "../../components/Utils/style/label";
 import { IconMD } from "../../components/Utils/style/icon";
 import { camera, sendSharp } from "ionicons/icons";
-import { navigate } from '../../helpers/navigation_helper'
 import MyApi from "../../helpers/my-api_helper";
 import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";

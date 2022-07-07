@@ -10,12 +10,12 @@ import { ToolBarWithSideBar } from '../../components/Utils/element/toolbar';
 import { BoxSegment, Segment } from '../../components/Utils/style/segment';
 import { useHistory } from 'react-router';
 import { getCookie } from 'typescript-cookie';
-import { getdataToken } from '../../interface/IdataToken';
+// import { getdataToken } from '../../interface/IdataToken';
 import { FibPost } from '../../components/fab';
 
 
 const PagePost: React.FC = () => {
-  const dataToken = getdataToken();
+  // const dataToken = getdataToken();
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(true);
   const slider = useRef<HTMLIonSlidesElement>(null);
@@ -96,7 +96,7 @@ const PagePost: React.FC = () => {
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
-          {dataToken.role == 'pelajar' && (FibPost)}
+          {/* {dataToken && dataToken.role == 'pelajar' && (<FibPost />)} */}
           {postMedia.length > 0
             ? (<IonSlides options={slideOpts} ref={slider}>
               <IonSlide>

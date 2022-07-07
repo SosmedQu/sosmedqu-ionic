@@ -64,9 +64,6 @@ import PageUpdatePost from './pages/post/page-update-post';
 
 setupIonicReact();
 
-const api = new MyApi()
-let token = getCookie("accessToken") ? true : false;
-
 const App: React.FC = () => {
   return (
     <IonApp>

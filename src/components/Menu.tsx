@@ -7,7 +7,7 @@ import Env from '../helpers/env_helper';
 import MyApi from '../helpers/my-api_helper';
 import { navigate } from '../helpers/navigation_helper';
 import IAlert from '../interface/IAlert';
-import { getdataToken } from '../interface/IdataToken';
+// import { getdataToken } from '../interface/IdataToken';
 import { AlertOk } from './Alert';
 import './component.css'
 import { FibPost } from './fab';
@@ -73,7 +73,7 @@ const Item = styled(IonItem)`
 `;
 
 const SideBar: React.FC = () => {
-    const dataToken = getdataToken();
+    // const dataToken = getdataToken();
     return (
         <IonMenu side="start" menuId="first" contentId="main">
             <IonHeader>
@@ -84,8 +84,8 @@ const SideBar: React.FC = () => {
                             <IonImg src={process.env.PUBLIC_URL + "assets/img/no-picture.svg"}></IonImg>
                         </Avatar>
                         <div className="title">
-                            <p className='nama'>{dataToken.username}</p>
-                            <p className='role'>{dataToken.role}</p>
+                            {/* <p className='nama'>{dataToken.username}</p>
+                            <p className='role'>{dataToken.role}</p> */}
                             <p className='study-at'>Universitas BSI</p>
                         </div>
                         <div className="footer">
