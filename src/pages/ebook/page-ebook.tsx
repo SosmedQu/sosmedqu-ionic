@@ -1,16 +1,21 @@
 import { IonAvatar, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { } from 'ionicons/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FabAddEbook } from '../../components/fab';
-import DefaultHeader from '../../components/header';
-import { SideBar } from '../../components/menu/Menu';
+import { SideBar } from '../../components/Menu';
+import { ToolBarWithGoBack } from '../../components/Utils/element/toolbar';
+import { Header } from '../../components/Utils/style/header';
 
 const PageEbook: React.FC = () => {
+    const history = useHistory();
     return (
         <>
             <SideBar />
             <IonPage id="main">
-                <DefaultHeader />
+                <Header>
+                    <ToolBarWithGoBack backTo={() => history.goBack()} title='E-BookQu'>
+                    </ToolBarWithGoBack>
+                </Header>
                 <IonContent fullscreen>
                     <IonHeader collapse="condense">
                         <IonToolbar>

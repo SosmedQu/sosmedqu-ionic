@@ -7,14 +7,14 @@ const Login: React.FC = () => {
         <IonPage>
             <IonContent fullscreen>
                 <video loop muted autoPlay id="my-video">
-                    <source src={process.env.PUBLIC_URL + "/assets/video/video.mp4"} type="video/mp4" />
+                    <source src={process.env.PUBLIC_URL + "/assets/video/video2.mp4"} type="video/mp4" />
                 </video>
                 <div className="login-box">
                     <IonButton expand="block" color="light" id='button' href="/profile">
                         <IonIcon slot="start" icon={logoGoogle} />
                         <IonLabel>Login With Google</IonLabel>
                     </IonButton>
-                    <IonButton expand="block" color="light" id='button' href="/loginEmail">
+                    <IonButton expand="block" color="light" id='button' href="/login-email">
                         <IonIcon slot="start" icon={mailSharp} />
                         <IonLabel>Login With Email</IonLabel>
                     </IonButton>

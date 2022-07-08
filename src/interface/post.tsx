@@ -1,8 +1,9 @@
-interface PostMedia {
-    id: number;
-    caption: string;
-    privacy: string;
-    fileName: string;
+
+
+interface ICUPost {
+    caption?: string;
+    privacy?: string;
+    categoryId?: string;
 }
 
-export type { PostMedia };
+export type { ICUPost };

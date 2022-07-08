@@ -2,7 +2,8 @@ import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
 import { useCallback, useContext, useState } from 'react';
 import { IonContent, IonPage, NavContext } from '@ionic/react';
-import MyAlert from './Alert';
+import IAlert from '../interface/IAlert';
+import { AlertOk } from './Alert';
 
 const VerifyAccount: React.FC = () => {
     const { navigate } = useContext(NavContext);
@@ -12,19 +13,7 @@ const VerifyAccount: React.FC = () => {
         (url: string) => navigate(url, 'back'),
         [navigate]
     );
-    interface IAlert {
-        type: string
-        show: boolean
-        header: string
-        msg: string
-    }const [Alert, setAlert] = useState<IAlert>(
-        {
-            type: "success",
-            show: false,
-            header: "",
-            msg: ""
-        }
-    );
+    const [Alert, setAlert] = useState<IAlert>({ showAlert: false });
     const url = "http://localhost:3000/api/auth/verifyAccount";
     const urlParams = new URLSearchParams(window.location.search);
     Axios.post(url, {
@@ -33,28 +22,27 @@ const VerifyAccount: React.FC = () => {
         if (res.status == 200) {
             setAlert({
                 type: "success",
-                show: true,
+                showAlert: true,
                 header: "Berhasil",
-                msg: res.data.msg
+                message: res.data.msg,
+                okClick: () => {
+                    redirect("/register/create-password")
+                }
             });
-            redirect("/register/create-password");
         }
     }).catch(error => {
         setAlert({
             type: "failed",
-            show: true,
+            showAlert: true,
             header: "Gagal",
-            msg: error
+            message: error.response.msg
         });
     })
     return (
         <IonPage>
             <IonContent>
-                <MyAlert
-                    showAlert={Alert?.show}
-                    type={Alert?.type}
-                    header={Alert.header}
-                    message={Alert.msg}
+                <AlertOk
+                    data={Alert}
                 />
             </IonContent>
         </IonPage>

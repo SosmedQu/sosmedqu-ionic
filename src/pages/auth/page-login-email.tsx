@@ -1,77 +1,53 @@
 import { IonAlert, IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import MyApi from '../../helpers/my-api';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+import { AlertOk } from '../../components/Alert';
+import MyApi from '../../helpers/my-api_helper';
+import IAlert from '../../interface/IAlert';
 import './auth.css';
 const LoginWithEmail: React.FC = () => {
     const history = useHistory();
-    interface IAlert {
-        type: string;
-        show: boolean;
-        header: string;
-        msg: string;
-        buttons: any;
-    }
-    const [Alert, setAlert] = useState<IAlert>({
-        type: "",
-        show: false,
-        msg: "",
-        header: "",
-        buttons: undefined,
-    });
+    const [Alert, setAlert] = useState<IAlert>({ showAlert: false })
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const onSubmit = (e: any) => {
         e.preventDefault();
-        console.log("submit")
         const api = new MyApi();
         api.login({ email: email, password: password }).then(
             (response) => {
                 console.log(response);
                 setAlert({
                     type: "success",
-                    show: true,
+                    showAlert: true,
                     header: "Berhasil",
-                    msg: response.data.msg,
-                    buttons: [
-                        {
-                            text: "OK",
-                            handler: () => {
-                                history.push({
-                                    pathname: "/profile"
-                                });
-                            },
-                        },
-                    ],
+                    message: response.data.msg,
+                    okClick: () => {
+                        history.push("/profile")
+                    },
+                    onDidDismiss() {
+                        setAlert({ showAlert: false })
+                    },
                 });
             },
             (err) => {
                 console.log(err.response)
                 setAlert({
                     type: "failed",
+                    showAlert: true,
                     header: "Gagal",
-                    show: true,
-                    msg: err.response.data.errors[0].msg,
-                    buttons: [
-                        {
-                            text: "OK",
-                        },
-                    ],
+                    message: err.response.data.msg,
+                    okClick: () => {
+
+                    },
+                    onDidDismiss() {
+                        setAlert({ showAlert: false })
+                    },
                 });
             }
         );
     }
-    const resetAlert = () => {
-        setAlert({
-            type: "",
-            show: false,
-            msg: "",
-            header: "",
-            buttons: undefined,
-        });
-    };
     return (
         <IonPage>
             <IonHeader>
@@ -86,7 +62,7 @@ const LoginWithEmail: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
-                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
+                    <AlertOk data={Alert} />
                     <IonRow>
                         <IonCol className="flex-center">
                             <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1" />
@@ -102,7 +78,7 @@ const LoginWithEmail: React.FC = () => {
                             <IonInput type='password' name="password" onIonChange={(e) => setPassword(e.detail.value!)} ></IonInput>
                         </IonItem>
                         <div className="btn-submit">
-                            <IonButton type="submit" color="light" style={{ "margin-bottom": "16px" }}>
+                            <IonButton type="submit" color="light" style={{ marginBottom: "16px" }}>
                                 <IonIcon icon={logInSharp} slot="start"></IonIcon>
                                 <IonLabel>Login</IonLabel>
                             </IonButton>

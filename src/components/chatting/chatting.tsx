@@ -1,6 +1,5 @@
-import { IonCard, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
-import { arrowBackCircleSharp, arrowBackOutline, backspaceOutline, personCircle } from 'ionicons/icons';
-import ExploreContainer from '../ExploreContainer';
+import { IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { arrowBackOutline, personCircle } from 'ionicons/icons';
 import './chatting.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';

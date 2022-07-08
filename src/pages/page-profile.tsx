@@ -1,20 +1,49 @@
-import { IonContent, IonHeader, IonLabel, IonPage, IonTitle, IonToolbar, useIonViewDidEnter } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail } from '@ionic/react';
 import NeedAuth from '../components/NeedAuth';
-import { SideBar, TopBar } from '../components/menu/Menu';
-import DefaultHeader from '../components/header';
-import MyApi from '../helpers/my-api';
-import { useEffect, useState } from 'react';
+import { SideBar } from '../components/Menu';
+import { ProfileHeader } from '../components/header';
+import MyApi from '../helpers/my-api_helper';
+import { useEffect, useRef, useState } from 'react';
 import MyProfile from '../components/myprofile';
+import { logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
+import PostByUser from '../components/post/post-by-user';
+import { Segment } from '../components/Utils/style/segment';
+import { IconSM } from '../components/Utils/style/icon';
+import { ToolBarWithSideBar } from '../components/Utils/element/toolbar';
+import { Header } from '../components/Utils/style/header';
+
+interface IProfile {
+  id?: number;
+  username?: string;
+  email?: string;
+}
 
 const Profile: React.FC = () => {
-  const [myProfile, setMyProfile] = useState({});
-
+  const [myProfile, setMyProfile] = useState<IProfile>();
+  const [value, setValue] = useState("0");
+  const slider = useRef<HTMLIonSlidesElement>(null);
+  const handleSegmentChange = (e: any) => {
+    setValue(e.detail.value);
+    slider.current!.slideTo(e.detail.value);
+  };
+  const slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+    loop: false,
+    pagination: {
+      el: null
+    },
+  }
+  const handleSlideChange = (e: any) => {
+    slider.current?.getActiveIndex().then((e) => {
+      setValue(`${e}`)
+    })
+  }
   useEffect(() => {
     const api = new MyApi();
     const loadData = async () => {
       await api.getProfile().then((profile) => {
         setMyProfile(profile.data.user);
-        console.log(profile.data.user);
       }, err => {
         console.log(err);
       }).catch((err) => {
@@ -23,24 +52,76 @@ const Profile: React.FC = () => {
     }
     loadData();
   }, [])
+
+  function doRefresh(event: CustomEvent<RefresherEventDetail>) {
+    console.log('Begin async operation');
+    window.location.reload();
+    event.detail.complete();
+  }
+  console.log(myProfile)
   return (
     <>
       <SideBar />
-      <IonPage>
-        <IonHeader>
-          <DefaultHeader />
-        </IonHeader>
+      <IonPage id="main">
+        <Header>
+          <ToolBarWithSideBar>
+            <IconSM slot='end' icon={pencil} />
+          </ToolBarWithSideBar>
+        </Header>
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>
-              <IonTitle size="large">Profile</IonTitle>
+              <IonTitle>Profile</IonTitle>
             </IonToolbar>
           </IonHeader>
-          {Object.keys(myProfile).length > 0
+          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+            <IonRefresherContent></IonRefresherContent>
+          </IonRefresher>
+          {myProfile
             ? (
               <MyProfile data={myProfile} />
             )
             : <NeedAuth name='Profile' />}
+          <Segment color="secondary" value={value} onIonChange={(e: any) => handleSegmentChange(e)}>
+            <IonSegmentButton value="0">
+              <IconSM icon={newspaperOutline} />
+            </IonSegmentButton>
+            <IonSegmentButton value="1">
+              <IconSM icon={logoVimeo} />
+            </IonSegmentButton>
+            <IonSegmentButton value="2">
+              <IconSM icon={ribbonSharp} />
+            </IonSegmentButton>
+          </Segment >
+          <IonSlides options={slideOpts} ref={slider} onIonSlideDidChange={handleSlideChange}>
+            <IonSlide>
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    {myProfile?.id &&
+                      (<PostByUser idUser={myProfile.id} />)
+                    }
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+            </IonSlide>
+            {/*-- Package Segment --*/}
+            <IonSlide>
+              <IonGrid>
+                <IonRow>
+                  <h1>2</h1>
+                </IonRow>
+              </IonGrid>
+            </IonSlide>
+            {/*-- Package Segment --*/}
+            <IonSlide>
+              <IonGrid>
+                <IonRow>
+                  <h1>3</h1>
+                </IonRow>
+              </IonGrid>
+            </IonSlide>
+          </IonSlides>
         </IonContent>
       </IonPage>
     </>

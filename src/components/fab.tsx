@@ -2,7 +2,7 @@ import { IonButton, IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/rea
 import { addSharp, newspaperSharp, playCircleSharp } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
 
-const FabAdd: React.FC = () => {
+const FibPost: React.FC = () => {
     return (
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton>
@@ -30,4 +30,4 @@ const FabAddEbook: React.FC = () => {
     )
 }
 
-export { FabAdd, FabAddEbook };
+export { FibPost, FabAddEbook };

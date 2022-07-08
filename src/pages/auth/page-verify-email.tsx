@@ -2,7 +2,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonGrid,
 import { mailOutline, sendSharp, mailSharp } from "ionicons/icons";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
-import MyApi from "../../helpers/my-api";
+import MyApi from "../../helpers/my-api_helper";
 
 const VerifikasiEmail: React.FC = () => {
     const history = useHistory();
@@ -86,7 +86,7 @@ const VerifikasiEmail: React.FC = () => {
                 </IonHeader>
                 <div className="container">
                     <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
-                    <IonIcon icon={mailOutline} style={{ "font-size": "150px" }}></IonIcon>
+                    <IonIcon icon={mailOutline} style={{ fontSize: "150px" }}></IonIcon>
                     <h1>Verify Your Email</h1>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla

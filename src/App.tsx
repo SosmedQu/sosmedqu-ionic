@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
+  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -40,97 +41,123 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-// Bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+// Bootstrap 5
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // CSS SosmedQu
 import './theme/app.css';
-import { homeSharp, newspaperSharp, playCircleSharp, searchSharp, personSharp } from 'ionicons/icons';
+import { newspaperSharp, personSharp, logoVimeo } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
-import PageAddPost from './pages/post/page-add-post';
 import PageEbook from './pages/ebook/page-ebook';
 import PageEbookDetail from './pages/ebook/page-ebook-detail';
+import { getCookie } from 'typescript-cookie'
+import ProtectedRoute from './ProtectedRoute';
+import MyApi from './helpers/my-api_helper';
+import Logout from './pages/auth/page-logout';
+import UpgradeStudent from './pages/student/upgrade-student';
+import FollowerRanking from './pages/student/follower-ranking';
+import PageShowPost from './pages/post/page-show-post';
+import PageCreatePost from './pages/post/page-create-post';
+import PageUpdatePost from './pages/post/page-update-post';
+
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/login" >
-            <Login />
-          </Route>
-          <Route exact path="/loginEmail">
-            <LoginWithEmail />
-          </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          <Route exact path="/register/verify-email">
-            <VerifikasiEmail />
-          </Route>
-          <Route exact path="/register/create-password">
-            <CreatePassword />
-          </Route>
-          <Route exact path="/register/verify-account">
-            <VerifyAccount />
-          </Route>
-          <Route exact path="/home">
-            <HomePage />
-          </Route>
-          <Route exact path="/chatting">
-            <Chatting />
-          </Route>
-          <Route exact path="/chatting/detail">
-            <ChattingDetail />
-          </Route>
-          <Route exact path="/post">
-            <PagePost />
-          </Route>
-          <Route exact path="/add-post">
-            <PageAddPost />
-          </Route>
-          <Route exact path="/ebook">
-            <PageEbook />
-          </Route>
-          <Route exact path="/ebook/detail">
-            <PageEbookDetail />
-          </Route>
-          <Route exact path="/short-video">
-            <ShortVideo />
-          </Route>
-          <Route exact path="/search">
-            <PageSearch />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom" className="nav-bottom" color={'primary'}>
-          <IonTabButton tab="home" href="/home">
-            <IonIcon icon={homeSharp} />
-          </IonTabButton>
-          <IonTabButton tab="Post" href="/post">
-            <IonIcon icon={newspaperSharp} />
-          </IonTabButton>
-          <IonTabButton tab="short-video" href="/short-video">
-            <IonIcon icon={playCircleSharp} />
-          </IonTabButton>
-          <IonTabButton tab="search" href="/search">
-            <IonIcon icon={searchSharp} />
-          </IonTabButton>
-          <IonTabButton tab="profile" href="/profile">
-            <IonIcon icon={personSharp} />
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/login" >
+              <Login />
+            </Route>
+            <ProtectedRoute exact path="/logout" >
+              <Logout />
+            </ProtectedRoute>
+            <Route exact path="/login-email">
+              <LoginWithEmail />
+            </Route>
+            <Route exact path="/register">
+              <Register />
+            </Route>
+            <Route exact path="/register/verify-email">
+              <VerifikasiEmail />
+            </Route>
+            <Route exact path="/register/create-password">
+              <CreatePassword />
+            </Route>
+            <Route exact path="/register/verify-account">
+              <VerifyAccount />
+            </Route>
+            <Route exact path="/home">
+              <HomePage />
+            </Route>
+            <ProtectedRoute exact path="/chatting">
+              <Chatting />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/chatting/detail">
+              <ChattingDetail />
+            </ProtectedRoute>
+            <Route exact path="/post">
+              <PagePost />
+            </Route>
+            <Route exact path="/show-post">
+              <PageShowPost />
+            </Route>
+            <ProtectedRoute exact path="/add-post">
+              <PageCreatePost />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/edite-post">
+              <PageUpdatePost />
+            </ProtectedRoute>
+            <Route exact path="/ebook">
+              <PageEbook />
+            </Route>
+            <Route exact path="/ebook/detail">
+              <PageEbookDetail />
+            </Route>
+            <Route exact path="/short-video">
+              <ShortVideo />
+            </Route>
+            <Route exact path="/search/:data">
+              <PageSearch />
+            </Route>
+            <ProtectedRoute exact path="/profile">
+              <Profile />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/upgrade-student">
+              <UpgradeStudent />
+            </ProtectedRoute>
+            <Route exact path="/follower-ranking">
+              <FollowerRanking />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/post" />
+            </Route>
+            <Route exact path="">
+              <Redirect to="/post" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom" className="nav-bottom" color={'primary'}>
+            <IonTabButton tab="short-video" href="/short-video">
+              <IonIcon icon={logoVimeo} />
+              <IonLabel>VidQu</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="post" href="/post">
+              <IonIcon icon={newspaperSharp} />
+              <IonLabel>PostQu</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="profile" href="/profile">
+              <IonIcon icon={personSharp} />
+              <IonLabel>profile</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+}
 
 export default App;

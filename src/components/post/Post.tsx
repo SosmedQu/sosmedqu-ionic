@@ -1,122 +1,47 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonImg, IonRow, IonSlide, IonSlides } from '@ionic/react';
-import { arrowRedoOutline, arrowRedoSharp, cameraOutline, cameraSharp, chatboxEllipsesSharp, chatbubbleEllipsesOutline, chatbubblesOutline, chatbubblesSharp, globeSharp, pencilSharp, thumbsDownSharp, thumbsUpOutline, thumbsUpSharp, warningOutline, warningSharp } from 'ionicons/icons';
-import { } from 'react-router-dom';
+import { IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonLabel } from '@ionic/react';
+import { arrowRedoOutline, cameraOutline, chatbubbleEllipsesOutline, chatbubblesOutline, globeSharp, thumbsUpOutline, warningOutline } from 'ionicons/icons';
+import styled from 'styled-components';
+import Color from '../Utils/style/color';
+import { PostContent } from './micro/post-content';
+import { PostHeader } from './micro/post-header';
+import { ResponsePost } from './micro/post-response';
 import './post.css';
 
-const PostDefault: React.FC<{ data: any }> = (props) => {
-    return (
-        <div className="container">
-            <IonGrid >
-                <IonCardHeader>
-                    <div className="post-header">
-                        <div className="post-profile ">
-                            <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                            <div className="name text-start">
-                                <h6 className="">Nama Pengguna</h6>
-                                <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
-                            </div>
-                        </div>
-                        <p className="small">1 day ago</p>
-                    </div>
-                </IonCardHeader>
-                <IonCardContent className="post-content">
-                    <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    Keep close to Nature's heart... and break clear away, once in awhile,
-                    and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                </IonCardContent>
-            </IonGrid>
-        </div>
-    );
-}
 
-const PostText: React.FC = () => {
+const Icon = styled(IonIcon)`
+    font-size: 24px;
+    color: ${Color.primary.blue};
+`;
+
+const Label = styled(IonLabel)`
+    font-family: inter sans-serif !important;
+    font-size: 14px;
+`;
+
+
+const Post: React.FC<{ data: any, actionClick: () => void }> = (props) => {
     return (
         <IonCard style={{ margin: "4px 0" }}>
+            {props.children}
             <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">Nama Pengguna</h6>
-                            <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
-                        </div>
-                    </div>
-                    <p className="small">1 day ago</p>
-                </div>
+                <PostHeader
+                    image={props.data.User.image}
+                    username={props.data.User.username}
+                    privacy={props.data.privacy}
+                    onClickMore={props.actionClick}
+                />
             </IonCardHeader>
-
-            <IonCardContent className="post-content">
-                Keep close to Nature's heart... and break clear away, once in awhile,
-                and climb a mountain or spend a week in the woods. Wash your spirit clean.
+            <IonCardContent className="post-content text-start">
+                <PostContent
+                    PostCategory={props.data.PostCategory}
+                    PostFiles={props.data.PostFiles}
+                    caption={props.data.caption}
+                />
+                <ResponsePost />
             </IonCardContent>
         </IonCard>
     );
 }
-const PostMultipleMedia: React.FC = () => {
-    const slideImageOpts = {
-        initialSlide: 0,
-        speed: 400
-    };
-    return (
-        <IonCard style={{ margin: "4px 0" }}>
-            <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">Nama Pengguna</h6>
-                            <p className="small"><IonIcon icon={globeSharp} className="" />public</p>
-                        </div>
-                    </div>
-                    <p className="small">1 day ago</p>
-                </div>
-            </IonCardHeader>
-            <IonCardContent className="post-content">
-                <IonSlides options={slideImageOpts}>
-                    <IonSlide>
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    </IonSlide>
-                    <IonSlide>
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    </IonSlide>
-                    <IonSlide>
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="" />
-                    </IonSlide>
-                </IonSlides>
-                Keep close to Nature's heart... and break clear away, once in awhile,
-                and climb a mountain or spend a week in the woods. Wash your spirit clean.
-            </IonCardContent>
-        </IonCard>
-    );
-}
-const PostMedia: React.FC<{ data: any }> = (props) => {
-    console.log(props.data.PostFiles.length);
-    return (
-        <IonCard style={{ margin: "4px 0" }}>
-            <IonCardHeader>
-                <div className="post-header">
-                    <div className="post-profile ">
-                        <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle" id="post-profile-img" />
-                        <div className="name text-start">
-                            <h6 className="">{props.data.User ? props.data.User.username : "kosong"}</h6>
-                            <p className="small"><IonIcon icon={globeSharp} className="" />public</p>
-                        </div>
-                    </div>
-                    <p className="small">1 day ago</p>
-                </div>
-            </IonCardHeader>
-
-            <IonCardContent className="post-content">
-                {props.data.PostFiles.length > 0
-                    && (
-                        <IonImg src={"http://localhost:3000/posts/" + props.data.PostFiles[0].fileName} className="" />
-                    )}
-                {props.data.caption}
-            </IonCardContent>
-        </IonCard>
-    );
-}
-
 
 const PostShort: React.FC = () => {
     return (
@@ -128,8 +53,8 @@ const PostShort: React.FC = () => {
                 <IonIcon icon={cameraOutline} className="icon" color={'secondary'} />
             </div>
             <div className="short-profile">
-                <IonImg src={process.env.PUBLIC_URL + "/assets/img/avatar.png"} className="rounded-circle profile-img" />
-                <div className="profile-name text-start">
+                <IonImg src={process.env.PUBLIC_URL + "/assets/img/no-picture.svg"} style={{ "border-radius": "50%" }} className="profile-img" />
+                <div className="profile-name ion-text-start">
                     <h6 className="">Nama Pengguna</h6>
                     <p className="small "><IonIcon icon={globeSharp} className="" />public</p>
                 </div>
@@ -151,4 +76,4 @@ const PostShort: React.FC = () => {
     )
 }
 
-export { PostDefault, PostText, PostMedia, PostMultipleMedia, PostShort };
+export { Post, PostShort };
