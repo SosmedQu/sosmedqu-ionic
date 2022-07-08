@@ -112,6 +112,10 @@ const SideBar: React.FC = () => {
                             <Label>social</Label>
                         </IonItemDivider>
                         <Item href='/chatting'>
+                            <IconSidebar icon={mailSharp} className="me-2 icon-navigation"></IconSidebar>
+                            <Label>PesanQu</Label>
+                        </Item>
+                        <Item href='/chatting'>
                             <IconSidebar icon={notifications} className="me-2 icon-navigation"></IconSidebar>
                             <Label>NotifQu</Label>
                         </Item>

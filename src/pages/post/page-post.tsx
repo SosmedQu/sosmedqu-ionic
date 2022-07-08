@@ -5,17 +5,17 @@ import { SideBar, ActionSheetPublic } from '../../components/Menu';
 import MyApi from '../../helpers/my-api_helper';
 import { PageError } from '../page-error';
 import { IconLG, IconSM, IconToolbar } from '../../components/Utils/style/icon';
-import { searchOutline, warningOutline } from 'ionicons/icons';
+import { hammerOutline, searchOutline, warningOutline } from 'ionicons/icons';
 import { ToolBarWithSideBar } from '../../components/Utils/element/toolbar';
 import { BoxSegment, Segment } from '../../components/Utils/style/segment';
 import { useHistory } from 'react-router';
 import { getCookie } from 'typescript-cookie';
-// import { getdataToken } from '../../interface/IdataToken';
+import { getdataToken } from '../../interface/IdataToken';
 import { FibPost } from '../../components/fab';
+import { Loading } from '../../components/Utils/style/loading';
 
 
 const PagePost: React.FC = () => {
-  // const dataToken = getdataToken();
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(true);
   const slider = useRef<HTMLIonSlidesElement>(null);
@@ -36,7 +36,10 @@ const PagePost: React.FC = () => {
     setValue(e.detail.value);
     slider.current!.slideTo(e.detail.value);
   };
-
+  useIonViewWillEnter(() => {
+    const dataToken = getdataToken();
+    console.log(dataToken);
+  })
   const [postMedia, setPostMedia] = useState<any>([]);
   const [whenError, setWhenError] = useState("");
   useEffect(() => {
@@ -82,9 +85,10 @@ const PagePost: React.FC = () => {
               </IonSegmentButton>
             </Segment >
           </BoxSegment>
-          <IonLoading
-            cssClass='my-custom-class'
+          <Loading
+            cssClass='loading-post'
             isOpen={showLoading}
+            spinner={'lines'}
             onDidDismiss={() => setShowLoading(false)}
             message={'Please wait...'}
           />

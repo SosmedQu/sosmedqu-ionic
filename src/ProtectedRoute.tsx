@@ -1,15 +1,19 @@
-import { } from '@ionic/react';
-import { } from 'ionicons/icons';
+import { useIonViewWillEnter } from '@ionic/react';
+import { airplane } from 'ionicons/icons';
+import { useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { getCookie } from 'typescript-cookie'
+import MyApi from './helpers/my-api_helper';
+import { getdataToken } from './interface/IdataToken';
+const api = new MyApi();
+
 
 function ProtectedRoute({ children, ...rest }: any) {
-    let auth = getCookie("accessToken") ? true : false;
+    const token = getdataToken();
     return (
         <Route
             {...rest}
             render={({ location }) =>
-                auth ? (
+                token ? (
                     children
                 ) : (
                     <Redirect

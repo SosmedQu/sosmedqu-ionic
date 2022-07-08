@@ -60,6 +60,7 @@ import FollowerRanking from './pages/student/follower-ranking';
 import PageShowPost from './pages/post/page-show-post';
 import PageCreatePost from './pages/post/page-create-post';
 import PageUpdatePost from './pages/post/page-update-post';
+import { PageUpdateGeneral } from './pages/student/page-update-general';
 
 
 setupIonicReact();
@@ -127,6 +128,9 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/profile">
               <Profile />
             </ProtectedRoute>
+            <ProtectedRoute exact path="/student/update">
+              <PageUpdateGeneral />
+            </ProtectedRoute>
             <ProtectedRoute exact path="/upgrade-student">
               <UpgradeStudent />
             </ProtectedRoute>
@@ -159,5 +163,6 @@ const App: React.FC = () => {
     </IonApp>
   );
 }
+
 
 export default App;

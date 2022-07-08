@@ -40,6 +40,11 @@ export class MyApi {
         return req;
     }
 
+    updateProfile = async (data: any) => {
+        const req = await api.put("/profile/general", data, { headers: { "Content-Type": "multipart/form-data" } })
+        return req;
+    }
+
     upgradeStudent = async (data: any) => {
         const req = await api.post("/profile/validateStudent", data)
         return req;

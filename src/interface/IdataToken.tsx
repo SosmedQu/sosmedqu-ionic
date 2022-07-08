@@ -10,7 +10,11 @@ export interface IDataToken {
     iat: number
 }
 
-// export function getdataToken() {
-//     const data: IDataToken = jwt_decode(getCookie("accessToken") as string)
-//     return data ?? null;
-// }
+export function getdataToken() {
+    const token = getCookie("accessToken");
+    console.log(token);
+    if (token) {
+        const data: IDataToken = jwt_decode(token || '')
+        return data ?? null;
+    }
+}

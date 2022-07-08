@@ -116,7 +116,7 @@ const UpgradeStudent: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader className="fixed-top">
+            <IonHeader className="sticky-top">
                 <ToolBarWithGoBack backTo={() => history.replace("/profile")} title="Upgrade To Student" >
                     <IconMD icon={sendSharp} slot="end" onClick={triggerSubmit} />
                 </ToolBarWithGoBack>
