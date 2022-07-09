@@ -61,18 +61,22 @@ import PageShowPost from './pages/post/page-show-post';
 import PageCreatePost from './pages/post/page-create-post';
 import PageUpdatePost from './pages/post/page-update-post';
 import { PageUpdateGeneral } from './pages/student/page-update-general';
+import { getdataToken } from './interface/IdataToken';
+import { PageCreateEbook } from './pages/ebook/page-create-ebook';
 
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const token = getdataToken();
   return (
     <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/login" >
-              <Login />
+            <Route exact path="/login" render={() => {
+              return token ? <Redirect to="/post" /> : <Login />
+            }}>
             </Route>
             <ProtectedRoute exact path="/logout" >
               <Logout />
@@ -113,12 +117,17 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/edite-post">
               <PageUpdatePost />
             </ProtectedRoute>
+            {/* E-Book Start */}
             <Route exact path="/ebook">
               <PageEbook />
             </Route>
             <Route exact path="/ebook/detail">
               <PageEbookDetail />
             </Route>
+            <ProtectedRoute exact path="/ebook/create">
+              <PageCreateEbook />
+            </ProtectedRoute>
+            {/* E-Book End */}
             <Route exact path="/short-video">
               <ShortVideo />
             </Route>

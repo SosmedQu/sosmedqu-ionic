@@ -1,4 +1,4 @@
-import { IonContent, IonPage, IonSlide, IonSlides } from '@ionic/react';
+import { IonContent, IonPage, IonRefresher, IonRefresherContent, IonSlide, IonSlides, RefresherEventDetail } from '@ionic/react';
 import { PostShort } from '../components/post/Post';
 
 const slideOpts = {
@@ -7,10 +7,19 @@ const slideOpts = {
     direction: 'vertical'
 };
 
+
 const ShortVideo: React.FC = () => {
+    function doRefresh(event: CustomEvent<RefresherEventDetail>) {
+        console.log('Begin async operation');
+        window.location.reload();
+        event.detail.complete();
+    }
     return (
         <IonPage>
             <IonContent fullscreen className='fixed-top'>
+                <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+                    <IonRefresherContent></IonRefresherContent>
+                </IonRefresher>
                 <IonSlides options={slideOpts}>
                     <IonSlide style={{ height: '100%' }}>
                         <PostShort />

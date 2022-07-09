@@ -12,13 +12,13 @@ import { dataURItoBlob } from '../../helpers/converter_helper';
 import AssetsApi from '../../helpers/assets-api_helper';
 import styled from 'styled-components';
 import { Header } from '../../components/Utils/style/header';
-import { ToolBarWithGoBack } from '../../components/Utils/element/toolbar';
+import { ToolBarWithGoBack } from '../../components/element/toolbar';
 import { camera, save, saveOutline } from 'ionicons/icons';
 import { ErrorMessage } from '@hookform/error-message';
 import Label from '../../components/Utils/style/label';
 import { IconMD, IconToolbar } from '../../components/Utils/style/icon';
 import { AlertOk } from '../../components/Alert';
-import Alert2 from '../../components/Utils/element/Alert';
+import Alert2 from '../../components/element/Alert';
 
 type IGeneral = {
     oldImage: string;

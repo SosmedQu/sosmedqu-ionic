@@ -1,9 +1,8 @@
-import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { readerSharp } from 'ionicons/icons';
+import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonContent, IonFab, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { addSharp, readerSharp } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
-import { FabAddEbook } from '../../components/fab';
 import { SideBar } from '../../components/Menu';
-import { ToolBarWithGoBack } from '../../components/Utils/element/toolbar';
+import { ToolBarWithGoBack } from '../../components/element/toolbar';
 import { Header } from '../../components/Utils/style/header';
 
 
@@ -23,7 +22,11 @@ const PageEbookDetail: React.FC = () => {
                             <IonTitle size="large">Home Page</IonTitle>
                         </IonToolbar>
                     </IonHeader>
-                    <FabAddEbook />
+                    <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                        <IonButton className="btn-circle" onClick={() => history.push("/ebook/create")}>
+                            <IonIcon icon={addSharp} />
+                        </IonButton>
+                    </IonFab >
                     <div className="content">
                         <IonImg src={process.env.PUBLIC_URL + "assets/img/default-ebook.svg"} />
                         <div className="detail-ebook-header px-2">

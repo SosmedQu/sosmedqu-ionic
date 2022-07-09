@@ -1,5 +1,5 @@
 import { IonActionSheet, IonAvatar, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonMenuToggle, IonText, IonToolbar } from '@ionic/react';
-import { bookSharp, calendarSharp, closeSharp, heart, mailSharp, menuSharp, notifications, pencil, powerSharp, searchOutline, settingsSharp, share, trash, trophySharp } from 'ionicons/icons';
+import { arrowRedoOutline, bookSharp, calendarSharp, closeSharp, heart, heartOutline, logoVimeo, mailSharp, menuSharp, newspaper, notifications, pencil, powerSharp, searchOutline, settingsSharp, share, trash, trophySharp, warningOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -158,7 +158,7 @@ const SideBar: React.FC = () => {
     )
 }
 
-const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data?: any }> = (params) => {
+const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data: any }> = (params) => {
     const [alertOk, setAlertOk] = useState<IAlert>({
         showAlert: false
     });
@@ -197,7 +197,7 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data?: an
                                     },
                                     type: 'success',
                                     okClick: () => {
-                                        history.goBack();
+                                        history.replace("/profile");
                                     }
 
                                 })
@@ -215,19 +215,6 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data?: an
 
                                 })
                             })
-                        }
-                    }, {
-                        text: 'Share',
-                        icon: share,
-                        data: 10,
-                        handler: () => {
-                            console.log('Share clicked');
-                        }
-                    }, {
-                        text: 'Favorite',
-                        icon: heart,
-                        handler: () => {
-                            console.log('Favorite clicked');
                         }
                     }, {
                         text: 'Cancel',
@@ -257,14 +244,61 @@ const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idP
                 buttons={[
                     {
                         text: 'Share',
-                        icon: share,
+                        icon: arrowRedoOutline,
                         data: 10,
                         handler: () => {
                             console.log('Share clicked');
                         }
                     }, {
                         text: 'Favorite',
-                        icon: heart,
+                        icon: heartOutline,
+                        handler: () => {
+                            console.log('Favorite clicked');
+                        }
+                    },
+                    {
+                        text: 'Laporkan',
+                        icon: warningOutline,
+                        handler: () => {
+                            console.log('laporkan clicked');
+                        }
+                    },
+                    {
+                        text: 'Cancel',
+                        icon: closeSharp,
+                        role: 'cancel',
+                        handler: () => {
+                            console.log('Cancel clicked');
+                        }
+                    }]}
+            >
+            </IonActionSheet>
+        </IonContent>
+    )
+}
+const ActionSheetPost: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
+    const [alertOk, setAlertOk] = useState<IAlert>({
+        showAlert: false
+    });
+    const history = useHistory();
+    return (
+        <IonContent>
+            <AlertOk data={alertOk} />
+            <IonActionSheet
+                isOpen={params.show}
+                onDidDismiss={params.onDidDismiss}
+                cssClass='my-custom-class'
+                buttons={[
+                    {
+                        text: 'Tambah PostQu',
+                        icon: newspaper,
+                        data: 10,
+                        handler: () => {
+                            history.push("/add-post");
+                        }
+                    }, {
+                        text: 'Tambah VidQu',
+                        icon: logoVimeo,
                         handler: () => {
                             console.log('Favorite clicked');
                         }
@@ -282,4 +316,4 @@ const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idP
     )
 }
 
-export { SideBar, ActionSheet, ActionSheetPublic };
+export { SideBar, ActionSheet, ActionSheetPublic, ActionSheetPost };

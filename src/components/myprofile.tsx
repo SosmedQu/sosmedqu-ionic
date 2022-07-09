@@ -28,7 +28,7 @@ const ProfileHeader = styled.div`
     }
 `;
 const ProfileCard = styled(IonCard)`
-    padding: 48px 24px;
+    padding: 24px 24px;
     border-radius: 16px;
     display: grid;
     grid-template-areas:    "foto nama"
@@ -45,9 +45,9 @@ const ProfileCard = styled(IonCard)`
     .nama{
         grid-area:nama;
         font-family: ${FontFamily.primary};
-        font-size: ${FontSize.Mobile.H3};
+        font-size: 18px;
         line-height: ${FontSize.Mobile.H3};
-        font-weight: 800;
+        font-weight: 900;
         overflow: hidden;
         display: -webkit-box; /* fallback */
         -webkit-line-clamp: 2; /* number of lines to show */
@@ -56,10 +56,11 @@ const ProfileCard = styled(IonCard)`
 
     .followers{
         grid-area:followers;
-        span{
-            font-weight: bolder;
-            font-size: 24px
-        }
+        margin: 0;
+    }
+    .studyAt{
+        font-wight: lighter;
+        margin: 0;
     }
 `;
 
@@ -94,8 +95,6 @@ const Gender = styled(IonIcon)`
 `;
 
 const MyProfile: React.FC<{ data: IProfile }> = (props) => {
-    console.log(props.data)
-    console.log(props.data.roleId === 2)
     const history = useHistory();
     const handleUpgrade = () => {
         history.push("/upgrade-student", props.data)
@@ -116,8 +115,8 @@ const MyProfile: React.FC<{ data: IProfile }> = (props) => {
                     {props.data.roleId == 2
                         ? (
                             <div>
-                                <p>{props.data.studyAt}</p>
-                                <IonTitle className="px-0 followers">Followers <span>99.9k</span></IonTitle>
+                                <p className='studyAt'>{props.data.studyAt}</p>
+                                <p className="px-0 followers">Followers <span>99.9k</span></p>
                             </div>
                         )
                         :

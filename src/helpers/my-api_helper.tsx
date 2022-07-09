@@ -50,10 +50,7 @@ export class MyApi {
         return req;
     }
 
-    getAllpostCategory = async () => {
-        return await api.get("/postCategory");
-    }
-
+    // Post
     getAllPostByUser = async (id: any) => {
         return await api.get(`/profile/posts/${id}`)
     }
@@ -72,6 +69,7 @@ export class MyApi {
         const req = await api.get(`/posts/${id}`);
         return req;
     }
+
     updatePost = async (data: any) => {
         const req = await api.put(`/posts`, data);
         return req;
@@ -81,6 +79,117 @@ export class MyApi {
         const req = await api.delete(`/posts/${id}`);
         return req;
     }
+
+    // End Of Post
+
+    // Post category
+    getAllpostCategory = async () => {
+        return await api.get("/postCategory");
+    }
+    getPostCategoryById = async (id: any) => {
+        const req = await api.get(`/postCategory/${id}`)
+    }
+
+    uploadPostCategory = async (data: any) => {
+        const req = await api.post("/postCategory", data);
+        return req;
+    }
+
+    updatePostCategory = async (data: any) => {
+        const req = await api.put("/postCategory", data);
+        return req;
+    }
+
+    deletePostcategory = async (id: any) => {
+        const req = await api.delete(`/postCategory/${id}`);
+        return req;
+    }
+    // End of Post Category
+
+
+    // Ebook
+    uploadEbook = async (data: any) => {
+        const req = await api.post("/ebooks", data, { headers: { "Content-Type": "multipart/form-data" } });
+        return req;
+    }
+
+    getEbooks = async () => {
+        const req = await api.get("/ebooks");
+        return req;
+    }
+
+    getEbookById = async (id: any) => {
+        const req = await api.get(`/ebooks/${id}`);
+        return req
+    }
+
+    updateEbook = async (data: any) => {
+        const req = await api.put("/ebooks", data, { headers: { "Content-Type": "multipart/form-data" } });
+        return req;
+    }
+
+    deleteEbook = async (id: any) => {
+        const req = await api.delete(`/ebooks/${id}`);
+        return req
+    }
+
+    // End Of Ebooks
+
+
+    // Ebook Category
+    getEbookCategory = async () => {
+        const req = await api.get("/ebookCategory");
+        return req;
+    }
+
+    getEbookCategoryById = async (id: any) => {
+        const req = await api.get(`/ebookCategory/${id}`)
+    }
+
+    uploadEbookCategory = async (data: any) => {
+        const req = await api.post("/ebookCategory", data);
+        return req;
+    }
+
+    updateEbookCategory = async (data: any) => {
+        const req = await api.put("/ebookCategory", data);
+        return req;
+    }
+
+    deleteEbookcategory = async (id: any) => {
+        const req = await api.delete(`/ebookCategory/${id}`);
+        return req;
+    }
+    // End Of Ebook Category
+
+    // Subject / Lesson_timeTable
+    uploadSubject = async (data: any) => {
+        const req = await api.post("/subjects", data, { headers: { "Content-Type": "multipart/form-data" } });
+        return req;
+    }
+
+    getESubject = async () => {
+        const req = await api.get("/subjects");
+        return req;
+    }
+
+    getSubjectById = async (id: any) => {
+        const req = await api.get(`/subjects/${id}`);
+        return req
+    }
+
+    updateSubject = async (data: any) => {
+        const req = await api.put("/subjects", data, { headers: { "Content-Type": "multipart/form-data" } });
+        return req;
+    }
+
+    deleteSubject = async (id: any) => {
+        const req = await api.delete(`/subjects/${id}`);
+        return req
+    }
+    // End Of Subject
+
+
 
 }
 

@@ -1,6 +1,9 @@
 import { IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonLabel } from '@ionic/react';
 import { arrowRedoOutline, cameraOutline, chatbubbleEllipsesOutline, chatbubblesOutline, globeSharp, thumbsUpOutline, warningOutline } from 'ionicons/icons';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { getdataToken } from '../../interface/IdataToken';
+import { ActionSheet, ActionSheetPublic } from '../Menu';
 import Color from '../Utils/style/color';
 import { PostContent } from './micro/post-content';
 import { PostHeader } from './micro/post-header';
@@ -19,16 +22,23 @@ const Label = styled(IonLabel)`
 `;
 
 
-const Post: React.FC<{ data: any, actionClick: () => void }> = (props) => {
+const Post: React.FC<{ data: any }> = (props) => {
+    const [actionSheet, setActionSheet] = useState(false);
+    const dataToken = getdataToken();
     return (
         <IonCard style={{ margin: "4px 0" }}>
+            {dataToken?.userId == props.data.User.id
+                ? (<ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={props.data} />)
+                :
+                <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={props.data.id} />
+            }
             {props.children}
             <IonCardHeader>
                 <PostHeader
                     image={props.data.User.image}
                     username={props.data.User.username}
                     privacy={props.data.privacy}
-                    onClickMore={props.actionClick}
+                    onClickMore={() => setActionSheet(true)}
                 />
             </IonCardHeader>
             <IonCardContent className="post-content text-start">

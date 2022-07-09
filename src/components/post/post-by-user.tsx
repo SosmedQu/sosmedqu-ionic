@@ -109,7 +109,7 @@ const PostByUser: React.FC<{ idUser: number }> = (props) => {
                             {post.map((e, i) =>
                                 !e.PostFiles.length && (
                                     <div key={i} className="my-3 shadow">
-                                        <Post data={e} actionClick={() => setActionSheet(true)}>
+                                        <Post data={e} >
                                             <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={e} />
                                         </Post>
                                     </div>

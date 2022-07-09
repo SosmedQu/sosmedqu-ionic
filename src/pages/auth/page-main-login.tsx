@@ -1,11 +1,22 @@
 import { IonContent, IonButton, IonIcon, IonLabel, IonPage } from "@ionic/react"
 import { logoGoogle, mailSharp } from "ionicons/icons"
 import { Link } from "react-router-dom"
+import styled from "styled-components"
+
+
+const Boxcontent = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+`;
+
 
 const Login: React.FC = () => {
     return (
         <IonPage>
-            <IonContent fullscreen>
+            <Boxcontent>
                 <video loop muted autoPlay id="my-video">
                     <source src={process.env.PUBLIC_URL + "/assets/video/video2.mp4"} type="video/mp4" />
                 </video>
@@ -20,7 +31,7 @@ const Login: React.FC = () => {
                     </IonButton>
                     <p>Don't have any account? <Link to="/register"><b>Register</b></Link></p>
                 </div>
-            </IonContent>
+            </Boxcontent>
         </IonPage>
     )
 }

@@ -26,7 +26,7 @@ export const PostHeader: React.FC<IPostHeader> = (props) => {
                 <Label>{props.username ? props.username : "User Anonymous"}</Label>
                 <IonText className='privacy'>{props.privacy}</IonText>
             </TitlePost>
-            <IonIcon slot="end" style={{ fontSize: "24px" }} icon={ellipsisVerticalSharp} onClick={props.onClickMore}></IonIcon>
+            <IonIcon slot="end" style={{ fontSize: "24px", cursor: "pointer" }} icon={ellipsisVerticalSharp} onClick={props.onClickMore}></IonIcon>
         </Item>
     )
 }

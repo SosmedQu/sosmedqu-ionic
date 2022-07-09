@@ -1,15 +1,15 @@
 import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
 import NeedAuth from '../components/NeedAuth';
-import { SideBar } from '../components/Menu';
+import { ActionSheetPost, SideBar } from '../components/Menu';
 import { ProfileHeader } from '../components/header';
 import MyApi from '../helpers/my-api_helper';
 import { useEffect, useRef, useState } from 'react';
 import MyProfile from '../components/myprofile';
-import { logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
+import { addSharp, logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
 import PostByUser from '../components/post/post-by-user';
 import { Segment } from '../components/Utils/style/segment';
 import { IconSM, IconToolbar } from '../components/Utils/style/icon';
-import { ToolBarWithSideBar } from '../components/Utils/element/toolbar';
+import { ToolBarWithSideBar } from '../components/element/toolbar';
 import { Header } from '../components/Utils/style/header';
 import { useHistory } from 'react-router';
 
@@ -24,6 +24,7 @@ const Profile: React.FC = () => {
   const [myProfile, setMyProfile] = useState<IProfile>();
   const [value, setValue] = useState("0");
   const slider = useRef<HTMLIonSlidesElement>(null);
+  const [actionPost, setActionPost] = useState(false);
   const handleSegmentChange = (e: any) => {
     setValue(e.detail.value);
     slider.current!.slideTo(e.detail.value);
@@ -71,6 +72,7 @@ const Profile: React.FC = () => {
       <IonPage id="main">
         <Header>
           <ToolBarWithSideBar>
+            <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
             <IconToolbar slot='end' onClick={handleUpdate} icon={pencil} />
           </ToolBarWithSideBar>
         </Header>
@@ -102,6 +104,7 @@ const Profile: React.FC = () => {
           <IonSlides options={slideOpts} ref={slider} onIonSlideDidChange={handleSlideChange}>
             <IonSlide>
               <IonGrid>
+                <ActionSheetPost show={actionPost} onDidDismiss={() => setActionPost(false)} />
                 <IonRow>
                   <IonCol>
                     {myProfile?.id &&

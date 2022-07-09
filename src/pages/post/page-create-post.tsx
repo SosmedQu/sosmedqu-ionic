@@ -1,7 +1,7 @@
 import { IonPage, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonInput, IonHeader } from "@ionic/react";
 import styled from "styled-components";
 import { ItemInput, Select, TextArea } from "../../components/Utils/style/Input";
-import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
+import { ToolBarWithGoBack } from "../../components/element/toolbar";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -16,8 +16,11 @@ import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";
 import Content from "../../components/Utils/style/content";
 import { SliderImage } from "../../components/image-slider";
-import { Camera, CameraResultType } from "@capacitor/camera";
+import { TakePictures } from '../../helpers/camera_helper';
 import { dataURItoBlob } from "../../helpers/converter_helper";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import Alert2 from "../../components/element/Alert";
 
 const BoxInput = styled.div`
     margin: 72px 16px 16px;
@@ -27,15 +30,26 @@ const ButtonSubmit = styled(IonButton)`
    
 `;
 
+type Inputs = {
+    privacy: string
+    categoryId: number
+    caption: string
+};
+
+const schema = yup.object().shape({
+    privacy: yup.string().required("wajib di isi"),
+    categoryId: yup.number().required("wajib di isi"),
+    caption: yup.string()
+}).required();
+
 
 const api = new MyApi();
 const PageCreatePost: React.FC = () => {
+    const { photos, photosAsBlob, takePhoto } = TakePictures()
     const [listCategory, setListCategory] = useState<any[]>([]);
-    const [files, setFiles] = useState<Blob[]>([])
-    const [filesPrev, setFilesPrev] = useState<any[]>([])
     const history = useHistory();
     const [showLoading, setShowLoading] = useState(false);
-    const [alert, setAlert] = useState<IAlert>({ showAlert: false });
+    const { alert, setAlertSuccess, setAlertFail } = Alert2();
     const btnSubmit = useRef<HTMLIonButtonElement>(null);
     useIonViewWillEnter(() => {
         api.getAllpostCategory().then((res) => {
@@ -49,27 +63,9 @@ const PageCreatePost: React.FC = () => {
         register,
         getValues,
         formState: { errors }
-    } = useForm({
-        defaultValues: {
-            categoryId: '',
-            privacy: '',
-            caption: ''
-        }
+    } = useForm<Inputs>({
+        resolver: yupResolver(schema)
     });
-
-    const takePicture = async () => {
-        try {
-            const cameraResult = await Camera.getPhoto({
-                quality: 90,
-                resultType: CameraResultType.DataUrl,
-            })
-            const convert = dataURItoBlob(cameraResult.dataUrl);
-            setFiles([...files, convert]);
-            setFilesPrev([...filesPrev, cameraResult.dataUrl]);
-        } catch (e: any) {
-            // console.log(e);
-        }
-    }
     const form = useRef<HTMLFormElement>(null)
 
     /**
@@ -77,35 +73,39 @@ const PageCreatePost: React.FC = () => {
      * @param data
      */
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: any, event: any) => {
         setShowLoading(true);
-        const formData = new FormData(form.current as any);
-        formData.append(data, JSON.stringify(data));
-        if (files.length > 1) {
-            files.forEach((value) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        console.log(photosAsBlob);
+        if (photosAsBlob.length > 0) {
+            photosAsBlob.forEach((value) => {
                 formData.append("postFiles", value);
+                console.log(formData.get("postFiles"))
             })
         }
         api.uploadPost(formData).then((res) => {
-            setAlert({
-                showAlert: true,
-                header: "Berhasil",
-                onDidDismiss: () => { setAlert({ showAlert: false }) },
-                type: "success",
-                message: res.data.msg,
+            setAlertSuccess({
+                msg: res.data.msg,
                 okClick: () => {
                     navigate("/post")
                 }
             })
         }, err => {
-            setAlert({
-                showAlert: true,
-                onDidDismiss: () => { setAlert({ showAlert: false }) },
-                header: "Gagal",
-                type: "failed",
-                message: err.response.data.msg,
-                okClick: () => { setAlert({ showAlert: false }) }
-            })
+            console.log(err.response.data);
+            try {
+                setAlertFail(
+                    {
+                        msg: err.response.data.errors[0].msg
+                    }
+                )
+            } catch (error) {
+                setAlertFail(
+                    {
+                        msg: err.response.data
+                    }
+                )
+            }
         }).finally(() => {
             setShowLoading(false);
         })
@@ -138,17 +138,18 @@ const PageCreatePost: React.FC = () => {
                 <BoxInput>
                     <form onSubmit={handleSubmit(onSubmit)} ref={form}>
                         <div className='d-flex justify-content-center align-items-center mb-2'>
-                            <IonButton onClick={takePicture}>
+                            <IonButton onClick={takePhoto}>
                                 <IonIcon icon={camera} slot="start"></IonIcon>
                                 <IonLabel>Take Photo</IonLabel>
                             </IonButton>
-                            <SliderImage data={filesPrev} />
+                            <SliderImage data={photos} />
                         </div>
                         <Item>
                             <Label position={getValues().categoryId ? "stacked" : "floating"}>kategori</Label>
                             <Controller
                                 render={({ field }) => (
                                     <Select
+                                        {...register("categoryId")}
                                         placeholder={"Select One"}
                                         value={field.value}
                                         className="my-3"
@@ -173,6 +174,7 @@ const PageCreatePost: React.FC = () => {
                             <Controller
                                 render={({ field }) => (
                                     <Select
+                                        {...register("privacy")}
                                         placeholder={"Select One"}
                                         value={field.value}
                                         className="my-3"
@@ -194,7 +196,7 @@ const PageCreatePost: React.FC = () => {
                         </Item>
                         <ItemInput>
                             <Label position={getValues().caption ? "stacked" : "floating"}>caption</Label>
-                            <TextArea className="mt-3" rows={9} required
+                            <TextArea className="mt-3" rows={9}
                                 {...register("caption")}
                             />
                             <ErrorMessage

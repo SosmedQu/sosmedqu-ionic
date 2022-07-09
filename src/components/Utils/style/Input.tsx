@@ -18,6 +18,7 @@ const Select = styled(IonSelect)`
     `;
 
 const ItemInput = styled(IonItem)`
+    margin: 2rem 0;
     border: 1px solid ${Color.input.border};
     --border-style: unset;
 `;

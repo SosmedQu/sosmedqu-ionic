@@ -19,15 +19,4 @@ const FibPost: React.FC = () => {
         </IonFab>
     )
 }
-
-const FabAddEbook: React.FC = () => {
-    return (
-        <IonFab vertical="bottom" horizontal="end" slot="fixed">
-            <IonButton className="btn-circle">
-                <IonIcon icon={addSharp} />
-            </IonButton>
-        </IonFab >
-    )
-}
-
-export { FibPost, FabAddEbook };
+export { FibPost };

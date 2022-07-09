@@ -1,9 +1,8 @@
-import { IonAvatar, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { } from 'ionicons/icons';
+import { IonAvatar, IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { addSharp } from 'ionicons/icons';
 import { Link, useHistory } from 'react-router-dom';
-import { FabAddEbook } from '../../components/fab';
 import { SideBar } from '../../components/Menu';
-import { ToolBarWithGoBack } from '../../components/Utils/element/toolbar';
+import { ToolBarWithGoBack } from '../../components/element/toolbar';
 import { Header } from '../../components/Utils/style/header';
 
 const PageEbook: React.FC = () => {
@@ -22,7 +21,11 @@ const PageEbook: React.FC = () => {
                             <IonTitle size="large">Home Page</IonTitle>
                         </IonToolbar>
                     </IonHeader>
-                    <FabAddEbook />
+                    <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                        <IonButton className="btn-circle" onClick={() => history.push("/ebook/create")}>
+                            <IonIcon icon={addSharp} />
+                        </IonButton>
+                    </IonFab >
                     <div className="content">
                         <Link to="ebook/detail" className="link-item">
                             <IonCard>

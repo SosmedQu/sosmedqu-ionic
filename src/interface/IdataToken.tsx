@@ -12,7 +12,6 @@ export interface IDataToken {
 
 export function getdataToken() {
     const token = getCookie("accessToken");
-    console.log(token);
     if (token) {
         const data: IDataToken = jwt_decode(token || '')
         return data ?? null;

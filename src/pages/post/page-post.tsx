@@ -1,12 +1,12 @@
 import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
-import { SideBar, ActionSheetPublic } from '../../components/Menu';
+import { SideBar, ActionSheetPublic, ActionSheetPost } from '../../components/Menu';
 import MyApi from '../../helpers/my-api_helper';
 import { PageError } from '../page-error';
 import { IconLG, IconSM, IconToolbar } from '../../components/Utils/style/icon';
-import { hammerOutline, searchOutline, warningOutline } from 'ionicons/icons';
-import { ToolBarWithSideBar } from '../../components/Utils/element/toolbar';
+import { addSharp, hammerOutline, searchOutline, warningOutline } from 'ionicons/icons';
+import { ToolBarWithSideBar } from '../../components/element/toolbar';
 import { BoxSegment, Segment } from '../../components/Utils/style/segment';
 import { useHistory } from 'react-router';
 import { getCookie } from 'typescript-cookie';
@@ -20,7 +20,7 @@ const PagePost: React.FC = () => {
   const [showLoading, setShowLoading] = useState(true);
   const slider = useRef<HTMLIonSlidesElement>(null);
   const [value, setValue] = useState("0");
-  const [actionSheet, setActionSheet] = useState(false);
+  const [actionPost, setActionPost] = useState(false);
 
   const slideOpts = {
     initialSlide: 0,
@@ -71,6 +71,7 @@ const PagePost: React.FC = () => {
       <IonPage id="main">
         <IonHeader>
           <ToolBarWithSideBar>
+            <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
             <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/post", postMedia)} />
           </ToolBarWithSideBar>
         </IonHeader>
@@ -106,12 +107,12 @@ const PagePost: React.FC = () => {
               <IonSlide>
                 <IonGrid>
                   <IonRow>
+                    <ActionSheetPost show={actionPost} onDidDismiss={() => setActionPost(false)} />
                     {postMedia.map((dataPost: any, i: any) =>
                       dataPost.PostFiles.length > 0 &&
                       (
                         <IonCol key={i} size="12" sizeLg='3' style={{ padding: 0 }}>
-                          <Post data={dataPost} actionClick={() => setActionSheet(true)}>
-                            <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={dataPost.id} />
+                          <Post data={dataPost}>
                           </Post>
                         </IonCol>
                       ))}
@@ -126,8 +127,7 @@ const PagePost: React.FC = () => {
                       dataPost.PostFiles.length == 0 &&
                       (
                         <IonCol key={i} size="12" style={{ padding: 0 }}>
-                          <Post data={dataPost} actionClick={() => setActionSheet(true)}>
-                            <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={dataPost.id} />
+                          <Post data={dataPost}>
                           </Post>
                         </IonCol>
                       ))}

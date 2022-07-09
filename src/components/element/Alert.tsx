@@ -1,9 +1,9 @@
 import { useState } from "react";
-import IAlert from "../../../interface/IAlert";
+import IAlert from "../../interface/IAlert";
 
 interface GenerateAlert {
     msg: string;
-    okClick: () => void;
+    okClick?: () => void;
 }
 
 const Alert2 = () => {
