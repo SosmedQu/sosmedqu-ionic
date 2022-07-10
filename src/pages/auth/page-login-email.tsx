@@ -39,7 +39,7 @@ const LoginWithEmail: React.FC = () => {
                     type: "failed",
                     showAlert: true,
                     header: "Gagal",
-                    message: err.response.data.errors[0].msg,
+                    message: err.response.data.msg,
                     okClick: () => {
 
                     },

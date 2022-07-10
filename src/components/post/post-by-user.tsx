@@ -58,7 +58,7 @@ const PostByUser: React.FC<{ idUser: number }> = (props) => {
 
     const showPost = (e: any) => {
         console.log(e);
-        history.push("show-post", e);
+        history.push("/show-post", e);
     }
     return (
         <div>

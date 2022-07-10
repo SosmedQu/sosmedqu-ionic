@@ -1,4 +1,4 @@
-import { IonAvatar, IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
+import { IonAvatar, IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar, useIonViewWillEnter, IonGrid } from '@ionic/react';
 import { addSharp } from 'ionicons/icons';
 import { Link, useHistory } from 'react-router-dom';
 import { SideBar } from '../../components/Menu';
@@ -8,16 +8,23 @@ import { useEffect, useState } from 'react';
 import MyApi from '../../helpers/my-api_helper';
 import { Loading } from '../../components/Utils/style/loading';
 import AssetsApi from '../../helpers/assets-api_helper';
+import { ImageEbook } from '../../components/Utils/style/image';
+import styled from 'styled-components';
+import { getdataToken } from '../../interface/IdataToken';
+
+const CardEbook = styled(IonCard)`
+    min-height: 320px;
+`;
 
 const PageEbookQu: React.FC = () => {
     const history = useHistory();
     const [showLoading, setShowLoading] = useState(true);
-    const [ebook, setEbook] = useState<any>()
-
-    useEffect(() => {
+    const [ebook, setEbook] = useState<any[]>([])
+    const dataToken = getdataToken();
+    useIonViewWillEnter(() => {
         const api = new MyApi();
         const getebooks = async () => {
-            await api.getEbooks().then((res) => {
+            await api.getMyEbooks(dataToken?.userId).then((res) => {
                 setEbook(res.data.ebooks);
             }, err => {
                 console.log(err)
@@ -26,8 +33,8 @@ const PageEbookQu: React.FC = () => {
             })
         }
         getebooks();
-    }, [])
-    console.log(ebook);
+    })
+    console.log(ebook)
     return (
         <>
             <SideBar />
@@ -55,21 +62,21 @@ const PageEbookQu: React.FC = () => {
                             onDidDismiss={() => setShowLoading(false)}
                             message={'Please wait...'}
                         />
-                        {ebook && ebook.map((val: any, i: any) => (
-                            <IonCard onClick={() => history.push("/ebook/detail", val)} key={i} className="my-3">
-                                <IonItem >
-                                    <IonRow className="">
-                                        <IonCol size="4">
-                                            <IonImg src={`${AssetsApi.URLImgEbooks}/${val.image}`} />
-                                        </IonCol>
-                                        <IonCol size="8">
-                                            <IonLabel>{val.name}</IonLabel>
-                                            <IonNote>{val.description}</IonNote>
-                                        </IonCol>
-                                    </IonRow>
-                                </IonItem>
-                            </IonCard>
-                        ))}
+                        <IonGrid>
+                            <IonRow className="">
+                                {ebook && ebook.map((val: any, i: any) => (
+                                    <IonCol size="6">
+                                        <CardEbook onClick={() => history.push("/ebook/detail", val)} key={i} className="my-2 d-flex flex-column">
+                                            <ImageEbook src={`${AssetsApi.URLImgEbooks}/${val.image}`} />
+                                            <div className="ps-2">
+                                                <IonLabel className='my-2' style={{ fontWeight: "bold", color: "var(--ion-color-dark)", display: "block" }}>{val.name}</IonLabel>
+                                                <IonNote>{val.description.substring(0, 68)} ...</IonNote>
+                                            </div>
+                                        </CardEbook>
+                                    </IonCol>
+                                ))}
+                            </IonRow>
+                        </IonGrid>
                     </div>
                 </IonContent>
             </IonPage>

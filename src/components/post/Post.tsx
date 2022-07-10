@@ -35,6 +35,7 @@ const Post: React.FC<{ data: any }> = (props) => {
             {props.children}
             <IonCardHeader>
                 <PostHeader
+                    id={props.data.User.id}
                     image={props.data.User.image}
                     username={props.data.User.username}
                     privacy={props.data.privacy}

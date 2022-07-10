@@ -1,16 +1,18 @@
 import { IonPage, IonHeader, IonToolbar, IonContent, IonLoading, IonTitle, useIonViewWillEnter, IonCard, IonCardHeader, IonCardContent, IonRefresher, IonRefresherContent, RefresherEventDetail } from "@ionic/react";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
-import { ActionSheet } from "../../components/Menu";
+import { ActionSheet, ActionSheetPublic } from "../../components/Menu";
 import { PostContent } from "../../components/post/micro/post-content";
 import { PostHeader } from "../../components/post/micro/post-header"
 import { ToolBarWithGoBack } from "../../components/element/toolbar";
+import { getdataToken } from "../../interface/IdataToken";
 
 const PageShowPost: React.FC = () => {
     // const api = new MyApi()
     const [actionSheet, setActionSheet] = useState(false);
     const [showLoading, setShowLoading] = useState(true);
     const history = useHistory();
+    const dataToken = getdataToken();
     const location = useLocation();
     const post: any = location.state;
     console.log(post);
@@ -57,9 +59,16 @@ const PageShowPost: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonCard>
-                    <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={post} />
+                    {dataToken?.userId == post.User.id
+                        ? (
+
+                            <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={post} />
+                        )
+                        : <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={post.id} />
+                    }
                     <IonCardHeader>
                         <PostHeader
+                            id={post.User.id}
                             image={post.User.image}
                             username={post.User.username}
                             privacy={post.privacy}

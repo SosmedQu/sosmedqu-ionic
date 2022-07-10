@@ -11,14 +11,17 @@ import { Toolbar } from "../Utils/style/toolbar";
 const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (props) => {
     const Box = styled.div`
         // border: 1px solid red;
-        text-align: center;
         margin: 0 24px 0 0;
+        width: 100%;
+        .title {
+            padding: 0;
+        }
     `;
     return (
-        <IonToolbar className="ion-padding p-0" color={'primary'} >
-            <IonIcon slot="start" onClick={props.backTo} icon={arrowBackSharp} className="icon-navigation"></IonIcon>
-            <Box>
-                <IonTitle>{props.title}</IonTitle>
+        <IonToolbar className="ion-padding p-0"  >
+            <IconToolbar style={{ margin: "0" }} slot="start" onClick={props.backTo} icon={arrowBackSharp} className="icon-navigation"></IconToolbar>
+            <Box className="text-center">
+                <IonTitle className="title">{props.title}</IonTitle>
             </Box>
             {props.children}
         </IonToolbar>
@@ -29,7 +32,7 @@ const ToolBarWithSideBar: React.FC = (props) => {
     return (
         <Toolbar >
             <IonMenuToggle slot="start">
-                <IconToolbar style={{ margin: "0" }} icon={menuSharp} className="icon-navigation"></IconToolbar>
+                <IconToolbar color={'primary'} style={{ margin: "0" }} icon={menuSharp} className="icon-navigation"></IconToolbar>
             </IonMenuToggle>
             {props.children}
         </Toolbar>

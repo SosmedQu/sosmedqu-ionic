@@ -53,6 +53,7 @@ import PageEbookQu from './pages/ebook/page-ebookqu';
 import PageEbookDetail from './pages/ebook/page-ebook-detail';
 import ProtectedRoute from './ProtectedRoute';
 import UpgradeStudent from './pages/student/upgrade-student';
+import ProfileView from './pages/student/page-view-profile';
 import FollowerRanking from './pages/student/follower-ranking';
 import PageShowPost from './pages/post/page-show-post';
 import PageCreatePost from './pages/post/page-create-post';
@@ -62,7 +63,7 @@ import { getdataToken } from './interface/IdataToken';
 import { PageCreateEbook } from './pages/ebook/page-create-ebook';
 import { PageLesson } from './pages/lesson/page-lesson';
 import PageEbooks from './pages/ebook/page-ebooks';
-import { useRef } from 'react';
+import { PageUpdateEbook } from './pages/ebook/page-update-ebook';
 
 
 setupIonicReact();
@@ -128,6 +129,9 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/ebook/create">
               <PageCreateEbook />
             </ProtectedRoute>
+            <ProtectedRoute exact path="/ebook/update">
+              <PageUpdateEbook />
+            </ProtectedRoute>
             {/* E-Book End */}
 
 
@@ -142,8 +146,12 @@ const App: React.FC = () => {
             <Route exact path="/search/:data">
               <PageSearch />
             </Route>
+            {/* Profile */}
             <ProtectedRoute exact path="/profile">
               <Profile />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/profile/view">
+              <ProfileView />
             </ProtectedRoute>
             <ProtectedRoute exact path="/student/update">
               <PageUpdateGeneral />
@@ -151,9 +159,11 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/upgrade-student">
               <UpgradeStudent />
             </ProtectedRoute>
+            {/* End Of Profile */}
             <Route exact path="/follower-ranking">
               <FollowerRanking />
             </Route>
+
             <Route exact path="/">
               <Redirect to="/post" />
             </Route>
@@ -162,9 +172,9 @@ const App: React.FC = () => {
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom" color={'primary'}
-            className={locationHiddenTabs.includes(window.location.pathname) ? "d-none" : ''}
+            className={locationHiddenTabs.includes(window.location.pathname.toLocaleLowerCase()) ? "d-none" : ''}
           >
-            <IonTabButton tab="short-video" href="/short-video">
+            <IonTabButton tab="ebooks" href="/ebooks">
               <IonIcon icon={bookSharp} />
               <IonLabel>Ebooks</IonLabel>
             </IonTabButton>
@@ -178,7 +188,7 @@ const App: React.FC = () => {
                 <IonLabel>profile</IonLabel>
               </IonTabButton>)
               :
-              <IonTabButton tab="Login" href="/Login">
+              <IonTabButton tab="login" href="/login">
                 <IonIcon icon={logInSharp} />
                 <IonLabel>Login</IonLabel>
               </IonTabButton>}
