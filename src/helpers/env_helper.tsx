@@ -1,6 +1,6 @@
 const Env = {
-    "URLAPI": "localhost:7000",
-    "URLWEB": "localhost:3000",
+    "URLAPI": "localhost:3000",
+    "URLWEB": "localhost:8100",
 }
 
 export default Env;
