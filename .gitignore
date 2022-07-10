@@ -27,4 +27,4 @@ yarn-error.log*
 # Optional eslint cache
 .eslintcache
 
-./src/helpers/env_helper.tsx
+src/helpers/env_helper.tsx
