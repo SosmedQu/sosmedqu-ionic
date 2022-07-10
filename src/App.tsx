@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation, useRouteMatch } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -19,7 +19,7 @@ import LoginWithEmail from './pages/auth/page-login-email';
 import Login from './pages/auth/page-main-login';
 import CreatePassword from './pages/auth/page-create-password'
 import VerifikasiEmail from './pages/auth/page-verify-email';
-import ShortVideo from './pages/page-short-video';
+// import ShortVideo from './pages/page-short-video';
 import { Chatting, ChattingDetail } from './components/chatting/chatting';
 
 /* Core CSS required for Ionic components to work properly */
@@ -47,14 +47,11 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // CSS SosmedQu
 import './theme/app.css';
-import { newspaperSharp, personSharp, logoVimeo } from 'ionicons/icons';
+import { newspaperSharp, personSharp, logoVimeo, logIn, logInSharp, bookSharp } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
-import PageEbook from './pages/ebook/page-ebook';
+import PageEbookQu from './pages/ebook/page-ebookqu';
 import PageEbookDetail from './pages/ebook/page-ebook-detail';
-import { getCookie } from 'typescript-cookie'
 import ProtectedRoute from './ProtectedRoute';
-import MyApi from './helpers/my-api_helper';
-import Logout from './pages/auth/page-logout';
 import UpgradeStudent from './pages/student/upgrade-student';
 import FollowerRanking from './pages/student/follower-ranking';
 import PageShowPost from './pages/post/page-show-post';
@@ -63,12 +60,16 @@ import PageUpdatePost from './pages/post/page-update-post';
 import { PageUpdateGeneral } from './pages/student/page-update-general';
 import { getdataToken } from './interface/IdataToken';
 import { PageCreateEbook } from './pages/ebook/page-create-ebook';
+import { PageLesson } from './pages/lesson/page-lesson';
+import PageEbooks from './pages/ebook/page-ebooks';
+import { useRef } from 'react';
 
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const token = getdataToken();
+  const locationHiddenTabs = ["/login", "/register", "/login-email", "creae", "/register/verify-account", "/register/create-password"];
   return (
     <IonApp>
       <IonReactRouter>
@@ -78,9 +79,6 @@ const App: React.FC = () => {
               return token ? <Redirect to="/post" /> : <Login />
             }}>
             </Route>
-            <ProtectedRoute exact path="/logout" >
-              <Logout />
-            </ProtectedRoute>
             <Route exact path="/login-email">
               <LoginWithEmail />
             </Route>
@@ -119,7 +117,10 @@ const App: React.FC = () => {
             </ProtectedRoute>
             {/* E-Book Start */}
             <Route exact path="/ebook">
-              <PageEbook />
+              <PageEbookQu />
+            </Route>
+            <Route exact path="/ebooks">
+              <PageEbooks />
             </Route>
             <Route exact path="/ebook/detail">
               <PageEbookDetail />
@@ -128,9 +129,16 @@ const App: React.FC = () => {
               <PageCreateEbook />
             </ProtectedRoute>
             {/* E-Book End */}
-            <Route exact path="/short-video">
+
+
+            {/* Lesson */}
+            <ProtectedRoute exact path="/lesson">
+              <PageLesson />
+            </ProtectedRoute>
+            {/* End Lesson */}
+            {/* <Route exact path="/short-video">
               <ShortVideo />
-            </Route>
+            </Route> */}
             <Route exact path="/search/:data">
               <PageSearch />
             </Route>
@@ -153,19 +161,27 @@ const App: React.FC = () => {
               <Redirect to="/post" />
             </Route>
           </IonRouterOutlet>
-          <IonTabBar slot="bottom" className="nav-bottom" color={'primary'}>
+          <IonTabBar slot="bottom" color={'primary'}
+            className={locationHiddenTabs.includes(window.location.pathname) ? "d-none" : ''}
+          >
             <IonTabButton tab="short-video" href="/short-video">
-              <IonIcon icon={logoVimeo} />
-              <IonLabel>VidQu</IonLabel>
+              <IonIcon icon={bookSharp} />
+              <IonLabel>Ebooks</IonLabel>
             </IonTabButton>
             <IonTabButton tab="post" href="/post">
               <IonIcon icon={newspaperSharp} />
               <IonLabel>PostQu</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="profile" href="/profile">
-              <IonIcon icon={personSharp} />
-              <IonLabel>profile</IonLabel>
-            </IonTabButton>
+            {token
+              ? (<IonTabButton tab="profile" href="/profile">
+                <IonIcon icon={personSharp} />
+                <IonLabel>profile</IonLabel>
+              </IonTabButton>)
+              :
+              <IonTabButton tab="Login" href="/Login">
+                <IonIcon icon={logInSharp} />
+                <IonLabel>Login</IonLabel>
+              </IonTabButton>}
           </IonTabBar>
         </IonTabs>
       </IonReactRouter>

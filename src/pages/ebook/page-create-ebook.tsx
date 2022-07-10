@@ -24,12 +24,12 @@ import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-com
 
 type IEbook = {
     name: string
-    categoryId: string;
+    categoryId: string
     description: string
     writer: string
     publisher: string
     publicationYear: string
-    isbn: string
+    isbn: number
 };
 const SUPPORTED_FORMATS = [
     "application/pdf",
@@ -41,7 +41,7 @@ const schema = yup.object().shape({
     writer: yup.string().required("wajib di isi"),
     publisher: yup.string().required("wajib di isi"),
     publicationYear: yup.string().required('wajib di isi'),
-    isbn: yup.string().required('wajib di isi'),
+    isbn: yup.number().required('wajib di isi'),
 }).required();
 
 const api = new MyApi();
@@ -52,7 +52,7 @@ export const PageCreateEbook: React.FC = () => {
     const { alert, setAlertSuccess, setAlertFail } = Alert2();
     const [listCategory, setListCategory] = useState<any[]>([]);
     const { photo, takePhoto } = TakePictures();
-    // const [pdf, setPdf] = useState();
+    // const [pdf, setPdf] = useState<any>();
     useIonViewWillEnter(() => {
         api.getEbookCategory().then((res) => {
             setListCategory(res.data.categories)
@@ -60,14 +60,17 @@ export const PageCreateEbook: React.FC = () => {
     })
 
     const { control, register, getValues, setValue, handleSubmit, formState: { errors } } = useForm<IEbook>({
+        // defaultValues: {
+        //     categoryId: "1",
+        //     name: "dummy",
+        //     description: "dummy",
+        //     isbn: 123456,
+        //     publicationYear: "2013",
+        //     publisher: "dummy",
+        //     writer: "mydummy",
+        // },
         resolver: yupResolver(schema), // yup, joi and even your own.
     });
-
-    const uploadFile = useRef<HTMLInputElement>(null);
-    const handleUpload = (e: any) => {
-        uploadFile.current?.click();
-        // setPdf(e.target?.files);
-    }
 
     const [present, dismiss] = useIonModal(ModalCreateCategory, {
         onDismiss: (data: string, role: string) => dismiss(data, role),
@@ -91,19 +94,18 @@ export const PageCreateEbook: React.FC = () => {
             },
         });
     }
-
     const mySubmit = (data: any, e: any) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        console.log(formData);
-        console.log("category ID = " + data)
         if (photo) {
             const convert: Blob = dataURItoBlob(photo);
             formData.append("ebookImage", convert);
         }
+        console.log(formData.get("ebookFile"));
+
         api.uploadEbook(formData).then((res) => {
             console.log(res.data);
-            setAlertSuccess({ msg: res.data.msg, okClick: () => history.goBack() })
+            setAlertSuccess({ msg: res.data.msg, okClick: () => history.go(-1) })
         }, err => {
             try {
                 setAlertFail(err.response.data.errors[0]);
@@ -112,6 +114,7 @@ export const PageCreateEbook: React.FC = () => {
             }
         })
     }
+
 
     const btnSubmit = useRef<HTMLIonButtonElement>(null);
 
@@ -144,12 +147,15 @@ export const PageCreateEbook: React.FC = () => {
                             <IonIcon slot="start" icon={imageOutline} />
                             <IonLabel>Foto</IonLabel>
                         </IonButton>
-                        <IonButton onClick={handleUpload}>
+                        {/* <IonButton onClick={handleUpload}>
                             <IonIcon slot="start" icon={documentAttachOutline} />
-                            <IonLabel>Pdf E-book <span style={{ color: "green", fontWeight: "bold" }}>✔</span></IonLabel>
-                        </IonButton>
+                            <IonLabel>Pdf E-book {pdf ? (<span style={{ color: "green", fontWeight: "bold" }}>✔</span>) : null}</IonLabel>
+                        </IonButton> */}
                     </div>
-                    <input type={'file'} name="ebookFile" ref={uploadFile} accept="application/pdf" hidden onChange={(e) => handleUpload(e)} ></input>
+                    <ItemInput>
+                        <Label position='stacked' style={{}}>PDF E-book</Label>
+                        <input className='my-3' type={'file'} name="ebookFile" accept="application/pdf" ></input>
+                    </ItemInput>
                     <ItemInput>
                         <Label position='stacked' style={{}}>Judul E-book</Label>
                         <IonInput {...register("name")}></IonInput>
@@ -207,17 +213,54 @@ export const PageCreateEbook: React.FC = () => {
                         as={<div style={{ color: 'red' }} />}
                     />
                     <ItemInput>
-                        <Label position='stacked' style={{}}>Tahun Publish</Label>
-                        <IonInput {...register("publicationYear")}></IonInput>
+                        <Label position={getValues().publicationYear ? "stacked" : "floating"}>tahun publish</Label>
+                        <Controller
+                            render={({ field }) => (
+                                <Select
+                                    {...register("publicationYear")}
+                                    placeholder={"Select One"}
+                                    value={field.value}
+                                    className="my-3"
+                                    onIonChange={e => setValue('publicationYear', e.detail.value)}>
+                                    <IonSelectOption value="2000">2000</IonSelectOption>
+                                    <IonSelectOption value="2001">2001</IonSelectOption>
+                                    <IonSelectOption value="2002">2002</IonSelectOption>
+                                    <IonSelectOption value="2003">2003</IonSelectOption>
+                                    <IonSelectOption value="2004">2004</IonSelectOption>
+                                    <IonSelectOption value="2005">2005</IonSelectOption>
+                                    <IonSelectOption value="2006">2006</IonSelectOption>
+                                    <IonSelectOption value="2007">2007</IonSelectOption>
+                                    <IonSelectOption value="2008">2008</IonSelectOption>
+                                    <IonSelectOption value="2009">2009</IonSelectOption>
+                                    <IonSelectOption value="2010">2010</IonSelectOption>
+                                    <IonSelectOption value="2011">2011</IonSelectOption>
+                                    <IonSelectOption value="2012">2012</IonSelectOption>
+                                    <IonSelectOption value="2013">2013</IonSelectOption>
+                                    <IonSelectOption value="2014">2014</IonSelectOption>
+                                    <IonSelectOption value="2015">2015</IonSelectOption>
+                                    <IonSelectOption value="2016">2016</IonSelectOption>
+                                    <IonSelectOption value="2017">2017</IonSelectOption>
+                                    <IonSelectOption value="2018">2018</IonSelectOption>
+                                    <IonSelectOption value="2018">2018</IonSelectOption>
+                                    <IonSelectOption value="2019">2019</IonSelectOption>
+                                    <IonSelectOption value="2020">2020</IonSelectOption>
+                                    <IonSelectOption value="2021">2021</IonSelectOption>
+                                    <IonSelectOption value="2022">2022</IonSelectOption>
+                                </Select>
+                            )}
+                            control={control}
+                            name="publicationYear"
+                            rules={{ required: 'Wajib di isi' }}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name="publicationYear"
+                            as={<div style={{ color: 'red' }} />}
+                        />
                     </ItemInput>
-                    <ErrorMessage
-                        errors={errors}
-                        name="publicationYear"
-                        as={<div style={{ color: 'red' }} />}
-                    />
                     <ItemInput>
                         <Label position='stacked' style={{}}>ISBN</Label>
-                        <IonInput {...register("isbn")}></IonInput>
+                        <IonInput type='number' {...register("isbn")}></IonInput>
                     </ItemInput>
                     <ErrorMessage
                         errors={errors}

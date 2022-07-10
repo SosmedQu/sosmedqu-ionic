@@ -77,11 +77,6 @@ const Profile: React.FC = () => {
           </ToolBarWithSideBar>
         </Header>
         <IonContent fullscreen>
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle>Profile</IonTitle>
-            </IonToolbar>
-          </IonHeader>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>

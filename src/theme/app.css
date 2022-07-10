@@ -142,3 +142,7 @@ a {
     font-size: 32px;
     color: white;
 }
+
+.alert-logout {
+    text-align: center;
+}

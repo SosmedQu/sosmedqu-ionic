@@ -1,4 +1,4 @@
-import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
+import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonImg, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
 import { SideBar, ActionSheetPublic, ActionSheetPost } from '../../components/Menu';
@@ -13,12 +13,15 @@ import { getCookie } from 'typescript-cookie';
 import { getdataToken } from '../../interface/IdataToken';
 import { FibPost } from '../../components/fab';
 import { Loading } from '../../components/Utils/style/loading';
+import Avatar from '../../components/Utils/style/avatar';
 
 
 const PagePost: React.FC = () => {
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(true);
   const slider = useRef<HTMLIonSlidesElement>(null);
+  const slide = useRef<HTMLIonSlideElement>(null);
+  const content = useRef<HTMLIonContentElement>(null);
   const [value, setValue] = useState("0");
   const [actionPost, setActionPost] = useState(false);
 
@@ -35,11 +38,15 @@ const PagePost: React.FC = () => {
   const handleSegmentChange = (e: any) => {
     setValue(e.detail.value);
     slider.current!.slideTo(e.detail.value);
+    content.current?.scrollToTop();
   };
-  useIonViewWillEnter(() => {
-    const dataToken = getdataToken();
-    console.log(dataToken);
-  })
+
+  const handleSlideChange = (e: any) => {
+    slider.current?.getActiveIndex().then((val) => {
+      setValue(`${val}`);
+    });
+  }
+  const dataToken = getdataToken();
   const [postMedia, setPostMedia] = useState<any>([]);
   const [whenError, setWhenError] = useState("");
   useEffect(() => {
@@ -71,11 +78,13 @@ const PagePost: React.FC = () => {
       <IonPage id="main">
         <IonHeader>
           <ToolBarWithSideBar>
-            <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
+            {dataToken &&
+              <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
+            }
             <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/post", postMedia)} />
           </ToolBarWithSideBar>
         </IonHeader>
-        <IonContent fullscreen>
+        <IonContent fullscreen ref={content}>
           <BoxSegment>
             <Segment color="dark" className='rounded' value={value} onIonChange={(e) => handleSegmentChange(e)}>
               <IonSegmentButton value="0">
@@ -93,18 +102,13 @@ const PagePost: React.FC = () => {
             onDidDismiss={() => setShowLoading(false)}
             message={'Please wait...'}
           />
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">Postingan</IonTitle>
-            </IonToolbar>
-          </IonHeader>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           {/* {dataToken && dataToken.role == 'pelajar' && (<FibPost />)} */}
           {postMedia.length > 0
-            ? (<IonSlides options={slideOpts} ref={slider}>
-              <IonSlide>
+            ? (<IonSlides options={slideOpts} ref={slider} onIonSlideWillChange={(e) => handleSlideChange(e)}>
+              <IonSlide ref={slide}>
                 <IonGrid>
                   <IonRow>
                     <ActionSheetPost show={actionPost} onDidDismiss={() => setActionPost(false)} />

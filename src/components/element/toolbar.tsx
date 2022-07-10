@@ -26,14 +26,11 @@ const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (pro
 }
 
 const ToolBarWithSideBar: React.FC = (props) => {
-    const dataToken = getdataToken();
     return (
-        <Toolbar color={'primary'} >
-            {dataToken?.userId &&
-                <IonMenuToggle slot="start">
-                    <IconMD icon={menuSharp} className="icon-navigation"></IconMD>
-                </IonMenuToggle>
-            }
+        <Toolbar >
+            <IonMenuToggle slot="start">
+                <IconToolbar style={{ margin: "0" }} icon={menuSharp} className="icon-navigation"></IconToolbar>
+            </IonMenuToggle>
             {props.children}
         </Toolbar>
     )
