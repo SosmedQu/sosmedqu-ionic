@@ -1,9 +1,8 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
 import NeedAuth from '../components/NeedAuth';
 import { ActionSheetPost, SideBar } from '../components/Menu';
-import { ProfileHeader } from '../components/header';
 import MyApi from '../helpers/my-api_helper';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import MyProfile from '../components/myprofile';
 import { addSharp, logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
 import PostByUser from '../components/post/post-by-user';

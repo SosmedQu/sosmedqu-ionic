@@ -3,11 +3,12 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { ItemInput, Select } from '../../components/Utils/style/Input';
-import { IonButton, IonContent, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonSelectOption, useIonModal, useIonViewWillEnter } from '@ionic/react';
+import { IonButton, IonContent, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonSelectOption, IonTextarea, useIonModal, useIonViewWillEnter } from '@ionic/react';
 import { TakePictures } from '../../helpers/camera_helper';
 import MyApi from '../../helpers/my-api_helper';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { dataURItoBlob } from '../../helpers/converter_helper';
+import AssetsApi from '../../helpers/assets-api_helper';
 import styled from 'styled-components';
 import { Header } from '../../components/Utils/style/header';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
@@ -42,8 +43,10 @@ const schema = yup.object().shape({
 const api = new MyApi();
 
 
-export const PageCreateEbook: React.FC = () => {
+export const PageUpdateEbook: React.FC = () => {
     const history = useHistory();
+    const location = useLocation()
+    const ebook: any = location.state
     const { alert, setAlertSuccess, setAlertFail } = Alert2();
     const [listCategory, setListCategory] = useState<any[]>([]);
     const { photo, takePhoto } = TakePictures();
@@ -52,18 +55,18 @@ export const PageCreateEbook: React.FC = () => {
         api.getEbookCategory().then((res) => {
             setListCategory(res.data.categories)
         })
+        console.log(ebook);
     })
-
     const { control, register, getValues, setValue, handleSubmit, formState: { errors } } = useForm<IEbook>({
-        // defaultValues: {
-        //     categoryId: "1",
-        //     name: "dummy",
-        //     description: "dummy",
-        //     isbn: 123456,
-        //     publicationYear: "2013",
-        //     publisher: "dummy",
-        //     writer: "mydummy",
-        // },
+        defaultValues: {
+            categoryId: ebook ? `${ebook.categoryId}` : '',
+            name: ebook ? `${ebook.name}` : '',
+            description: ebook ? `${ebook.description}` : '',
+            isbn: ebook ? ebook.isbn : null,
+            publicationYear: ebook ? `${ebook.publicationYear}` : '',
+            publisher: ebook ? `${ebook.publisher}` : '',
+            writer: ebook ? `${ebook.writer}` : '',
+        },
         resolver: yupResolver(schema), // yup, joi and even your own.
     });
 
@@ -96,9 +99,8 @@ export const PageCreateEbook: React.FC = () => {
             const convert: Blob = dataURItoBlob(photo);
             formData.append("ebookImage", convert);
         }
-        console.log(formData.get("ebookFile"));
 
-        api.uploadEbook(formData).then((res) => {
+        api.updateEbook(formData).then((res) => {
             console.log(res.data);
             setAlertSuccess({ msg: res.data.msg, okClick: () => history.go(-1) })
         }, err => {
@@ -127,15 +129,16 @@ export const PageCreateEbook: React.FC = () => {
     return (
         <IonPage>
             <Header>
-                <ToolBarWithGoBack backTo={() => history.go(-1)} title='Upload E-book'>
+                <ToolBarWithGoBack backTo={() => history.go(-1)} title='Update E-book'>
                     <IconToolbar style={{ margin: "0" }} slot='end' icon={saveOutline} onClick={submitClick}></IconToolbar>
                 </ToolBarWithGoBack>
             </Header>
             <IonContent>
                 <AlertOk data={alert} />
                 <Myform onSubmit={handleSubmit(mySubmit)}>
+                    <input type="text" name="id" id="id" value={ebook && ebook.id} hidden />
                     <BoxFoto>
-                        <IonImg src={photo}></IonImg>
+                        <IonImg src={photo ? photo : `${AssetsApi.URLImgEbooks}/${ebook.image}`}></IonImg>
                     </BoxFoto>
                     <div className='d-flex justify-content-center my-3'>
                         <IonButton onClick={takePhoto}>
@@ -264,7 +267,7 @@ export const PageCreateEbook: React.FC = () => {
                     />
                     <ItemInput>
                         <Label position='stacked' style={{}}>Deskripsi</Label>
-                        <IonInput {...register("description")}></IonInput>
+                        <IonTextarea rows={10} {...register("description")}></IonTextarea>
                     </ItemInput>
                     <ErrorMessage
                         errors={errors}

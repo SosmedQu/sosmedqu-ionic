@@ -1,9 +1,8 @@
-import { IonActionSheet, IonAvatar, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonMenuToggle, IonText, IonToolbar, useIonAlert } from '@ionic/react';
-import { arrowRedoOutline, bookSharp, calendarSharp, closeSharp, heart, heartOutline, logoVimeo, mailSharp, menuSharp, newspaper, notifications, pencil, powerSharp, searchOutline, settingsSharp, share, trash, trophySharp, warningOutline } from 'ionicons/icons';
+import { IonActionSheet, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonText, IonToolbar, useIonAlert } from '@ionic/react';
+import { arrowRedoOutline, bookSharp, calendarSharp, closeSharp, heartOutline, logoVimeo, mailSharp, newspaper, notifications, pencil, powerSharp, settingsSharp, trash, trophySharp, warningOutline } from 'ionicons/icons';
 import { useState } from 'react';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Env from '../helpers/env_helper';
 import MyApi from '../helpers/my-api_helper';
 import { navigate } from '../helpers/navigation_helper';
 import IAlert from '../interface/IAlert';
@@ -11,7 +10,6 @@ import { getdataToken } from '../interface/IdataToken';
 // import { getdataToken } from '../interface/IdataToken';
 import { AlertOk } from './Alert';
 import './component.css'
-import { FibPost } from './fab';
 import { SosmedQuTitle } from './typography';
 import Avatar from './Utils/style/avatar';
 import Color from './Utils/style/color';
@@ -76,7 +74,6 @@ const Item = styled(IonItem)`
 
 const SideBar: React.FC = () => {
     const [presentAlert] = useIonAlert();
-    const history = useHistory();
     const dataToken = getdataToken();
     return (
         <IonMenu side="start" menuId="first" contentId="main">
@@ -267,13 +264,8 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data: any
     )
 }
 const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
-    const [alertOk, setAlertOk] = useState<IAlert>({
-        showAlert: false
-    });
-    const history = useHistory();
     return (
         <IonContent>
-            <AlertOk data={alertOk} />
             <IonActionSheet
                 isOpen={params.show}
                 onDidDismiss={params.onDidDismiss}
@@ -314,13 +306,10 @@ const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idP
     )
 }
 const ActionSheetPost: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
-    const [alertOk, setAlertOk] = useState<IAlert>({
-        showAlert: false
-    });
+
     const history = useHistory();
     return (
         <IonContent>
-            <AlertOk data={alertOk} />
             <IonActionSheet
                 isOpen={params.show}
                 onDidDismiss={params.onDidDismiss}

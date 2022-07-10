@@ -1,4 +1,4 @@
-import { IonContent, IonButton, IonIcon, IonLabel, IonPage } from "@ionic/react"
+import { IonButton, IonIcon, IonLabel, IonPage } from "@ionic/react"
 import { logoGoogle, mailSharp } from "ionicons/icons"
 import { Link } from "react-router-dom"
 import styled from "styled-components"

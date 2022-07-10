@@ -61,7 +61,6 @@ const UpgradeStudent: React.FC = () => {
     const takePicture = () => {
         try {
             takePhoto();
-            console.log(photo);
 
         } catch (e: any) {
             console.log(e);
@@ -76,7 +75,6 @@ const UpgradeStudent: React.FC = () => {
      * @param data
      */
     const onSubmit = (data: any) => {
-        alert(JSON.stringify(data));
         setShowLoading(true);
         if (profile.roleId == 2) {
             history.replace("/profile", profile)
@@ -95,7 +93,7 @@ const UpgradeStudent: React.FC = () => {
                 }
             })
         }, err => {
-            console.log(err.response.data.errors);
+            console.log(err.response);
             setDataAlert({
                 showAlert: true,
                 onDidDismiss: () => { setDataAlert({ showAlert: false }) },

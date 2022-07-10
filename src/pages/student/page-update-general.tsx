@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Input, ItemInput } from '../../components/Utils/style/Input';
-import Item from '../../components/Utils/style/item';
-import { IonAvatar, IonButton, IonContent, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage } from '@ionic/react';
+import { IonAvatar, IonButton, IonContent, IonIcon, IonImg, IonInput, IonPage } from '@ionic/react';
 import { TakePictures } from '../../helpers/camera_helper';
 import MyApi from '../../helpers/my-api_helper';
 import { useHistory, useLocation } from 'react-router';
@@ -13,10 +12,10 @@ import AssetsApi from '../../helpers/assets-api_helper';
 import styled from 'styled-components';
 import { Header } from '../../components/Utils/style/header';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
-import { camera, save, saveOutline } from 'ionicons/icons';
+import { camera, saveOutline } from 'ionicons/icons';
 import { ErrorMessage } from '@hookform/error-message';
 import Label from '../../components/Utils/style/label';
-import { IconMD, IconToolbar } from '../../components/Utils/style/icon';
+import { IconToolbar } from '../../components/Utils/style/icon';
 import { AlertOk } from '../../components/Alert';
 import Alert2 from '../../components/element/Alert';
 
@@ -91,7 +90,7 @@ export const PageUpdateGeneral: React.FC = () => {
     const Myform = styled.form`
         padding: 2rem;
     `;
-    if (profile == undefined) return null;
+    if (profile === undefined) return null;
     return (
         <IonPage>
             <Header>

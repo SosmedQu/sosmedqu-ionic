@@ -1,4 +1,4 @@
-import { Redirect, Route, useLocation, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -42,17 +42,18 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 // Bootstrap 5
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap/dist/js/bootstrap.bundle.min.js"
+// import "bootstrap/dist/css/bootstrap.min.css"
+// import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // CSS SosmedQu
 import './theme/app.css';
-import { newspaperSharp, personSharp, logoVimeo, logIn, logInSharp, bookSharp } from 'ionicons/icons';
+import { newspaperSharp, personSharp, logInSharp, bookSharp } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
 import PageEbookQu from './pages/ebook/page-ebookqu';
 import PageEbookDetail from './pages/ebook/page-ebook-detail';
 import ProtectedRoute from './ProtectedRoute';
 import UpgradeStudent from './pages/student/upgrade-student';
+import ProfileView from './pages/student/page-view-profile';
 import FollowerRanking from './pages/student/follower-ranking';
 import PageShowPost from './pages/post/page-show-post';
 import PageCreatePost from './pages/post/page-create-post';
@@ -62,14 +63,14 @@ import { getdataToken } from './interface/IdataToken';
 import { PageCreateEbook } from './pages/ebook/page-create-ebook';
 import { PageLesson } from './pages/lesson/page-lesson';
 import PageEbooks from './pages/ebook/page-ebooks';
-import { useRef } from 'react';
+import { PageUpdateEbook } from './pages/ebook/page-update-ebook';
 
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const token = getdataToken();
-  const locationHiddenTabs = ["/login", "/register", "/login-email", "/register/verify-account", "/register/create-password"];
+  // const locationHiddenTabs = ["/login", "/register", "/login-email", "creae", "/register/verify-account", "/register/create-password"];
   return (
     <IonApp>
       <IonReactRouter>
@@ -128,6 +129,9 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/ebook/create">
               <PageCreateEbook />
             </ProtectedRoute>
+            <ProtectedRoute exact path="/ebook/update">
+              <PageUpdateEbook />
+            </ProtectedRoute>
             {/* E-Book End */}
 
 
@@ -142,8 +146,12 @@ const App: React.FC = () => {
             <Route exact path="/search/:data">
               <PageSearch />
             </Route>
+            {/* Profile */}
             <ProtectedRoute exact path="/profile">
               <Profile />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/profile/view">
+              <ProfileView />
             </ProtectedRoute>
             <ProtectedRoute exact path="/student/update">
               <PageUpdateGeneral />
@@ -151,9 +159,11 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/upgrade-student">
               <UpgradeStudent />
             </ProtectedRoute>
+            {/* End Of Profile */}
             <Route exact path="/follower-ranking">
               <FollowerRanking />
             </Route>
+
             <Route exact path="/">
               <Redirect to="/post" />
             </Route>
@@ -162,9 +172,8 @@ const App: React.FC = () => {
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom" color={'primary'}
-
           >
-            <IonTabButton tab="short-video" href="/short-video">
+            <IonTabButton tab="ebooks" href="/ebooks">
               <IonIcon icon={bookSharp} />
               <IonLabel>Ebooks</IonLabel>
             </IonTabButton>

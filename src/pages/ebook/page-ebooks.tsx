@@ -1,6 +1,6 @@
-import { IonAvatar, IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
-import { addSharp } from 'ionicons/icons';
-import { Link, useHistory } from 'react-router-dom';
+import { IonCard, IonCol, IonContent, IonLabel, IonNote, IonPage, IonRow, IonGrid } from '@ionic/react';
+import { searchOutline } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
 import { SideBar } from '../../components/Menu';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
 import { Header } from '../../components/Utils/style/header';
@@ -8,6 +8,13 @@ import { useEffect, useState } from 'react';
 import MyApi from '../../helpers/my-api_helper';
 import { Loading } from '../../components/Utils/style/loading';
 import AssetsApi from '../../helpers/assets-api_helper';
+import styled from 'styled-components';
+import { ImageEbook } from '../../components/Utils/style/image';
+import { IconToolbar } from '../../components/Utils/style/icon';
+
+const CardEbook = styled(IonCard)`
+    min-height: 320px;
+`;
 
 const PageEbooks: React.FC = () => {
     const history = useHistory();
@@ -27,26 +34,21 @@ const PageEbooks: React.FC = () => {
         }
         getebooks();
     }, [])
-    console.log(ebook);
     return (
         <>
             <SideBar />
             <IonPage id="main">
                 <Header>
                     <ToolBarWithGoBack backTo={() => history.goBack()} title='E-BookQu'>
+                        <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/post", ebook)} />
                     </ToolBarWithGoBack>
                 </Header>
                 <IonContent fullscreen>
-                    <IonHeader collapse="condense">
-                        <IonToolbar>
-                            <IonTitle size="large">Home Page</IonTitle>
-                        </IonToolbar>
-                    </IonHeader>
-                    <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                    {/* <IonFab vertical="bottom" horizontal="end" slot="fixed">
                         <IonButton className="btn-circle" onClick={() => history.push("/ebook/create")}>
                             <IonIcon icon={addSharp} />
                         </IonButton>
-                    </IonFab >
+                    </IonFab > */}
                     <div className="content">
                         <Loading
                             cssClass='loading-post'
@@ -55,21 +57,21 @@ const PageEbooks: React.FC = () => {
                             onDidDismiss={() => setShowLoading(false)}
                             message={'Please wait...'}
                         />
-                        {ebook && ebook.map((val: any, i: any) => (
-                            <IonCard onClick={() => history.push("/ebook/detail", val)} key={i} className="my-3">
-                                <IonItem >
-                                    <IonRow className="">
-                                        <IonCol size="4">
-                                            <IonImg src={`${AssetsApi.URLImgEbooks}/${val.image}`} />
-                                        </IonCol>
-                                        <IonCol size="8">
-                                            <IonLabel>{val.name}</IonLabel>
-                                            <IonNote>{val.description}</IonNote>
-                                        </IonCol>
-                                    </IonRow>
-                                </IonItem>
-                            </IonCard>
-                        ))}
+                        <IonGrid>
+                            <IonRow className="">
+                                {ebook && ebook.map((val: any, i: any) => (
+                                    <IonCol size="6">
+                                        <CardEbook onClick={() => history.push("/ebook/detail", val)} key={i} className="my-2 d-flex flex-column">
+                                            <ImageEbook src={`${AssetsApi.URLImgEbooks}/${val.image}`} />
+                                            <div className="ps-2">
+                                                <IonLabel className='my-2' style={{ fontWeight: "bold", color: "var(--ion-color-dark)", display: "block" }}>{val.name}</IonLabel>
+                                                <IonNote>{val.description.substring(0, 68)} ...</IonNote>
+                                            </div>
+                                        </CardEbook>
+                                    </IonCol>
+                                ))}
+                            </IonRow>
+                        </IonGrid>
                     </div>
                 </IonContent>
             </IonPage>

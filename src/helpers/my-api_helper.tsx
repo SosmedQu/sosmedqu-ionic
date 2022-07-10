@@ -35,8 +35,13 @@ export class MyApi {
         return req;
     }
 
+    // Profile
     getProfile = async () => {
         const req = await api.get('/profile');
+        return req;
+    }
+    getProfileById = async (id: any) => {
+        const req = await api.get(`/profile/${id}`);
         return req;
     }
 
@@ -49,6 +54,8 @@ export class MyApi {
         const req = await api.post("/profile/validateStudent", data)
         return req;
     }
+
+    // end of Profile
 
     // Post
     getAllPostByUser = async (id: any) => {
@@ -115,6 +122,11 @@ export class MyApi {
 
     getEbooks = async () => {
         const req = await api.get("/ebooks");
+        return req;
+    }
+
+    getMyEbooks = async (id: any) => {
+        const req = await api.get(`/profile/ebooks/${id}`)
         return req;
     }
 

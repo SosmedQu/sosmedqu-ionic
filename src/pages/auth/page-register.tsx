@@ -1,7 +1,6 @@
 import { chevronBackCircleOutline, chevronForwardCircleOutline } from "ionicons/icons";
 import { IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonLoading, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
 import "./auth.css";
-import Axios from "axios";
 import { useState } from "react";
 import MyApi from "../../helpers/my-api_helper";
 import { useHistory, useLocation } from "react-router";

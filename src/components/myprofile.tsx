@@ -1,11 +1,10 @@
-import { IonAvatar, IonButton, IonCard, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonLabel, IonRow, IonTitle } from '@ionic/react';
+import { IonAvatar, IonButton, IonCard, IonIcon, IonImg, IonLabel } from '@ionic/react';
 import { male, schoolSharp } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import AssetsApi from '../helpers/assets-api_helper';
-import Env from '../helpers/env_helper';
 import IProfile from '../interface/IProfile';
-import { IconMD, IconSM } from './Utils/style/icon';
+import { IconMD } from './Utils/style/icon';
 import Color from './Utils/style/color';
 import { FontFamily, FontSize } from './Utils/style/font';
 
@@ -103,16 +102,16 @@ const MyProfile: React.FC<{ data: IProfile }> = (props) => {
         <ProfileHeader>
             <div className="box" />
             <div className="box-card">
-                {/* <TopStudent>
+                <TopStudent>
                     <p className='title'>Top Student</p>
-                </TopStudent> */}
+                </TopStudent>
                 <ProfileCard>
                     <IonAvatar class='foto'>
                         <Gender icon={male}></Gender>
                         <IonImg src={`${AssetsApi.URLImgProfile}/${props.data.image}`}></IonImg>
                     </IonAvatar>
                     <p className="px-0 nama">{props.data.username}</p>
-                    {props.data.roleId == 2
+                    {props.data.roleId === 2
                         ? (
                             <div>
                                 <p className='studyAt'>{props.data.studyAt}</p>
