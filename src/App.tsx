@@ -162,7 +162,7 @@ const App: React.FC = () => {
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom" color={'primary'}
-            className={locationHiddenTabs.includes(window.location.pathname.toLocaleLowerCase()) ? "d-none" : ''}
+
           >
             <IonTabButton tab="short-video" href="/short-video">
               <IonIcon icon={bookSharp} />
@@ -178,7 +178,7 @@ const App: React.FC = () => {
                 <IonLabel>profile</IonLabel>
               </IonTabButton>)
               :
-              <IonTabButton tab="Login" href="/Login">
+              <IonTabButton tab="login" href="/login">
                 <IonIcon icon={logInSharp} />
                 <IonLabel>Login</IonLabel>
               </IonTabButton>}
