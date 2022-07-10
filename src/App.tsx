@@ -69,7 +69,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const token = getdataToken();
-  const locationHiddenTabs = ["/login", "/register", "/login-email", "creae", "/register/verify-account", "/register/create-password"];
+  const locationHiddenTabs = ["/login", "/register", "/login-email", "/register/verify-account", "/register/create-password"];
   return (
     <IonApp>
       <IonReactRouter>
@@ -162,7 +162,7 @@ const App: React.FC = () => {
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom" color={'primary'}
-            className={locationHiddenTabs.includes(window.location.pathname) ? "d-none" : ''}
+            className={locationHiddenTabs.includes(window.location.pathname.toLocaleLowerCase()) ? "d-none" : ''}
           >
             <IonTabButton tab="short-video" href="/short-video">
               <IonIcon icon={bookSharp} />
