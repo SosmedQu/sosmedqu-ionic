@@ -17,7 +17,16 @@ const IconToolbar = styled(IonIcon)`
     padding: 4px;
     margin: 0 0 0 .8rem;
     border-radius: .3rem;
-    border: 1.5px solid var(--ion-color-light);
+    color: var(--ion-color-primary);
+    border: 1.5px solid var(--ion-color-primary);
+    cursor: pointer;
+    :hover{
+        color: var(--ion-color-secondary);
+        border-color: var(--ion-color-secondary);
+    }
+    :onClick{
+        background-color: var(--ion-color-secondary)
+    }
 `;
 
 export { IconMD, IconSM, IconLG, IconToolbar };

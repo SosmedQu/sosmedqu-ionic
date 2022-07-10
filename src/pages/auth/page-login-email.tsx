@@ -3,12 +3,14 @@ import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { AlertOk } from '../../components/Alert';
+import { Loading } from '../../components/Utils/style/loading';
 import MyApi from '../../helpers/my-api_helper';
 import IAlert from '../../interface/IAlert';
 import './auth.css';
 const LoginWithEmail: React.FC = () => {
     const history = useHistory();
     const [Alert, setAlert] = useState<IAlert>({ showAlert: false })
+    const [showLoading, setShowLoading] = useState(false);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,7 +39,7 @@ const LoginWithEmail: React.FC = () => {
                     type: "failed",
                     showAlert: true,
                     header: "Gagal",
-                    message: err.response.data.msg,
+                    message: err.response.data.errors[0].msg,
                     okClick: () => {
 
                     },
@@ -62,6 +64,13 @@ const LoginWithEmail: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="container">
+                    <Loading
+                        cssClass='loading-post'
+                        isOpen={showLoading}
+                        spinner={'lines'}
+                        onDidDismiss={() => setShowLoading(false)}
+                        message={'Please wait...'}
+                    />
                     <AlertOk data={Alert} />
                     <IonRow>
                         <IonCol className="flex-center">

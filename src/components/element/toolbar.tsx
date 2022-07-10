@@ -3,9 +3,10 @@ import { addCircleSharp, addOutline, addSharp, arrowBackSharp, menuSharp, search
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { FibPost } from "../../fab";
-import { IconMD, IconSM, IconToolbar } from "../style/icon";
-import { Toolbar } from "../style/toolbar";
+import { getdataToken } from "../../interface/IdataToken";
+import { FibPost } from "../fab";
+import { IconMD, IconSM, IconToolbar } from "../Utils/style/icon";
+import { Toolbar } from "../Utils/style/toolbar";
 
 const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (props) => {
     const Box = styled.div`
@@ -26,11 +27,10 @@ const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (pro
 
 const ToolBarWithSideBar: React.FC = (props) => {
     return (
-        <Toolbar color={'primary'} >
+        <Toolbar >
             <IonMenuToggle slot="start">
-                <IconMD icon={menuSharp} className="icon-navigation"></IconMD>
+                <IconToolbar style={{ margin: "0" }} icon={menuSharp} className="icon-navigation"></IconToolbar>
             </IonMenuToggle>
-            <IconToolbar slot="end" icon={addSharp} />
             {props.children}
         </Toolbar>
     )

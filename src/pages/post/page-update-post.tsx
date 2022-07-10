@@ -1,7 +1,7 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonInput } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonInput, IonRefresher, IonRefresherContent, RefresherEventDetail } from "@ionic/react";
 import styled from "styled-components";
 import { ItemInput, Select, TextArea } from "../../components/Utils/style/Input";
-import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
+import { ToolBarWithGoBack } from "../../components/element/toolbar";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -36,6 +36,7 @@ const PageUpdatePost: React.FC = () => {
     const [showLoading, setShowLoading] = useState(false);
     const [alert, setAlert] = useState<IAlert>({ showAlert: false });
     const post: any = location.state;
+    console.log(post);
     const btnSubmit = useRef<HTMLIonButtonElement>(null);
     useIonViewWillEnter(() => {
         api.getAllpostCategory().then((res) => {
@@ -99,7 +100,7 @@ const PageUpdatePost: React.FC = () => {
                 type: "success",
                 message: res.data.msg,
                 okClick: () => {
-                    history.replace("/show-post", post);
+                    history.goBack();
                 }
             })
         }, err => {
@@ -115,7 +116,11 @@ const PageUpdatePost: React.FC = () => {
             setShowLoading(false);
         })
     };
-
+    function doRefresh(event: CustomEvent<RefresherEventDetail>) {
+        console.log('Begin async operation');
+        window.location.reload();
+        event.detail.complete();
+    }
     const triggerSubmit = () => {
         btnSubmit.current?.click();
     }
@@ -127,6 +132,9 @@ const PageUpdatePost: React.FC = () => {
                 </ToolBarWithGoBack>
             </IonHeader>
             <Content fullscreen>
+                <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+                    <IonRefresherContent></IonRefresherContent>
+                </IonRefresher>
                 <AlertOk data={alert} />
                 <IonLoading
                     cssClass='my-custom-class'

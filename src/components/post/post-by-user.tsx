@@ -26,15 +26,11 @@ const PostByUser: React.FC<{ idUser: number }> = (props) => {
     const [actionSheet, setActionSheet] = useState(false);
     useEffect(() => {
         api.getAllPostByUser(props.idUser).then((res) => {
-            // console.log(res.data.posts[0].PostFiles)
             setPost(res.data.posts)
         }, err => {
             console.log(err);
         })
     }, [])
-    // post.map((e) => {
-    //     console.log(e.PostFiles.length);
-    // })
     const [value, setValue] = useState("0");
     const slider = useRef<HTMLIonSlidesElement>(null);
     const handleSegmentChange = (e: any) => {
@@ -67,10 +63,9 @@ const PostByUser: React.FC<{ idUser: number }> = (props) => {
     return (
         <div>
             <AlertOk data={alert} />
-            {!post
+            {post.length == 0
                 ? (
-
-                    <BoxError>404 NOT FOUND</BoxError>
+                    <BoxError>Anda belum memiliki postingan</BoxError>
                 )
                 : <div style={{ width: "100vw" }}>
                     <IonSegment color="secondary" value={value} onIonChange={(e) => handleSegmentChange(e)}>
@@ -114,7 +109,7 @@ const PostByUser: React.FC<{ idUser: number }> = (props) => {
                             {post.map((e, i) =>
                                 !e.PostFiles.length && (
                                     <div key={i} className="my-3 shadow">
-                                        <Post data={e} actionClick={() => setActionSheet(true)}>
+                                        <Post data={e} >
                                             <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={e} />
                                         </Post>
                                     </div>

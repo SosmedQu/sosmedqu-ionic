@@ -1,10 +1,10 @@
-import { IonPage, IonHeader, IonToolbar, IonContent, IonLoading, IonTitle, useIonViewWillEnter, IonCard, IonCardHeader, IonCardContent } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonContent, IonLoading, IonTitle, useIonViewWillEnter, IonCard, IonCardHeader, IonCardContent, IonRefresher, IonRefresherContent, RefresherEventDetail } from "@ionic/react";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import { ActionSheet } from "../../components/Menu";
 import { PostContent } from "../../components/post/micro/post-content";
 import { PostHeader } from "../../components/post/micro/post-header"
-import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
+import { ToolBarWithGoBack } from "../../components/element/toolbar";
 
 const PageShowPost: React.FC = () => {
     // const api = new MyApi()
@@ -31,12 +31,20 @@ const PageShowPost: React.FC = () => {
         console.log(post.caption);
         setShowLoading(false)
     })
+    function doRefresh(event: CustomEvent<RefresherEventDetail>) {
+        console.log('Begin async operation');
+        window.location.reload();
+        event.detail.complete();
+    }
     return (
         <IonPage>
             <IonHeader>
                 <ToolBarWithGoBack backTo={() => history.replace("/profile", post)} title="Show Post" />
             </IonHeader>
             <IonContent>
+                <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+                    <IonRefresherContent></IonRefresherContent>
+                </IonRefresher>
                 <IonLoading
                     cssClass='my-custom-class'
                     isOpen={showLoading}

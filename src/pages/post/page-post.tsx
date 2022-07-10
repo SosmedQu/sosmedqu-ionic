@@ -1,26 +1,29 @@
-import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
+import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonImg, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
-import { SideBar, ActionSheetPublic } from '../../components/Menu';
+import { SideBar, ActionSheetPublic, ActionSheetPost } from '../../components/Menu';
 import MyApi from '../../helpers/my-api_helper';
 import { PageError } from '../page-error';
 import { IconLG, IconSM, IconToolbar } from '../../components/Utils/style/icon';
-import { searchOutline, warningOutline } from 'ionicons/icons';
-import { ToolBarWithSideBar } from '../../components/Utils/element/toolbar';
+import { addSharp, hammerOutline, searchOutline, warningOutline } from 'ionicons/icons';
+import { ToolBarWithSideBar } from '../../components/element/toolbar';
 import { BoxSegment, Segment } from '../../components/Utils/style/segment';
 import { useHistory } from 'react-router';
 import { getCookie } from 'typescript-cookie';
-// import { getdataToken } from '../../interface/IdataToken';
+import { getdataToken } from '../../interface/IdataToken';
 import { FibPost } from '../../components/fab';
+import { Loading } from '../../components/Utils/style/loading';
+import Avatar from '../../components/Utils/style/avatar';
 
 
 const PagePost: React.FC = () => {
-  // const dataToken = getdataToken();
   const history = useHistory();
   const [showLoading, setShowLoading] = useState(true);
   const slider = useRef<HTMLIonSlidesElement>(null);
+  const slide = useRef<HTMLIonSlideElement>(null);
+  const content = useRef<HTMLIonContentElement>(null);
   const [value, setValue] = useState("0");
-  const [actionSheet, setActionSheet] = useState(false);
+  const [actionPost, setActionPost] = useState(false);
 
   const slideOpts = {
     initialSlide: 0,
@@ -35,8 +38,15 @@ const PagePost: React.FC = () => {
   const handleSegmentChange = (e: any) => {
     setValue(e.detail.value);
     slider.current!.slideTo(e.detail.value);
+    content.current?.scrollToTop();
   };
 
+  const handleSlideChange = (e: any) => {
+    slider.current?.getActiveIndex().then((val) => {
+      setValue(`${val}`);
+    });
+  }
+  const dataToken = getdataToken();
   const [postMedia, setPostMedia] = useState<any>([]);
   const [whenError, setWhenError] = useState("");
   useEffect(() => {
@@ -68,10 +78,13 @@ const PagePost: React.FC = () => {
       <IonPage id="main">
         <IonHeader>
           <ToolBarWithSideBar>
+            {dataToken &&
+              <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
+            }
             <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/post", postMedia)} />
           </ToolBarWithSideBar>
         </IonHeader>
-        <IonContent fullscreen>
+        <IonContent fullscreen ref={content}>
           <BoxSegment>
             <Segment color="dark" className='rounded' value={value} onIonChange={(e) => handleSegmentChange(e)}>
               <IonSegmentButton value="0">
@@ -82,32 +95,28 @@ const PagePost: React.FC = () => {
               </IonSegmentButton>
             </Segment >
           </BoxSegment>
-          <IonLoading
-            cssClass='my-custom-class'
+          <Loading
+            cssClass='loading-post'
             isOpen={showLoading}
+            spinner={'lines'}
             onDidDismiss={() => setShowLoading(false)}
             message={'Please wait...'}
           />
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">Postingan</IonTitle>
-            </IonToolbar>
-          </IonHeader>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           {/* {dataToken && dataToken.role == 'pelajar' && (<FibPost />)} */}
           {postMedia.length > 0
-            ? (<IonSlides options={slideOpts} ref={slider}>
-              <IonSlide>
+            ? (<IonSlides options={slideOpts} ref={slider} onIonSlideWillChange={(e) => handleSlideChange(e)}>
+              <IonSlide ref={slide}>
                 <IonGrid>
                   <IonRow>
+                    <ActionSheetPost show={actionPost} onDidDismiss={() => setActionPost(false)} />
                     {postMedia.map((dataPost: any, i: any) =>
                       dataPost.PostFiles.length > 0 &&
                       (
                         <IonCol key={i} size="12" sizeLg='3' style={{ padding: 0 }}>
-                          <Post data={dataPost} actionClick={() => setActionSheet(true)}>
-                            <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={dataPost.id} />
+                          <Post data={dataPost}>
                           </Post>
                         </IonCol>
                       ))}
@@ -122,8 +131,7 @@ const PagePost: React.FC = () => {
                       dataPost.PostFiles.length == 0 &&
                       (
                         <IonCol key={i} size="12" style={{ padding: 0 }}>
-                          <Post data={dataPost} actionClick={() => setActionSheet(true)}>
-                            <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={dataPost.id} />
+                          <Post data={dataPost}>
                           </Post>
                         </IonCol>
                       ))}

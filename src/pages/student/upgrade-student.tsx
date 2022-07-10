@@ -1,7 +1,7 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, IonCol, IonImg } from "@ionic/react";
 import styled from "styled-components";
 import { Input, Select } from "../../components/Utils/style/Input";
-import { ToolBarWithGoBack } from "../../components/Utils/element/toolbar";
+import { ToolBarWithGoBack } from "../../components/element/toolbar";
 import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -116,7 +116,7 @@ const UpgradeStudent: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader className="fixed-top">
+            <IonHeader className="sticky-top">
                 <ToolBarWithGoBack backTo={() => history.replace("/profile")} title="Upgrade To Student" >
                     <IconMD icon={sendSharp} slot="end" onClick={triggerSubmit} />
                 </ToolBarWithGoBack>
