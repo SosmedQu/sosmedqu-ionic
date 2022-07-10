@@ -1,15 +1,15 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
-import { addSharp, pencil, newspaperOutline, logoVimeo, ribbonSharp } from 'ionicons/icons';
+import { IonCol, IonContent, IonGrid, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
+import { newspaperOutline, logoVimeo, ribbonSharp } from 'ionicons/icons';
 import { useState, useRef } from 'react';
 
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { ToolBarWithSideBar } from '../../components/element/toolbar';
 import { SideBar, ActionSheetPost } from '../../components/Menu';
 import MyProfile from '../../components/myprofile';
 import NeedAuth from '../../components/NeedAuth';
 import PostByUser from '../../components/post/post-by-user';
 import { Header } from '../../components/Utils/style/header';
-import { IconToolbar, IconSM } from '../../components/Utils/style/icon';
+import { IconSM } from '../../components/Utils/style/icon';
 import { Segment } from '../../components/Utils/style/segment';
 import MyApi from '../../helpers/my-api_helper';
 
@@ -20,7 +20,6 @@ interface IProfile {
 }
 
 const ProfileView: React.FC = () => {
-    const history = useHistory();
     const location = useLocation();
     const profileId: any = location.state;
     const [myProfile, setMyProfile] = useState<IProfile>();

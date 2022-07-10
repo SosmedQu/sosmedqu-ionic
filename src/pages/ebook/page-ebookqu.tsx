@@ -1,10 +1,10 @@
-import { IonAvatar, IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar, useIonViewWillEnter, IonGrid } from '@ionic/react';
+import { IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar, useIonViewWillEnter, IonGrid } from '@ionic/react';
 import { addSharp } from 'ionicons/icons';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { SideBar } from '../../components/Menu';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
 import { Header } from '../../components/Utils/style/header';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import MyApi from '../../helpers/my-api_helper';
 import { Loading } from '../../components/Utils/style/loading';
 import AssetsApi from '../../helpers/assets-api_helper';
@@ -34,7 +34,6 @@ const PageEbookQu: React.FC = () => {
         }
         getebooks();
     })
-    console.log(ebook)
     return (
         <>
             <SideBar />

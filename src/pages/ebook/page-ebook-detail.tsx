@@ -1,5 +1,5 @@
-import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonContent, IonFab, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonLabel, IonPage, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
-import { addSharp, book, pencil, readerSharp, trash } from 'ionicons/icons';
+import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonContent, IonFab, IonIcon, IonImg, IonItem, IonItemDivider, IonLabel, IonPage, IonTitle, useIonAlert } from '@ionic/react';
+import { addSharp, pencil, readerSharp, trash } from 'ionicons/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import { SideBar } from '../../components/Menu';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
@@ -29,13 +29,13 @@ const PageEbookDetail: React.FC = () => {
             <IonPage id="main">
                 <Header>
                     <ToolBarWithGoBack backTo={() => history.goBack()} title='E-BookQu'>
-                        {ebook && dataToken?.userId == (ebook.userId) &&
+                        {ebook && dataToken?.userId === (ebook.userId) &&
                             <IconToolbar className='m-0' slot="end" icon={pencil} onClick={() => history.push("/ebook/update", ebook)} />
                         }
                     </ToolBarWithGoBack>
                 </Header>
                 <IonContent fullscreen>
-                    {ebook && dataToken?.userId == (ebook.userId) &&
+                    {ebook && dataToken?.userId === (ebook.userId) &&
                         <IonFab vertical="bottom" horizontal="end" slot="fixed">
                             <IonButton className="btn-circle" onClick={() => history.push("/ebook/create")}>
                                 <IonIcon icon={addSharp} />
@@ -48,7 +48,7 @@ const PageEbookDetail: React.FC = () => {
                             <div className="detail-ebook-header px-2">
                                 <div className="d-flex justify-content-between">
                                     <h5 className='mt-3'>{ebook.name}</h5>
-                                    {ebook && dataToken?.userId == (ebook.userId) &&
+                                    {ebook && dataToken?.userId === (ebook.userId) &&
                                         <IonButton color={'danger'} onClick={() => {
                                             presentAlert({
                                                 header: 'Hapus Ebook?',

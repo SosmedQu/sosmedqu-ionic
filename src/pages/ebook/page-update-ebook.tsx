@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Input, ItemInput, Select } from '../../components/Utils/style/Input';
-import { IonAvatar, IonButton, IonContent, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonSelectOption, IonTextarea, useIonModal, useIonViewWillEnter } from '@ionic/react';
+import { ItemInput, Select } from '../../components/Utils/style/Input';
+import { IonButton, IonContent, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonSelectOption, IonTextarea, useIonModal, useIonViewWillEnter } from '@ionic/react';
 import { TakePictures } from '../../helpers/camera_helper';
 import MyApi from '../../helpers/my-api_helper';
 import { useHistory, useLocation } from 'react-router';
@@ -12,13 +12,12 @@ import AssetsApi from '../../helpers/assets-api_helper';
 import styled from 'styled-components';
 import { Header } from '../../components/Utils/style/header';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
-import { addOutline, addSharp, camera, documentAttachOutline, image, imageOutline, saveOutline } from 'ionicons/icons';
+import { addSharp, imageOutline, saveOutline } from 'ionicons/icons';
 import { ErrorMessage } from '@hookform/error-message';
 import Label from '../../components/Utils/style/label';
 import { IconToolbar } from '../../components/Utils/style/icon';
 import { AlertOk } from '../../components/Alert';
 import Alert2 from '../../components/element/Alert';
-import Item from '../../components/Utils/style/item';
 import { ModalCreateCategory } from '../../components/element/modal';
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
 
@@ -31,9 +30,6 @@ type IEbook = {
     publicationYear: string
     isbn: number
 };
-const SUPPORTED_FORMATS = [
-    "application/pdf",
-];
 const schema = yup.object().shape({
     name: yup.string().matches(/^[a-z\d\-_\s]+$/i, 'special carackter dilarang'),
     categoryId: yup.string().required("wajib di pilih"),

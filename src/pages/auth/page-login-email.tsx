@@ -1,7 +1,7 @@
-import { IonAlert, IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { logInSharp } from 'ionicons/icons';
 import { useState } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AlertOk } from '../../components/Alert';
 import { Loading } from '../../components/Utils/style/loading';
 import MyApi from '../../helpers/my-api_helper';

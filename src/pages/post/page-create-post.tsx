@@ -1,4 +1,4 @@
-import { IonPage, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonInput, IonHeader } from "@ionic/react";
+import { IonPage, IonToolbar, IonTitle, IonButton, IonSelectOption, IonLoading, IonIcon, IonLabel, useIonViewWillEnter, IonHeader } from "@ionic/react";
 import styled from "styled-components";
 import { ItemInput, Select, TextArea } from "../../components/Utils/style/Input";
 import { ToolBarWithGoBack } from "../../components/element/toolbar";
@@ -13,11 +13,9 @@ import { camera, sendSharp } from "ionicons/icons";
 import { navigate } from '../../helpers/navigation_helper'
 import MyApi from "../../helpers/my-api_helper";
 import { AlertOk } from "../../components/Alert";
-import IAlert from "../../interface/IAlert";
 import Content from "../../components/Utils/style/content";
 import { SliderImage } from "../../components/image-slider";
 import { TakePictures } from '../../helpers/camera_helper';
-import { dataURItoBlob } from "../../helpers/converter_helper";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import Alert2 from "../../components/element/Alert";

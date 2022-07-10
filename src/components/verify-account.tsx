@@ -1,4 +1,4 @@
-import { Redirect } from 'react-router-dom';
+
 import Axios from 'axios';
 import { useCallback, useContext, useState } from 'react';
 import { IonContent, IonPage, NavContext } from '@ionic/react';
@@ -19,7 +19,7 @@ const VerifyAccount: React.FC = () => {
     Axios.post(url, {
         "token": urlParams.get("token"), "email": urlParams.get("email")
     }).then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
             setAlert({
                 type: "success",
                 showAlert: true,

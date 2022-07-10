@@ -1,6 +1,6 @@
-import { IonAvatar, IonButton, IonIcon, IonFab, IonCard, IonCol, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar, useIonViewWillEnter, IonGrid } from '@ionic/react';
-import { addSharp, searchOutline } from 'ionicons/icons';
-import { Link, useHistory } from 'react-router-dom';
+import { IonCard, IonCol, IonContent, IonLabel, IonNote, IonPage, IonRow, IonGrid } from '@ionic/react';
+import { searchOutline } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
 import { SideBar } from '../../components/Menu';
 import { ToolBarWithGoBack } from '../../components/element/toolbar';
 import { Header } from '../../components/Utils/style/header';

@@ -1,4 +1,4 @@
-import { Redirect, Route, useLocation, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -42,12 +42,12 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 // Bootstrap 5
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap/dist/js/bootstrap.bundle.min.js"
+// import "bootstrap/dist/css/bootstrap.min.css"
+// import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // CSS SosmedQu
 import './theme/app.css';
-import { newspaperSharp, personSharp, logoVimeo, logIn, logInSharp, bookSharp } from 'ionicons/icons';
+import { newspaperSharp, personSharp, logInSharp, bookSharp } from 'ionicons/icons';
 import VerifyAccount from './components/verify-account';
 import PageEbookQu from './pages/ebook/page-ebookqu';
 import PageEbookDetail from './pages/ebook/page-ebook-detail';
@@ -70,7 +70,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const token = getdataToken();
-  const locationHiddenTabs = ["/login", "/register", "/login-email", "creae", "/register/verify-account", "/register/create-password"];
+  // const locationHiddenTabs = ["/login", "/register", "/login-email", "creae", "/register/verify-account", "/register/create-password"];
   return (
     <IonApp>
       <IonReactRouter>
@@ -172,7 +172,6 @@ const App: React.FC = () => {
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom" color={'primary'}
-            className={locationHiddenTabs.includes(window.location.pathname.toLocaleLowerCase()) ? "d-none" : ''}
           >
             <IonTabButton tab="ebooks" href="/ebooks">
               <IonIcon icon={bookSharp} />

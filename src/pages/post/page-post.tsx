@@ -1,19 +1,16 @@
-import { IonCol, IonContent, IonFab, IonFabButton, IonFabList, IonGrid, IonHeader, IonIcon, IonImg, IonLabel, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegment, IonSegmentButton, IonSlide, IonSlides, IonTitle, IonToolbar, RefresherEventDetail, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonHeader, IonLabel, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, RefresherEventDetail } from '@ionic/react';
 import { Post } from '../../components/post/Post';
 import { useEffect, useRef, useState } from 'react';
-import { SideBar, ActionSheetPublic, ActionSheetPost } from '../../components/Menu';
+import { SideBar, ActionSheetPost } from '../../components/Menu';
 import MyApi from '../../helpers/my-api_helper';
 import { PageError } from '../page-error';
-import { IconLG, IconSM, IconToolbar } from '../../components/Utils/style/icon';
-import { addSharp, hammerOutline, searchOutline, warningOutline } from 'ionicons/icons';
+import { IconLG, IconToolbar } from '../../components/Utils/style/icon';
+import { addSharp, searchOutline, warningOutline } from 'ionicons/icons';
 import { ToolBarWithSideBar } from '../../components/element/toolbar';
 import { BoxSegment, Segment } from '../../components/Utils/style/segment';
 import { useHistory } from 'react-router';
-import { getCookie } from 'typescript-cookie';
 import { getdataToken } from '../../interface/IdataToken';
-import { FibPost } from '../../components/fab';
 import { Loading } from '../../components/Utils/style/loading';
-import Avatar from '../../components/Utils/style/avatar';
 
 
 const PagePost: React.FC = () => {
@@ -55,7 +52,7 @@ const PagePost: React.FC = () => {
       await api.getAllPost().then((response) => {
         setPostMedia(response.data.posts);
       }, err => {
-        if (err.response.data == undefined) {
+        if (err.response.data === undefined) {
           setWhenError(err.message);
         }
         console.log(err);
@@ -128,7 +125,7 @@ const PagePost: React.FC = () => {
                 <IonGrid>
                   <IonRow>
                     {postMedia.map((dataPost: any, i: any) =>
-                      dataPost.PostFiles.length == 0 &&
+                      dataPost.PostFiles.length === 0 &&
                       (
                         <IonCol key={i} size="12" style={{ padding: 0 }}>
                           <Post data={dataPost}>
