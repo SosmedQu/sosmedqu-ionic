@@ -19,7 +19,7 @@ const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (pro
     `;
     return (
         <IonToolbar className="ion-padding p-0"  >
-            <IconToolbar style={{ margin: "0" }} slot="start" onClick={props.backTo} icon={arrowBackSharp} className="icon-navigation"></IconToolbar>
+            <IconToolbar style={{ margin: "0" }} slot="start" onClick={props.backTo} icon={arrowBackSharp}></IconToolbar>
             <Box className="text-center">
                 <IonTitle className="title">{props.title}</IonTitle>
             </Box>
@@ -32,7 +32,7 @@ const ToolBarWithSideBar: React.FC = (props) => {
     return (
         <Toolbar >
             <IonMenuToggle slot="start">
-                <IconToolbar color={'primary'} style={{ margin: "0" }} icon={menuSharp} className="icon-navigation"></IconToolbar>
+                <IconToolbar color={'primary'} style={{ margin: "0" }} icon={menuSharp}></IconToolbar>
             </IonMenuToggle>
             {props.children}
         </Toolbar>

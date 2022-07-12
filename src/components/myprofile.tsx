@@ -1,5 +1,5 @@
 import { IonAvatar, IonButton, IonCard, IonIcon, IonImg, IonLabel } from '@ionic/react';
-import { male, schoolSharp } from 'ionicons/icons';
+import { heartOutline, male, schoolSharp } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import AssetsApi from '../helpers/assets-api_helper';
@@ -7,6 +7,8 @@ import IProfile from '../interface/IProfile';
 import { IconMD } from './Utils/style/icon';
 import Color from './Utils/style/color';
 import { FontFamily, FontSize } from './Utils/style/font';
+import { getdataToken } from '../interface/IdataToken';
+import Label from './Utils/style/label';
 
 const ProfileHeader = styled.div`
     position: relative;
@@ -23,7 +25,7 @@ const ProfileHeader = styled.div`
         bottom: 0;
         left: 0;
         right: 0;
-        padding 20px 0 0 0;
+        padding 10px 0 0 0;
     }
 `;
 const ProfileCard = styled(IonCard)`
@@ -72,12 +74,11 @@ const TopStudent = styled.div`
     background-color: ${Color.primary.red};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
-    padding: 16px 32px;
-
+    padding: 8px 24px;
     .title {
         color: ${Color.primary.white};
         margin: 0;
-        font-size: 20px;
+        font-size: 14px;
         font-weight: 700;
     }
 `;
@@ -93,8 +94,13 @@ const Gender = styled(IonIcon)`
     padding: 8px;
 `;
 
-const MyProfile: React.FC<{ data: IProfile }> = (props) => {
+const ButtonFollow = styled(IonButton)`
+    
+`;
+
+const MyProfile: React.FC<{ data: IProfile, clickFollow?: () => void }> = (props) => {
     const history = useHistory();
+    const dataToken = getdataToken();
     const handleUpgrade = () => {
         history.push("/upgrade-student", props.data)
     }
@@ -116,6 +122,14 @@ const MyProfile: React.FC<{ data: IProfile }> = (props) => {
                             <div>
                                 <p className='studyAt'>{props.data.studyAt}</p>
                                 <p className="px-0 followers">Followers <span>99.9k</span></p>
+                                {props.data.id != dataToken?.userId &&
+                                    <div className="text-end">
+                                        <ButtonFollow>
+                                            <IonIcon slot="start" icon={heartOutline}></IonIcon>
+                                            <Label>Follow</Label>
+                                        </ButtonFollow>
+                                    </div>
+                                }
                             </div>
                         )
                         :

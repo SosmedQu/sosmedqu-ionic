@@ -1,11 +1,11 @@
 import { IonContent, IonHeader, IonPage, IonRefresher, IonRefresherContent, RefresherEventDetail } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ToolBarWithGoBack } from '../components/element/toolbar';
-import { Post } from '../components/post/Post';
-import { Searchbar } from '../components/Utils/style/searchbar';
+import { ToolBarWithGoBack } from '../../components/element/toolbar';
+import { Post } from '../../components/post/Post';
+import { Searchbar } from '../../components/Utils/style/searchbar';
 
-const PageSearch: React.FC = () => {
+const PageSearchPost: React.FC = () => {
     const history = useHistory();
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([{}])
@@ -42,4 +42,4 @@ const PageSearch: React.FC = () => {
     )
 }
 
-export default PageSearch;
+export default PageSearchPost;

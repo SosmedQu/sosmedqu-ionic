@@ -11,10 +11,8 @@ import AssetsApi from '../../helpers/assets-api_helper';
 import styled from 'styled-components';
 import { ImageEbook } from '../../components/Utils/style/image';
 import { IconToolbar } from '../../components/Utils/style/icon';
+import { EbookCard } from '../../components/ebook';
 
-const CardEbook = styled(IonCard)`
-    min-height: 320px;
-`;
 
 const PageEbooks: React.FC = () => {
     const history = useHistory();
@@ -40,7 +38,7 @@ const PageEbooks: React.FC = () => {
             <IonPage id="main">
                 <Header>
                     <ToolBarWithGoBack backTo={() => history.goBack()} title='E-BookQu'>
-                        <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/post", ebook)} />
+                        <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/ebook", ebook)} />
                     </ToolBarWithGoBack>
                 </Header>
                 <IonContent fullscreen>
@@ -60,14 +58,8 @@ const PageEbooks: React.FC = () => {
                         <IonGrid>
                             <IonRow className="">
                                 {ebook && ebook.map((val: any, i: any) => (
-                                    <IonCol size="6">
-                                        <CardEbook onClick={() => history.push("/ebook/detail", val)} key={i} className="my-2 d-flex flex-column">
-                                            <ImageEbook src={`${AssetsApi.URLImgEbooks}/${val.image}`} />
-                                            <div className="ps-2">
-                                                <IonLabel className='my-2' style={{ fontWeight: "bold", color: "var(--ion-color-dark)", display: "block" }}>{val.name}</IonLabel>
-                                                <IonNote>{val.description.substring(0, 68)} ...</IonNote>
-                                            </div>
-                                        </CardEbook>
+                                    <IonCol size="6" key={i}>
+                                        <EbookCard data={val} />
                                     </IonCol>
                                 ))}
                             </IonRow>

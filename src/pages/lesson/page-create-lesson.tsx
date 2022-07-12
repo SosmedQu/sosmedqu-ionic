@@ -43,7 +43,7 @@ const schema = yup.object().shape({
 const api = new MyApi();
 
 
-export const PageCreateEbook: React.FC = () => {
+export const PageCreateLesson: React.FC = () => {
     const history = useHistory();
     const { alert, setAlertSuccess, setAlertFail } = Alert2();
     const [listCategory, setListCategory] = useState<any[]>([]);

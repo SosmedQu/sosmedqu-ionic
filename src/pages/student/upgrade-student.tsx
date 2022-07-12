@@ -17,6 +17,7 @@ import { AlertOk } from "../../components/Alert";
 import IAlert from "../../interface/IAlert";
 import Content from "../../components/Utils/style/content";
 import { TakePictures } from '../../helpers/camera_helper';
+import { dataURItoBlob } from "../../helpers/converter_helper";
 const BoxInput = styled.div`
     margin: 64px 16px 16px;
 `;
@@ -29,10 +30,11 @@ const UpgradeStudent: React.FC = () => {
     const [showLoading, setShowLoading] = useState(false);
     const [dataAlert, setDataAlert] = useState<IAlert>({ showAlert: false });
     const history = useHistory();
+
     const location = useLocation();
     const { photo, takePhoto } = TakePictures();
     const profile: any = location.state;
-    let date = new Date(profile.birthDay)
+    let date = profile ? new Date(profile.birthDay) : new Date();
     const btnSubmit = useRef<HTMLIonButtonElement>(null);
 
     const {
@@ -44,43 +46,38 @@ const UpgradeStudent: React.FC = () => {
         formState: { errors }
     } = useForm({
         defaultValues: {
-            username: profile.username,
-            gender: profile.gender,
-            placeOfBirth: profile.placeOfBirth,
+            username: profile ? profile.username : '',
+            gender: profile ? profile.gender : '',
+            placeOfBirth: profile ? profile.placeOfBirth : '',
             birthDay: date.toLocaleDateString('en-CA'),
-            noHp: profile.noHp,
-            email: profile.email,
-            nisn: profile.nisn,
-            studyAt: profile.studyAt,
-            province: profile.province,
-            studentCard: '',
+            noHp: profile ? profile.noHp : '',
+            email: profile ? profile.email : '',
+            nisn: profile ? profile.nisn : '',
+            studyAt: profile ? profile.studyAt : '',
+            province: profile ? profile.province : '',
         }
     });
 
-    const form = useRef<HTMLFormElement>(null)
-    const takePicture = () => {
-        try {
-            takePhoto();
-
-        } catch (e: any) {
-            console.log(e);
-        }
-    }
-    useEffect(() => {
-        setValue("studentCard", photo ?? '');
-    }, [takePicture])
 
     /**
      *
      * @param data
      */
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: any, event: any) => {
+        event.preventDefault();
         setShowLoading(true);
+        console.log(data);
         if (profile.roleId == 2) {
             history.replace("/profile", profile)
         }
+        const formData = new FormData(event.target);
+        if (photo) {
+            const convert = dataURItoBlob(photo)
+            console.log(convert)
+            formData.append('studentCard', convert);
+        }
         const api = new MyApi();
-        api.upgradeStudent(data).then((res) => {
+        api.upgradeStudent(formData).then((res) => {
             console.log(res)
             setDataAlert({
                 showAlert: true,
@@ -99,7 +96,7 @@ const UpgradeStudent: React.FC = () => {
                 onDidDismiss: () => { setDataAlert({ showAlert: false }) },
                 header: "Gagal",
                 type: "failed",
-                message: err.response.data.errors.msg,
+                message: err.response.data.errors[0].msg,
                 okClick: () => { setDataAlert({ showAlert: false }) }
             })
         }).finally(() => {
@@ -133,14 +130,14 @@ const UpgradeStudent: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <BoxInput>
-                    <form onSubmit={handleSubmit(onSubmit)} ref={form}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='d-flex flex-column align-items-center mb-2'>
                             <IonCol size="6">
                                 {photo != undefined && (
                                     <IonImg src={photo} />
                                 )}
                             </IonCol>
-                            <IonButton onClick={takePicture}>
+                            <IonButton onClick={takePhoto}>
                                 <IonIcon icon={camera} slot="start"></IonIcon>
                                 <IonLabel>Kartu Pelajar</IonLabel>
                             </IonButton>
@@ -193,7 +190,7 @@ const UpgradeStudent: React.FC = () => {
                             <Label position={getValues().gender ? "stacked" : "floating"}>jenis Kelamin</Label>
                             <Controller
                                 render={({ field }) => (
-                                    <Select
+                                    <Select {...register("gender")}
                                         placeholder="Select One"
                                         value={field.value}
                                         onIonChange={e => setValue('gender', e.detail.value)}>

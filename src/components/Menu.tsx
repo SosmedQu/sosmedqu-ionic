@@ -43,6 +43,12 @@ const ProfileSidebar = styled(IonToolbar)`
             .status{
 
             }
+            study-at {
+                overflow: hidden;
+                display: -webkit-box; /* fallback */
+                -webkit-line-clamp: 2; /* number of lines to show */
+                -webkit-box-orient: vertical;
+            }
         }
         .footer{
             grid-area: footer;
@@ -86,9 +92,9 @@ const SideBar: React.FC = () => {
                                 <IonImg src={process.env.PUBLIC_URL + "assets/img/no-picture.svg"}></IonImg>
                             </Avatar>
                             <div className="title">
-                                {/* <p className='nama'>{dataToken.username}</p>
-                            <p className='role'>{dataToken.role}</p> */}
-                                <p className='study-at'>Universitas BSI</p>
+                                <p className='nama'>{dataToken.username}</p>
+                                <p className='role m-0'>{dataToken.role}</p>
+                                <p className='study-at'>{dataToken.studyAt}</p>
                             </div>
                             <div className="footer">
                                 <div className='text-center'>

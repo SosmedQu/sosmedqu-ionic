@@ -1,13 +1,15 @@
 import { IonCol, IonContent, IonGrid, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
-import { newspaperOutline, logoVimeo, ribbonSharp } from 'ionicons/icons';
+import { newspaperOutline, logoVimeo, ribbonSharp, bookOutline } from 'ionicons/icons';
 import { useState, useRef } from 'react';
 
 import { useLocation } from 'react-router';
+import { EbookCard } from '../../components/ebook';
 import { ToolBarWithSideBar } from '../../components/element/toolbar';
 import { SideBar, ActionSheetPost } from '../../components/Menu';
 import MyProfile from '../../components/myprofile';
 import NeedAuth from '../../components/NeedAuth';
 import PostByUser from '../../components/post/post-by-user';
+import { BoxError } from '../../components/Utils/style/box-error';
 import { Header } from '../../components/Utils/style/header';
 import { IconSM } from '../../components/Utils/style/icon';
 import { Segment } from '../../components/Utils/style/segment';
@@ -23,6 +25,7 @@ const ProfileView: React.FC = () => {
     const location = useLocation();
     const profileId: any = location.state;
     const [myProfile, setMyProfile] = useState<IProfile>();
+    const [myEbook, setMyEbook] = useState<any>();
     const [value, setValue] = useState("0");
     const slider = useRef<HTMLIonSlidesElement>(null);
     const [actionPost, setActionPost] = useState(false);
@@ -43,11 +46,20 @@ const ProfileView: React.FC = () => {
             setValue(`${e}`)
         })
     }
+    const handlerFollow = () => {
+
+    }
     useIonViewWillEnter(() => {
         const api = new MyApi();
         const loadData = async () => {
             await api.getProfileById(profileId).then((profile) => {
                 setMyProfile(profile.data.user);
+                api.getMyEbooks(profile.data.user.id).then((res) => {
+                    setMyEbook(res.data.ebooks)
+                }, err => {
+                    console.log(err)
+                }).finally(
+                )
             }, err => {
                 console.log(err);
             }).catch((err) => {
@@ -82,7 +94,7 @@ const ProfileView: React.FC = () => {
                     </IonRefresher>
                     {myProfile
                         ? (
-                            <MyProfile data={myProfile} />
+                            <MyProfile data={myProfile} clickFollow={handlerFollow} />
                         )
                         : <NeedAuth name='Profile' />}
                     <Segment color="secondary" value={value} onIonChange={(e: any) => handleSegmentChange(e)}>
@@ -90,7 +102,7 @@ const ProfileView: React.FC = () => {
                             <IconSM icon={newspaperOutline} />
                         </IonSegmentButton>
                         <IonSegmentButton value="1">
-                            <IconSM icon={logoVimeo} />
+                            <IconSM icon={bookOutline} />
                         </IonSegmentButton>
                         <IonSegmentButton value="2">
                             <IconSM icon={ribbonSharp} />
@@ -113,17 +125,17 @@ const ProfileView: React.FC = () => {
                         <IonSlide>
                             <IonGrid>
                                 <IonRow>
-                                    <h1>2</h1>
+                                    {myEbook && myEbook.map((val: any, i: any) => (
+                                        <IonCol size='6' key={i}>
+                                            <EbookCard data={val} />
+                                        </IonCol>
+                                    ))}
                                 </IonRow>
                             </IonGrid>
                         </IonSlide>
                         {/*-- Package Segment --*/}
                         <IonSlide>
-                            <IonGrid>
-                                <IonRow>
-                                    <h1>3</h1>
-                                </IonRow>
-                            </IonGrid>
+                            <BoxError>User belum memiliki prestasi</BoxError>
                         </IonSlide>
                     </IonSlides>
                 </IonContent>

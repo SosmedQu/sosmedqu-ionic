@@ -201,6 +201,20 @@ export class MyApi {
     }
     // End Of Subject
 
+    // Follow   
+    getAllFollowing = async (id: any) => {
+        const req = await api.get(`following/${id}`)
+    }
+    getAllFollowers = async (id: any) => {
+        const req = await api.get(`followers/${id}`)
+    }
+    follow = async (id: any) => {
+        const req = await api.post(`following/${id}`)
+    }
+    unfollow = async (id: any) => {
+        const req = await api.post(`unfollow/${id}`)
+    }
+    // End Of Follow
 
 
 }

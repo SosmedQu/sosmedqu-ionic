@@ -15,10 +15,6 @@ const PageShowPost: React.FC = () => {
     const dataToken = getdataToken();
     const location = useLocation();
     const post: any = location.state;
-    console.log(post);
-    if (!post) {
-        history.replace("/post");
-    }
     // useEffect(() => {
     //     api.getOnePost(id).then((response) => {
     //         console.log(response.data)
@@ -30,7 +26,6 @@ const PageShowPost: React.FC = () => {
     //     })
     // }, [])
     useIonViewWillEnter(() => {
-        console.log(post.caption);
         setShowLoading(false)
     })
     function doRefresh(event: CustomEvent<RefresherEventDetail>) {
@@ -58,31 +53,33 @@ const PageShowPost: React.FC = () => {
                         <IonTitle size="large">Show Post</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <IonCard>
-                    {dataToken?.userId == post.User.id
-                        ? (
+                {post &&
+                    <IonCard>
+                        {dataToken?.userId === post.User.id
+                            ? (
 
-                            <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={post} />
-                        )
-                        : <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={post.id} />
-                    }
-                    <IonCardHeader>
-                        <PostHeader
-                            id={post.User.id}
-                            image={post.User.image}
-                            username={post.User.username}
-                            privacy={post.privacy}
-                            onClickMore={() => setActionSheet(true)}
-                        />
-                    </IonCardHeader>
-                    <IonCardContent>
-                        <PostContent
-                            PostCategory={post.PostCategory}
-                            PostFiles={post.PostFiles}
-                            caption={post.caption}
-                        />
-                    </IonCardContent>
-                </IonCard>
+                                <ActionSheet show={actionSheet} onDidDismiss={() => setActionSheet(false)} data={post} />
+                            )
+                            : <ActionSheetPublic show={actionSheet} onDidDismiss={() => setActionSheet(false)} idPost={post.id} />
+                        }
+                        <IonCardHeader>
+                            <PostHeader
+                                id={post.User.id}
+                                image={post.User.image}
+                                username={post.User.username}
+                                privacy={post.privacy}
+                                onClickMore={() => setActionSheet(true)}
+                            />
+                        </IonCardHeader>
+                        <IonCardContent>
+                            <PostContent
+                                PostCategory={post.PostCategory}
+                                PostFiles={post.PostFiles}
+                                caption={post.caption}
+                            />
+                        </IonCardContent>
+                    </IonCard>
+                }
             </IonContent>
         </IonPage>
     )

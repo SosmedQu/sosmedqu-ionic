@@ -22,9 +22,8 @@ const VerifikasiEmail: React.FC = () => {
     });
 
     const location = useLocation();
-    const email = location.state ? location.state : null;
+    const email: any = location.state ? location.state : null;
     const resendEmail = () => {
-
         const api = new MyApi();
         api.register({ email: email, link: "http://localhost:8100/register/create-password" }).then(
             (response) => {
@@ -89,11 +88,11 @@ const VerifikasiEmail: React.FC = () => {
                     <IonIcon icon={mailOutline} style={{ fontSize: "150px" }}></IonIcon>
                     <h1>Verify Your Email</h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla
-                        est
+                        Selamat pendaftaran anda berhasil di lakukan silahkan verifikasi bahwa <b>{email}</b> adalah email anda dengan click activate pada gmail
                     </p>
+                    <br />
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit ame venenatis, <a>Click Resend Verify</a>
+                        tidak mendapatkan gmail verifikasi? <a>Click Resend Verify</a>
                     </p>
                     <IonGrid>
                         <IonRow>

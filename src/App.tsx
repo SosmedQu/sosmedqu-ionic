@@ -12,7 +12,6 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import HomePage from './pages/page-home';
 import PagePost from './pages/post/page-post';
-import PageSearch from './pages/page-search';
 import Profile from './pages/page-profile';
 import Register from './pages/auth/page-register';
 import LoginWithEmail from './pages/auth/page-login-email';
@@ -64,6 +63,9 @@ import { PageCreateEbook } from './pages/ebook/page-create-ebook';
 import { PageLesson } from './pages/lesson/page-lesson';
 import PageEbooks from './pages/ebook/page-ebooks';
 import { PageUpdateEbook } from './pages/ebook/page-update-ebook';
+import PageSearchEbook from './pages/ebook/page-search-ebook';
+import PageSearchPost from './pages/post/page-search-post';
+import { PageCreateLesson } from './pages/lesson/page-create-lesson';
 
 
 setupIonicReact();
@@ -139,12 +141,18 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/lesson">
               <PageLesson />
             </ProtectedRoute>
+            <ProtectedRoute exact path="/lesson/create">
+              <PageCreateLesson />
+            </ProtectedRoute>
             {/* End Lesson */}
             {/* <Route exact path="/short-video">
               <ShortVideo />
             </Route> */}
-            <Route exact path="/search/:data">
-              <PageSearch />
+            <Route exact path="/search/post">
+              <PageSearchPost />
+            </Route>
+            <Route exact path="/search/ebook">
+              <PageSearchEbook />
             </Route>
             {/* Profile */}
             <ProtectedRoute exact path="/profile">

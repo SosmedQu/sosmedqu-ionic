@@ -2,15 +2,18 @@ import { IonCol, IonContent, IonGrid, IonPage, IonRefresher, IonRefresherContent
 import NeedAuth from '../components/NeedAuth';
 import { ActionSheetPost, SideBar } from '../components/Menu';
 import MyApi from '../helpers/my-api_helper';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MyProfile from '../components/myprofile';
-import { addSharp, logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
+import { addSharp, bookOutline, bookSharp, logoVimeo, newspaperOutline, pencil, ribbonSharp } from 'ionicons/icons';
 import PostByUser from '../components/post/post-by-user';
 import { Segment } from '../components/Utils/style/segment';
 import { IconSM, IconToolbar } from '../components/Utils/style/icon';
 import { ToolBarWithSideBar } from '../components/element/toolbar';
 import { Header } from '../components/Utils/style/header';
 import { useHistory } from 'react-router';
+import { EbookCard } from '../components/ebook';
+import { BoxError } from '../components/Utils/style/box-error';
+import { getdataToken } from '../interface/IdataToken';
 
 interface IProfile {
   id?: number;
@@ -18,9 +21,24 @@ interface IProfile {
   email?: string;
 }
 
+interface IEbook {
+  id: number
+  name: string
+  fileName: string
+  image: string
+  writer: string
+  publishing: string
+  description: string
+  isbn: number
+  publicationYear: string
+  userId: number
+}
+
 const Profile: React.FC = () => {
   const history = useHistory();
+  const dataToken = getdataToken();
   const [myProfile, setMyProfile] = useState<IProfile>();
+  const [myEbook, setMyEbook] = useState<any>();
   const [value, setValue] = useState("0");
   const slider = useRef<HTMLIonSlidesElement>(null);
   const [actionPost, setActionPost] = useState(false);
@@ -41,20 +59,26 @@ const Profile: React.FC = () => {
       setValue(`${e}`)
     })
   }
+  const api = new MyApi();
   useIonViewWillEnter(() => {
-    const api = new MyApi();
     const loadData = async () => {
-      await api.getProfile().then((profile) => {
+      await api.getProfileById(dataToken?.userId).then((profile) => {
+        console.log(profile)
         setMyProfile(profile.data.user);
+        api.getMyEbooks(profile.data.user.id).then((res) => {
+          setMyEbook(res.data.ebooks)
+        }, err => {
+          console.log(err)
+        })
       }, err => {
         console.log(err);
       }).catch((err) => {
         console.log(err);
       });
     }
+
     loadData();
   }, [])
-
   function doRefresh(event: CustomEvent<RefresherEventDetail>) {
     console.log('Begin async operation');
     window.location.reload();
@@ -64,7 +88,6 @@ const Profile: React.FC = () => {
   function handleUpdate() {
     history.push("/student/update", myProfile)
   }
-  console.log(myProfile)
   return (
     <>
       <SideBar />
@@ -89,7 +112,7 @@ const Profile: React.FC = () => {
               <IconSM icon={newspaperOutline} />
             </IonSegmentButton>
             <IonSegmentButton value="1">
-              <IconSM icon={logoVimeo} />
+              <IconSM icon={bookOutline} />
             </IonSegmentButton>
             <IonSegmentButton value="2">
               <IconSM icon={ribbonSharp} />
@@ -112,17 +135,17 @@ const Profile: React.FC = () => {
             <IonSlide>
               <IonGrid>
                 <IonRow>
-                  <h1>2</h1>
+                  {myEbook && myEbook.map((val: any, i: any) => (
+                    <IonCol size='6' key={i}>
+                      <EbookCard data={val} />
+                    </IonCol>
+                  ))}
                 </IonRow>
               </IonGrid>
             </IonSlide>
             {/*-- Package Segment --*/}
             <IonSlide>
-              <IonGrid>
-                <IonRow>
-                  <h1>3</h1>
-                </IonRow>
-              </IonGrid>
+              <BoxError>Anda belum memiliki prestasi</BoxError>
             </IonSlide>
           </IonSlides>
         </IonContent>
