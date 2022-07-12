@@ -180,11 +180,13 @@ export class MyApi {
         return req;
     }
 
-    getESubject = async () => {
-        const req = await api.get("/subjects");
-        return req;
+    getSubject = async () => {
+        return await api.get("/subjects");
     }
 
+    getSubjectByDayId = async (id: any) => {
+        return await api.get(`/subjects/day/${id}`);
+    }
     getSubjectById = async (id: any) => {
         const req = await api.get(`/subjects/${id}`);
         return req
@@ -200,6 +202,12 @@ export class MyApi {
         return req
     }
     // End Of Subject
+
+    // Days 
+    getAllDay = async () => {
+        return await api.get("/days")
+    }
+    // End Of days
 
     // Follow   
     getAllFollowing = async (id: any) => {

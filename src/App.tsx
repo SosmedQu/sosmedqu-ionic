@@ -65,7 +65,8 @@ import PageEbooks from './pages/ebook/page-ebooks';
 import { PageUpdateEbook } from './pages/ebook/page-update-ebook';
 import PageSearchEbook from './pages/ebook/page-search-ebook';
 import PageSearchPost from './pages/post/page-search-post';
-import { PageCreateLesson } from './pages/lesson/page-create-lesson';
+import { PageCULesson } from './pages/lesson/page-cu-lesson';
+import { PageLessonDetail } from './pages/lesson/page-lesson-detail';
 
 
 setupIonicReact();
@@ -141,8 +142,11 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/lesson">
               <PageLesson />
             </ProtectedRoute>
-            <ProtectedRoute exact path="/lesson/create">
-              <PageCreateLesson />
+            <ProtectedRoute exact path="/lesson/cu">
+              <PageCULesson />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/lesson/detail">
+              <PageLessonDetail />
             </ProtectedRoute>
             {/* End Lesson */}
             {/* <Route exact path="/short-video">

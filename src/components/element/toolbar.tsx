@@ -17,11 +17,15 @@ const ToolBarWithGoBack: React.FC<{ title?: string, backTo: () => void }> = (pro
             padding: 0;
         }
     `;
+
+    const Title = styled(IonTitle)`
+        font-weight: bold;
+    `;
     return (
         <IonToolbar className="ion-padding p-0"  >
             <IconToolbar style={{ margin: "0" }} slot="start" onClick={props.backTo} icon={arrowBackSharp}></IconToolbar>
             <Box className="text-center">
-                <IonTitle className="title">{props.title}</IonTitle>
+                <Title color={'primary'} className="title">{props.title}</Title>
             </Box>
             {props.children}
         </IonToolbar>
