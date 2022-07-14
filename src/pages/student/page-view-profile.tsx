@@ -1,6 +1,6 @@
-import { IonCol, IonContent, IonGrid, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, RefresherEventDetail, useIonViewWillEnter } from '@ionic/react';
-import { newspaperOutline, logoVimeo, ribbonSharp, bookOutline } from 'ionicons/icons';
-import { useState, useRef } from 'react';
+import { IonCol, IonContent, IonGrid, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSegmentButton, IonSlide, IonSlides, RefresherEventDetail, useIonAlert, useIonViewWillEnter } from '@ionic/react';
+import { newspaperOutline, logoVimeo, ribbonSharp, bookOutline, airplane } from 'ionicons/icons';
+import { useState, useRef, useEffect } from 'react';
 
 import { useLocation } from 'react-router';
 import { EbookCard } from '../../components/ebook';
@@ -22,9 +22,14 @@ interface IProfile {
 }
 
 const ProfileView: React.FC = () => {
+    const api = new MyApi();
+    const [presentAlert] = useIonAlert();
     const location = useLocation();
     const profileId: any = location.state;
     const [myProfile, setMyProfile] = useState<IProfile>();
+    const [checkFollow, setCheckFollow] = useState(false);
+    const [followers, setFollowers] = useState<number>();
+    const [following, setFollowing] = useState<number>();
     const [myEbook, setMyEbook] = useState<any>();
     const [value, setValue] = useState("0");
     const slider = useRef<HTMLIonSlidesElement>(null);
@@ -47,13 +52,42 @@ const ProfileView: React.FC = () => {
         })
     }
     const handlerFollow = () => {
-
+        api.follow(myProfile?.id).then((res) => {
+            setCheckFollow(true)
+            setFollowers(followers! + 1);
+        })
+    }
+    const handlerUnfollow = () => {
+        presentAlert({
+            header: 'Unfollow?',
+            message: "Yakin ingin unfollow pelajar ini?",
+            cssClass: "alert-logout",
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                },
+                {
+                    text: 'OK',
+                    role: 'confirm',
+                    handler: () => {
+                        api.unfollow(myProfile?.id).then((res) => {
+                            setCheckFollow(false)
+                            setFollowers(followers! - 1);
+                        })
+                    }
+                },
+            ],
+        })
     }
     useIonViewWillEnter(() => {
-        const api = new MyApi();
         const loadData = async () => {
             await api.getProfileById(profileId).then((profile) => {
                 setMyProfile(profile.data.user);
+                console.log(profile.data)
+                setCheckFollow(profile.data.checkFollow);
+                setFollowers(parseInt(profile.data.follower[0].follower));
+                setFollowing(profile.data.following[0].following);
                 api.getMyEbooks(profile.data.user.id).then((res) => {
                     setMyEbook(res.data.ebooks)
                 }, err => {
@@ -67,8 +101,7 @@ const ProfileView: React.FC = () => {
             });
         }
         loadData();
-    }, [])
-
+    })
     function doRefresh(event: CustomEvent<RefresherEventDetail>) {
         console.log('Begin async operation');
         window.location.reload();
@@ -78,7 +111,6 @@ const ProfileView: React.FC = () => {
     // function handleUpdate() {
     //     history.push("/student/update", myProfile)
     // }
-    console.log(myProfile)
     return (
         <>
             <SideBar />
@@ -94,7 +126,13 @@ const ProfileView: React.FC = () => {
                     </IonRefresher>
                     {myProfile
                         ? (
-                            <MyProfile data={myProfile} clickFollow={handlerFollow} />
+                            <MyProfile
+                                data={myProfile}
+                                clickFollow={handlerFollow}
+                                clickUnfollow={handlerUnfollow}
+                                checkFollow={checkFollow}
+                                followers={followers}
+                                following={following} />
                         )
                         : <NeedAuth name='Profile' />}
                     <Segment color="secondary" value={value} onIonChange={(e: any) => handleSegmentChange(e)}>

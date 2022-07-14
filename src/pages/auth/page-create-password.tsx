@@ -3,8 +3,10 @@ import { keySharp, saveSharp } from "ionicons/icons"
 import { useState } from "react";
 import { MyApi } from "../../helpers/my-api_helper";
 import { useHistory } from "react-router";
+import { navigate } from "../../helpers/navigation_helper";
 
 const CreatePassword: React.FC = () => {
+    document.getElementById("tab-bar-bottom")?.classList.add("d-none");
     const history = useHistory();
     const [name, setName] = useState<string>();
     const [password, setPassword] = useState<string>();
@@ -109,8 +111,7 @@ const CreatePassword: React.FC = () => {
                         text: "OK",
                         handler: () => {
                             api.login(Object.fromEntries(data)).then((response) => {
-                                console.log(response);
-                                history.push("/profile");
+                                navigate("profile");
                             }, err => {
                                 console.log(err);
                             })

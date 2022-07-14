@@ -104,10 +104,10 @@ const PageEbookDetail: React.FC = () => {
                             <div className="description px-2">
                                 <p>{ebook.description}</p>
                             </div>
-                            <IonItemDivider className="mt-4">
+                            {/* <IonItemDivider className="mt-4">
                                 <IonTitle style={{ padding: "0" }}>comment</IonTitle>
-                            </IonItemDivider>
-                            <div className="comment-ebook">
+                            </IonItemDivider> */}
+                            {/* <div className="comment-ebook">
                                 <div className="comment-user">
                                     <IonCard>
                                         <IonCardHeader style={{ padding: 0 }}>
@@ -172,7 +172,7 @@ const PageEbookDetail: React.FC = () => {
                                         </IonCardContent>
                                     </IonCard>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     }
                 </IonContent>

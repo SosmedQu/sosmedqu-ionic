@@ -1,13 +1,19 @@
-import { chevronBackCircleOutline, chevronForwardCircleOutline } from "ionicons/icons";
-import { IonAlert, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonLoading, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
+import { arrowBackSharp, mailSharp, personAddSharp } from "ionicons/icons";
+import { IonButton, IonCol, IonContent, IonImg, IonInput, IonLabel, IonLoading, IonPage, IonRow, useIonAlert } from "@ionic/react";
 import "./auth.css";
 import { useState } from "react";
 import MyApi from "../../helpers/my-api_helper";
 import { useHistory, useLocation } from "react-router";
 import Env from "../../helpers/env_helper";
+import { BoxContent, Header, IconDaftar, IconHeader, BoxForm, MyForm, Iteminput, IconInput, Footer } from "../../components/auth";
+import { IconMD } from "../../components/Utils/style/icon";
+import { Loading } from "../../components/Utils/style/loading";
+import { navigate } from '../../helpers/navigation_helper';
 
 const Register: React.FC = () => {
+    document.getElementById("tab-bar-bottom")?.classList.add("d-none");
     const history = useHistory();
+    const [presentAlert] = useIonAlert();
     const [showLoading, setShowLoading] = useState(false);
     interface IAlert {
         type: string;
@@ -18,22 +24,6 @@ const Register: React.FC = () => {
     }
     const location = useLocation();
     const [email, setEmail] = useState(location.state ? location.state as string : "");
-    const [Alert, setAlert] = useState<IAlert>({
-        type: "",
-        show: false,
-        msg: "",
-        header: "",
-        buttons: undefined,
-    });
-    const resetAlert = () => {
-        setAlert({
-            type: "",
-            show: false,
-            msg: "",
-            header: "",
-            buttons: undefined,
-        });
-    };
 
     const onSubmit = (e: any) => {
         setShowLoading(true)
@@ -41,39 +31,32 @@ const Register: React.FC = () => {
         const api = new MyApi();
         api.register({ email: email, link: `http://${Env.URLWEB}/register/create-password` }).then(
             (response) => {
-                setAlert({
-                    type: "success",
-                    show: true,
+                presentAlert({
                     header: "Berhasil",
-                    msg: response.data.msg,
+                    message: response.data.msg,
+                    cssClass: "custom-alert text-center alert-success",
                     buttons: [
                         {
                             text: "OK",
                             handler: () => {
-                                history.push({
-                                    pathname: "/register/verify-email",
-                                    state: email,
-                                });
-                            },
-                        },
-                    ],
-                });
+                                history.push("/register/verify-email", email)
+                            }
+                        }
+                    ]
+                })
             },
             (err) => {
-                setAlert({
-                    type: "failed",
+                console.log(err);
+                presentAlert({
                     header: "Gagal",
-                    show: true,
-                    msg: err.response.data.errors[0].msg,
+                    message: err.response.data.msg ?? err.response.data.errors[0].msg,
+                    cssClass: "custom-alert text-center alert-failed",
                     buttons: [
                         {
                             text: "OK",
-                            handler: () => {
-                                console.log("Test Success");
-                            },
-                        },
-                    ],
-                });
+                        }
+                    ]
+                })
             }
         ).finally(() => {
             setShowLoading(false);
@@ -85,55 +68,47 @@ const Register: React.FC = () => {
     };
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Registration Account</IonTitle>
-                </IonToolbar>
-            </IonHeader>
             <IonContent fullscreen>
-                <IonLoading
-                    cssClass='my-custom-class'
-                    isOpen={showLoading}
-                    onDidDismiss={() => setShowLoading(false)}
-                    message={'Please wait...'}
-                />
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Registration Account</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <div className="container">
-                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
-                    <form onSubmit={(e) => onSubmit(e)}>
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol className="flex-center">
-                                    <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1" />
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol>
-                                    <IonItem>
-                                        <IonLabel position="floating">Email Address</IonLabel>
-                                        <IonInput type="email" value={email} name="email" onIonChange={(e) => onTyping(e!)}></IonInput>
-                                    </IonItem>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow className="flex-center mt-2">
-                                <IonButton href="/login" color="light">
-                                    <IonIcon icon={chevronBackCircleOutline} slot="start"></IonIcon>
-                                    <IonLabel>Back</IonLabel>
-                                </IonButton>
-                                <IonButton type="submit" color="light">
-                                    <IonIcon icon={chevronForwardCircleOutline} slot="end"></IonIcon>
-                                    <IonLabel>Next</IonLabel>
-                                </IonButton>
-                            </IonRow>
-                        </IonGrid>
-                    </form>
-                </div>
+                <BoxContent>
+                    {/* <BgBlue /> */}
+                    <Header>
+                        <IconMD style={{ color: "#fff" }} icon={arrowBackSharp} onClick={() => history.goBack()}></IconMD>
+                    </Header>
+                    <Loading
+                        cssClass='loading-post'
+                        isOpen={showLoading}
+                        spinner={'lines'}
+                        onDidDismiss={() => setShowLoading(false)}
+                        message={'Please wait...'}
+                    />
+                    <h1>Daftar Akun</h1>
+                    <MyForm onSubmit={(e) => onSubmit(e)}>
+                        <IonRow>
+                            <IonCol className="flex-center">
+                                <IonImg src={process.env.PUBLIC_URL + "/assets/logo/logoSomedQu.svg"} className="logo-size-1" />
+                            </IonCol>
+                        </IonRow>
+                        <Iteminput>
+                            <IconInput icon={mailSharp}></IconInput>
+                            <IonInput className='input' type="email" placeholder='Email' name="email" onIonChange={(e) => setEmail(e.detail.value!)}></IonInput>
+                        </Iteminput>
+                        <IonRow className='flex-column px-5'>
+                            <IonButton type="submit" color="primary" style={{ marginBottom: "16px" }}>
+                                <IonLabel>Daftar</IonLabel>
+                            </IonButton>
+                        </IonRow>
+                        <IonRow className='justify-content-center' onClick={() => history.goBack()}>
+                            <h6>Sudah Punya Akun?</h6>
+                        </IonRow>
+                    </MyForm>
+                    <Footer>
+                        <div className="hakcipta">
+                            <p>Hak Cipta 2022 <br /> @sosmedQu Tentang Social Media Platform</p>
+                        </div>
+                    </Footer>
+                </BoxContent>
             </IonContent>
-        </IonPage>
+        </IonPage >
     );
 };
 

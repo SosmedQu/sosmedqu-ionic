@@ -1,6 +1,6 @@
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonIcon } from "@ionic/react";
 import { addSharp } from "ionicons/icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export const ModalCreateCategory = ({
     onDismiss,

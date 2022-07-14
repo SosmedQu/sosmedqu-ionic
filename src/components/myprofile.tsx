@@ -9,6 +9,9 @@ import Color from './Utils/style/color';
 import { FontFamily, FontSize } from './Utils/style/font';
 import { getdataToken } from '../interface/IdataToken';
 import Label from './Utils/style/label';
+import MyApi from '../helpers/my-api_helper';
+import { useEffect, useState } from 'react';
+import Avatar from './Utils/style/avatar';
 
 const ProfileHeader = styled.div`
     position: relative;
@@ -39,11 +42,13 @@ const ProfileCard = styled(IonCard)`
     .foto{
         grid-area: foto;
         position: relative;
-        height: 100px;
-        width: 100px;
+        height: 80px;
+        width: 80px;
     }
 
     .nama{
+        text-transform: uppercase;
+        color: var(--ion-color-dark)
         grid-area:nama;
         font-family: ${FontFamily.primary};
         font-size: 18px;
@@ -83,13 +88,23 @@ const TopStudent = styled.div`
     }
 `;
 
-const Gender = styled(IonIcon)`
+const GenderMale = styled(IonIcon)`
     position: absolute;
     right:0;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--ion-color-light);
     background-color: var(--ion-color-primary);
+    border-radius: 50%;
+    padding: 8px;
+`;
+const GenderFemale = styled(IonIcon)`
+    position: absolute;
+    right:0;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ion-color-light);
+    background-color: var(--ion-color-secondary);
     border-radius: 50%;
     padding: 8px;
 `;
@@ -98,7 +113,15 @@ const ButtonFollow = styled(IonButton)`
     
 `;
 
-const MyProfile: React.FC<{ data: IProfile, clickFollow?: () => void }> = (props) => {
+const MyProfile: React.FC<{
+    data: IProfile,
+    clickFollow?: () => void,
+    clickUnfollow?: () => void,
+    checkFollow?: boolean,
+    followers?: any,
+    following?: any
+
+}> = (props) => {
     const history = useHistory();
     const dataToken = getdataToken();
     const handleUpgrade = () => {
@@ -108,26 +131,43 @@ const MyProfile: React.FC<{ data: IProfile, clickFollow?: () => void }> = (props
         <ProfileHeader>
             <div className="box" />
             <div className="box-card">
-                <TopStudent>
+                {/* <TopStudent>
                     <p className='title'>Top Student</p>
-                </TopStudent>
+                </TopStudent> */}
                 <ProfileCard>
-                    <IonAvatar class='foto'>
-                        <Gender icon={male}></Gender>
+                    <Avatar class='foto'>
+                        {props.data.gender ?
+                            props.data.gender === 'perempuan'
+                                ? (
+                                    <GenderFemale icon={male}></GenderFemale>
+                                )
+                                : <GenderMale icon={male}></GenderMale>
+                            : null
+                        }
+
                         <IonImg src={`${AssetsApi.URLImgProfile}/${props.data.image}`}></IonImg>
-                    </IonAvatar>
+                    </Avatar>
                     <p className="px-0 nama">{props.data.username}</p>
                     {props.data.roleId === 2
                         ? (
                             <div>
                                 <p className='studyAt'>{props.data.studyAt}</p>
-                                <p className="px-0 followers">Followers <span>99.9k</span></p>
+                                <p className="px-0 followers">Followers <span>{props.followers}</span></p>
                                 {props.data.id != dataToken?.userId &&
                                     <div className="text-end">
-                                        <ButtonFollow>
-                                            <IonIcon slot="start" icon={heartOutline}></IonIcon>
-                                            <Label>Follow</Label>
-                                        </ButtonFollow>
+                                        {props.checkFollow === false
+                                            ? (
+                                                <ButtonFollow onClick={props.clickFollow}>
+                                                    <IonIcon slot="start" icon={heartOutline}></IonIcon>
+                                                    <Label>Follow</Label>
+                                                </ButtonFollow>
+
+                                            )
+                                            : <ButtonFollow onClick={props.clickUnfollow}>
+                                                <IonIcon slot="start" icon={heartOutline}></IonIcon>
+                                                <Label>Unfollow</Label>
+                                            </ButtonFollow>
+                                        }
                                     </div>
                                 }
                             </div>
@@ -140,7 +180,7 @@ const MyProfile: React.FC<{ data: IProfile, clickFollow?: () => void }> = (props
                     }
                 </ProfileCard>
             </div>
-        </ProfileHeader>
+        </ProfileHeader >
     )
 }
 

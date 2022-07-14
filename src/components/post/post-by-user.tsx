@@ -6,7 +6,7 @@ import IAlert from "../../interface/IAlert";
 import { AlertOk } from "../Alert";
 import { Post } from "./Post";
 import { BoxError } from "../Utils/style/box-error";
-import { MyPostBox, MyPostImage, WhenClick } from "../Utils/custom/profile-post";
+import { MyPostBox, MyPostImage } from "../Utils/custom/profile-post";
 import AssetsApi from "../../helpers/assets-api_helper";
 import PageShowPost from "../../pages/post/page-show-post";
 import { useHistory } from "react-router";
@@ -27,8 +27,8 @@ const PostByUser: React.FC<{ idUser: number }> = (props) => {
     useEffect(() => {
         api.getAllPostByUser(props.idUser).then((res) => {
             setPost(res.data.posts)
-        }, err => {
-            console.log(err);
+        }).catch((err) => {
+
         })
     }, [])
     const [value, setValue] = useState("0");

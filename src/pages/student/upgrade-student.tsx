@@ -86,7 +86,7 @@ const UpgradeStudent: React.FC = () => {
                 type: "success",
                 message: res.data.msg,
                 okClick: () => {
-                    navigate("/profile");
+                    navigate("profile");
                 }
             })
         }, err => {
@@ -113,7 +113,7 @@ const UpgradeStudent: React.FC = () => {
         <IonPage>
             <IonHeader className="sticky-top">
                 <ToolBarWithGoBack backTo={() => history.replace("/profile")} title="Upgrade To Student" >
-                    <IconMD icon={sendSharp} slot="end" onClick={triggerSubmit} />
+                    <IconMD color={'primary'} icon={sendSharp} slot="end" onClick={triggerSubmit} />
                 </ToolBarWithGoBack>
             </IonHeader>
             <Content fullscreen>

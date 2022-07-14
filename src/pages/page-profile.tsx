@@ -19,6 +19,7 @@ interface IProfile {
   id?: number;
   username?: string;
   email?: string;
+  roleId: number
 }
 
 interface IEbook {
@@ -35,9 +36,12 @@ interface IEbook {
 }
 
 const Profile: React.FC = () => {
+  // document.getElementById("tab-bar-bottom")?.classList.remove("d-none");
   const history = useHistory();
   const dataToken = getdataToken();
   const [myProfile, setMyProfile] = useState<IProfile>();
+  const [followers, setFollowers] = useState<number>();
+  const [following, setFollowing] = useState<number>();
   const [myEbook, setMyEbook] = useState<any>();
   const [value, setValue] = useState("0");
   const slider = useRef<HTMLIonSlidesElement>(null);
@@ -63,17 +67,12 @@ const Profile: React.FC = () => {
   useIonViewWillEnter(() => {
     const loadData = async () => {
       await api.getProfileById(dataToken?.userId).then((profile) => {
-        console.log(profile)
         setMyProfile(profile.data.user);
+        setFollowers(parseInt(profile.data.follower[0].follower));
+        setFollowing(profile.data.following[0].following);
         api.getMyEbooks(profile.data.user.id).then((res) => {
           setMyEbook(res.data.ebooks)
-        }, err => {
-          console.log(err)
         })
-      }, err => {
-        console.log(err);
-      }).catch((err) => {
-        console.log(err);
       });
     }
 
@@ -88,13 +87,16 @@ const Profile: React.FC = () => {
   function handleUpdate() {
     history.push("/student/update", myProfile)
   }
+  console.log(myProfile)
   return (
     <>
       <SideBar />
       <IonPage id="main">
         <Header>
           <ToolBarWithSideBar>
-            <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
+            {myProfile && myProfile.roleId == 2 &&
+              <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
+            }
             <IconToolbar slot='end' onClick={handleUpdate} icon={pencil} />
           </ToolBarWithSideBar>
         </Header>
@@ -102,11 +104,8 @@ const Profile: React.FC = () => {
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
-          {myProfile
-            ? (
-              <MyProfile data={myProfile} />
-            )
-            : <NeedAuth name='Profile' />}
+          {myProfile &&
+            <MyProfile data={myProfile} followers={followers} following={following} />}
           <Segment color="secondary" value={value} onIonChange={(e: any) => handleSegmentChange(e)}>
             <IonSegmentButton value="0">
               <IconSM icon={newspaperOutline} />

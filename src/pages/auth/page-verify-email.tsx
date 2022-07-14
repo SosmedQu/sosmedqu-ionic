@@ -1,10 +1,15 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonGrid, IonRow, IonCol, IonButton, IonLabel, IonAlert } from "@ionic/react";
-import { mailOutline, sendSharp, mailSharp } from "ionicons/icons";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonGrid, IonRow, IonCol, IonButton, IonLabel, IonAlert, IonImg } from "@ionic/react";
+import { mailOutline, sendSharp, mailSharp, arrowBackSharp } from "ionicons/icons";
+import { relative } from "path";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
+import { BoxContent, Header, BoxForm, Content } from "../../components/auth";
+import { IconMD } from "../../components/Utils/style/icon";
+import { Loading } from "../../components/Utils/style/loading";
 import MyApi from "../../helpers/my-api_helper";
 
 const VerifikasiEmail: React.FC = () => {
+    document.getElementById("tab-bar-bottom")?.classList.add("d-none");
     const history = useHistory();
     interface IAlert {
         type: string;
@@ -54,15 +59,6 @@ const VerifikasiEmail: React.FC = () => {
             }
         );
     };
-    const resetAlert = () => {
-        setAlert({
-            type: "",
-            show: false,
-            msg: "",
-            header: "",
-            buttons: undefined,
-        });
-    };
 
     const changeEmail = () => {
         history.push(
@@ -72,45 +68,37 @@ const VerifikasiEmail: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Verifikasi Email</IonTitle>
-                </IonToolbar>
-            </IonHeader>
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Verifikasi Email</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <div className="container">
-                    <IonAlert isOpen={Alert.show} header={Alert.header} cssClass={"text-center alert-" + Alert.type} message={Alert.msg} buttons={Alert.buttons} onDidDismiss={() => resetAlert()} />
-                    <IonIcon icon={mailOutline} style={{ fontSize: "150px" }}></IonIcon>
-                    <h1>Verify Your Email</h1>
-                    <p>
-                        Selamat pendaftaran anda berhasil di lakukan silahkan verifikasi bahwa <b>{email}</b> adalah email anda dengan click activate pada gmail
-                    </p>
-                    <br />
-                    <p>
-                        tidak mendapatkan gmail verifikasi? <a>Click Resend Verify</a>
-                    </p>
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol size="12">
-                                <IonButton color="light" onClick={() => resendEmail()}>
-                                    <IonIcon icon={sendSharp} slot="start"></IonIcon>
-                                    <IonLabel>Resend Verify</IonLabel>
-                                </IonButton>
-                            </IonCol>
-                            <IonCol size="12">
-                                <IonButton color="light" onClick={() => changeEmail()}>
-                                    <IonIcon icon={mailSharp} slot="start"></IonIcon>
-                                    <IonLabel>Change Email</IonLabel>
-                                </IonButton>
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
-                </div>
+                <BoxContent>
+                    <Header>
+                    </Header>
+                    <Content className="mt-5 text-dark">
+                        <IonImg className="ilustrasi my-4" src={process.env.PUBLIC_URL + `assets/ilustrasi/clumsy.svg`}></IonImg>
+                        <h3 className="text-dark">Verify Your Email</h3>
+                        <p>
+                            Selamat pendaftaran anda berhasil silahkan verifikasi di email <b>{email}</b> anda dengan click activate pada gmail
+                        </p>
+                        <p>
+                            tidak mendapatkan verifikasi? <a>Click Resend Verify</a>
+                        </p>
+                        <IonGrid>
+                            <IonRow>
+                                <IonCol size="12">
+                                    <IonButton color="primary" onClick={() => resendEmail()}>
+                                        <IonIcon icon={sendSharp} slot="start"></IonIcon>
+                                        <IonLabel>Resend Verify</IonLabel>
+                                    </IonButton>
+                                </IonCol>
+                                <IonCol size="12">
+                                    <IonButton color="primary" onClick={() => changeEmail()}>
+                                        <IonIcon icon={mailSharp} slot="start"></IonIcon>
+                                        <IonLabel>Change Email</IonLabel>
+                                    </IonButton>
+                                </IonCol>
+                            </IonRow>
+                        </IonGrid>
+                    </Content>
+                </BoxContent>
             </IonContent>
         </IonPage>
     );

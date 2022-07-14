@@ -77,13 +77,10 @@ export const PageCULesson: React.FC = () => {
         if (photo) {
             const convert: Blob = dataURItoBlob(photo);
             formData.append("subjectImage", convert);
-            if (subject) {
-                console.log(subject.image);
-                formData.append("oldImage", subject.image);
-            }
         }
         if (subject) {
             formData.append("id", subject.id)
+            formData.append("oldImage", subject.image);
             api.updateSubject(formData).then((res) => {
                 setAlertSuccess({ msg: res.data.msg, okClick: () => history.go(-1) })
             }, err => {
@@ -126,7 +123,7 @@ export const PageCULesson: React.FC = () => {
     return (
         <IonPage>
             <Header>
-                <ToolBarWithGoBack backTo={() => history.go(-1)} title={subject ? 'Update Jadwal' : 'Create Jadwal'}>
+                <ToolBarWithGoBack backTo={() => history.go(-1)} title={subject ? 'Rubah Jadwal' : 'Buat Jadwal'}>
                     <IconToolbar style={{ margin: "0" }} slot='end' icon={saveOutline} onClick={submitClick}></IconToolbar>
                 </ToolBarWithGoBack>
             </Header>

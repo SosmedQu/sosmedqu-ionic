@@ -75,7 +75,7 @@ const PagePost: React.FC = () => {
       <IonPage id="main">
         <IonHeader>
           <ToolBarWithSideBar>
-            {dataToken &&
+            {dataToken && dataToken.role === 'pelajar' &&
               <IconToolbar onClick={() => setActionPost(true)} slot="end" icon={addSharp} />
             }
             <IconToolbar slot='end' icon={searchOutline} onClick={() => history.push("/search/post", postMedia)} />

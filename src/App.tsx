@@ -67,6 +67,10 @@ import PageSearchEbook from './pages/ebook/page-search-ebook';
 import PageSearchPost from './pages/post/page-search-post';
 import { PageCULesson } from './pages/lesson/page-cu-lesson';
 import { PageLessonDetail } from './pages/lesson/page-lesson-detail';
+import { PageCUNote } from './pages/note/page-cu-note';
+import { PageNotes } from './pages/note/page-notes';
+import { PageNoteDetail } from './pages/note/page-note-detail';
+import { PageCreateViolation } from './pages/violation/page-create-violation';
 
 
 setupIonicReact();
@@ -80,12 +84,12 @@ const App: React.FC = () => {
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path="/login" render={() => {
-              return token ? <Redirect to="/post" /> : <Login />
+              return token ? <Redirect to="/post" /> : <LoginWithEmail />
             }}>
             </Route>
-            <Route exact path="/login-email">
+            {/* <Route exact path="/login-email">
               <LoginWithEmail />
-            </Route>
+            </Route> */}
             <Route exact path="/register">
               <Register />
             </Route>
@@ -148,7 +152,29 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/lesson/detail">
               <PageLessonDetail />
             </ProtectedRoute>
-            {/* End Lesson */}
+            {/* End Of Lesson */}
+
+            {/* Note */}
+            <ProtectedRoute exact path="/notequ/create">
+              <PageCUNote />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/notequ/update">
+              <PageCUNote />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/notequ">
+              <PageNotes />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/notequ/detail">
+              <PageNoteDetail />
+            </ProtectedRoute>
+
+            {/* End Of Note */}
+            <ProtectedRoute exact path="/violation/post">
+              <PageCreateViolation />
+            </ProtectedRoute>
+            {/* Violation */}
+
+            {/* End Of Violation */}
             {/* <Route exact path="/short-video">
               <ShortVideo />
             </Route> */}
@@ -179,11 +205,8 @@ const App: React.FC = () => {
             <Route exact path="/">
               <Redirect to="/post" />
             </Route>
-            <Route exact path="">
-              <Redirect to="/post" />
-            </Route>
           </IonRouterOutlet>
-          <IonTabBar slot="bottom" color={'primary'}
+          <IonTabBar slot="bottom" color={'primary'} id="tab-bar-bottom"
           >
             <IonTabButton tab="ebooks" href="/ebooks">
               <IonIcon icon={bookSharp} />

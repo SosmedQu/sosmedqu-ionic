@@ -1,12 +1,15 @@
-import { IonActionSheet, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonText, IonToolbar, useIonAlert } from '@ionic/react';
-import { arrowRedoOutline, bookSharp, calendarSharp, closeSharp, heartOutline, logoVimeo, mailSharp, newspaper, notifications, pencil, powerSharp, settingsSharp, trash, trophySharp, warningOutline } from 'ionicons/icons';
+import { IonActionSheet, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonMenu, IonText, IonToolbar, useIonAlert, useIonModal, useIonViewWillEnter } from '@ionic/react';
+import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
+import { arrowRedoOutline, bookSharp, calendarSharp, closeSharp, documentSharp, heartOutline, logoVimeo, mailSharp, newspaper, notifications, pencil, powerSharp, settingsSharp, trash, trophySharp, warningOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import AssetsApi from '../helpers/assets-api_helper';
 import MyApi from '../helpers/my-api_helper';
 import { navigate } from '../helpers/navigation_helper';
 import IAlert from '../interface/IAlert';
 import { getdataToken } from '../interface/IdataToken';
+import IProfile from '../interface/IProfile';
 // import { getdataToken } from '../interface/IdataToken';
 import { AlertOk } from './Alert';
 import './component.css'
@@ -22,7 +25,7 @@ const ProfileSidebar = styled(IonToolbar)`
         display: grid;
         grid-template-areas: "foto title"
                             "footer footer";
-
+        grid-template-columns: 1fr 2.5fr;
         .foto{
             margin-left: 16px;
             grid-area: foto;
@@ -40,8 +43,8 @@ const ProfileSidebar = styled(IonToolbar)`
                 -webkit-line-clamp: 2; /* number of lines to show */
                 -webkit-box-orient: vertical;
             }
-            .status{
-
+            .role{
+                
             }
             study-at {
                 overflow: hidden;
@@ -79,37 +82,54 @@ const Item = styled(IonItem)`
 
 
 const SideBar: React.FC = () => {
+    const api = new MyApi();
     const [presentAlert] = useIonAlert();
     const dataToken = getdataToken();
+    // console.log(dataToken);
+    const [followers, setFollowers] = useState<number>(0);
+    const [following, setFollwing] = useState<number>(0);
+    const [profile, setProfile] = useState<IProfile>();
+
+    useIonViewWillEnter(() => {
+        api.getProfileById(dataToken?.userId).then((res) => {
+            setProfile(res.data.user);
+            setFollowers(res.data.follower[0].follower);
+            setFollwing(res.data.following[0].following);
+        }, err => {
+            console.log(err);
+        })
+    })
     return (
         <IonMenu side="start" menuId="first" contentId="main">
             <IonHeader>
                 <ProfileSidebar color={'primary'}>
                     <SosmedQuTitle>SosmedQu</SosmedQuTitle>
-                    {dataToken &&
+                    {dataToken && dataToken.role == 'pelajar' &&
                         <div className="toolbar-content">
                             <Avatar className='foto'>
-                                <IonImg src={process.env.PUBLIC_URL + "assets/img/no-picture.svg"}></IonImg>
+                                <IonImg src={profile ? `${AssetsApi.URLImgProfile}/${profile.image}` : process.env.PUBLIC_URL + "assets/img/no-picture.svg"}></IonImg>
                             </Avatar>
                             <div className="title">
                                 <p className='nama'>{dataToken.username}</p>
                                 <p className='role m-0'>{dataToken.role}</p>
                                 <p className='study-at'>{dataToken.studyAt}</p>
                             </div>
-                            <div className="footer">
-                                <div className='text-center'>
-                                    <IonText className='d-block'>123</IonText>
-                                    <IonText className='d-block'>Folowers</IonText>
+                            {dataToken && dataToken.role === 'pelajar' &&
+                                <div className="footer">
+                                    <div className='text-center'>
+                                        <IonText className='d-block'>{followers}</IonText>
+                                        <IonText className='d-block'>Folowers</IonText>
+                                    </div>
+                                    <div className='text-center'>
+                                        <IonText className='d-block'>{following}</IonText>
+                                        <IonText className='d-block'>Following</IonText>
+                                    </div>
+                                    <div className='text-center'>
+                                        <IonText className='d-block'>123</IonText>
+                                        <IonText className='d-block'>Postingan</IonText>
+                                    </div>
                                 </div>
-                                <div className='text-center'>
-                                    <IonText className='d-block'>123</IonText>
-                                    <IonText className='d-block'>Postingan</IonText>
-                                </div>
-                                <div className='text-center'>
-                                    <IonText className='d-block'>123</IonText>
-                                    <IonText className='d-block'>Disukai</IonText>
-                                </div>
-                            </div>
+                            }
                         </div>
                     }
                 </ProfileSidebar>
@@ -137,8 +157,8 @@ const SideBar: React.FC = () => {
                             <Label>Top followers pelajar</Label>
                         </Item>
                     </IonItemGroup>
-                    {dataToken &&
-                        <IonItemGroup>
+                    {dataToken && dataToken.role === 'pelajar' &&
+                        <IonItemGroup style={{ margin: "0 0 45px 0" }}>
                             <IonItemDivider>
                                 <Label>for you</Label>
                             </IonItemDivider>
@@ -150,9 +170,13 @@ const SideBar: React.FC = () => {
                                 <IconSidebar icon={bookSharp} className="me-2 icon-navigation"></IconSidebar>
                                 <Label>EbookQu</Label>
                             </Item>
+                            <Item href='/notequ'>
+                                <IconSidebar icon={documentSharp} className="me-2 icon-navigation"></IconSidebar>
+                                <Label>NoteQu</Label>
+                            </Item>
                         </IonItemGroup>
                     }
-                    {dataToken &&
+                    {/* {dataToken &&
                         <IonItemGroup style={{ margin: "0 0 45px 0" }}>
                             <IonItemDivider>
                                 <Label>other menu</Label>
@@ -162,7 +186,7 @@ const SideBar: React.FC = () => {
                                 <Label>Setting</Label>
                             </Item>
                         </IonItemGroup>
-                    }
+                    } */}
                 </IonList>
                 {dataToken &&
                     <Item slot='fixed' style={{ bottom: 0, left: 0, right: 0, borderBlock: "1px solid #999999" }}
@@ -181,7 +205,7 @@ const SideBar: React.FC = () => {
                                         role: 'confirm',
                                         handler: () => {
                                             api.logout().then((res) => {
-                                                navigate("/post")
+                                                navigate("login")
                                             })
                                         }
                                     },
@@ -270,6 +294,7 @@ const ActionSheet: React.FC<{ show: boolean, onDidDismiss: () => void, data: any
     )
 }
 const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idPost?: any }> = (params) => {
+    const history = useHistory();
     return (
         <IonContent>
             <IonActionSheet
@@ -295,7 +320,7 @@ const ActionSheetPublic: React.FC<{ show: boolean, onDidDismiss: () => void, idP
                         text: 'Laporkan',
                         icon: warningOutline,
                         handler: () => {
-                            console.log('laporkan clicked');
+                            history.push("/violation/post", params.idPost);
                         }
                     },
                     {
@@ -327,12 +352,6 @@ const ActionSheetPost: React.FC<{ show: boolean, onDidDismiss: () => void, idPos
                         data: 10,
                         handler: () => {
                             history.push("/add-post");
-                        }
-                    }, {
-                        text: 'Tambah VidQu',
-                        icon: logoVimeo,
-                        handler: () => {
-                            console.log('Favorite clicked');
                         }
                     }, {
                         text: 'Cancel',

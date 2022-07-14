@@ -203,6 +203,25 @@ export class MyApi {
     }
     // End Of Subject
 
+    // Notes
+    getAllNotes = async () => {
+        return await api.get("/notes")
+    }
+    getNoteById = async (id: any) => {
+        return await api.get(`/notes/${id}`)
+    }
+    createNote = async (data: any) => {
+        return await api.post("/notes", data)
+    }
+    updateNote = async (data: any) => {
+        console.log(data);
+        return await api.put("/notes", data)
+    }
+    deleteNote = async (id: any) => {
+        return await api.delete(`/notes/${id}`)
+    }
+    // End Of Notes
+
     // Days 
     getAllDay = async () => {
         return await api.get("/days")
@@ -223,6 +242,15 @@ export class MyApi {
         const req = await api.post(`unfollow/${id}`)
     }
     // End Of Follow
+
+    // Violation
+    createViolation = async (data: any) => {
+        return await api.post("/violations", data)
+    }
+    getAllViolationPost = async () => {
+        return await api.get("/violations/post")
+    }
+    // End Of Violation
 
 
 }
